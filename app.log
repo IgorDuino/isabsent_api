@@ -1,2 +1,8 @@
-[2021-11-14 00:20:53,358] INFO in _internal:  * Running on http://localhost:8080/ (Press CTRL+C to quit)
-[2021-11-14 00:21:49,897] INFO in _internal: 127.0.0.1 - - [14/Nov/2021 00:21:49] "POST /v1/students HTTP/1.1" 200 -
+[2021-11-14 01:38:16,537] INFO in _internal:  * Running on http://localhost:8080/ (Press CTRL+C to quit)
+[2021-11-14 01:38:29,355] WARNING in is_absent_api: Teacher with code: 7ZfdyFL2xJ not found
+[2021-11-14 01:38:29,356] INFO in _internal: 127.0.0.1 - - [14/Nov/2021 01:38:29] "[31m[1mPOST /v1/teacher/tg_auth HTTP/1.1[0m" 400 -
+[2021-11-14 01:38:32,177] WARNING in is_absent_api: Wrong type in key tg_user_id: must be <class 'str'>, get <class 'int'>
+[2021-11-14 01:38:32,177] INFO in _internal: 127.0.0.1 - - [14/Nov/2021 01:38:32] "[31m[1mPOST /v1/student/tg_auth HTTP/1.1[0m" 400 -
+[2021-11-14 01:38:34,657] INFO in _internal: 127.0.0.1 - - [14/Nov/2021 01:38:34] "POST /v1/teachers HTTP/1.1" 200 -
+[2021-11-14 01:38:36,850] INFO in _internal: 127.0.0.1 - - [14/Nov/2021 01:38:36] "POST /v1/students HTTP/1.1" 200 -
+[2021-11-14 01:38:38,573] INFO in _internal: 127.0.0.1 - - [14/Nov/2021 01:38:38] "POST /v1/school HTTP/1.1" 200 -

@@ -9,7 +9,7 @@ from tools import request_data_validate
 from data.student import Student
 from data.teacher import Teacher
 from data.school import School
-from tools.tools import generate_random_code, generate_unique_code
+from tools.tools import generate_unique_code
 
 
 blueprint = flask.Blueprint(
@@ -22,20 +22,47 @@ blueprint = flask.Blueprint(
 def teacher_tg_auth():
     try:
         data_json = flask.request.json
+        request_data_validate.teacher_tg_auth_validate(data_json)
+
         code = data_json['code']
         tg_id = data_json['tg_user_id']
 
         db_sess = db_session.create_session()
-        teacher = db_sess.query(Teacher).filter(Teacher.code == code)
+        teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
         if teacher is None:
             raise TeacherNotFoundError(code)
 
         teacher.tg_user_id = tg_id
+        db_sess.commit()
 
         return make_response('HTTP 200 OK', 200)
-    except (TeacherNotFoundError) as error:
+    except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
         return make_response('HTTP 400 Bad Request', 400)
+
+
+@blueprint.route('/student/tg_auth', methods=['POST'])
+def student_tg_auth():
+    try:
+        data_json = flask.request.json
+        request_data_validate.student_tg_auth_validate(data_json)
+
+        code = data_json['code']
+        tg_id = data_json['tg_user_id']
+
+        db_sess = db_session.create_session()
+        student = db_sess.query(Student).filter(Student.code == code).first()
+        if student is None:
+            raise StudentNotFoundError(code)
+
+        student.tg_user_id = tg_id
+        db_sess.commit()
+
+        return make_response('HTTP 200 OK', 200)
+    except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+        logging.warning(error)
+        return make_response('HTTP 400 Bad Request', 400)
+
 
 
 @blueprint.route('/teachers', methods=['POST'])
