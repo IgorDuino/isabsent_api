@@ -1,0 +1,95 @@
+swagger: "2.0"
+info:
+  description: "Description"
+  version: "1.0.0"
+  title: "Is absent app"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "example@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "isabsent.tk"
+basePath: "/v1"
+tags:
+- name: "teacher"
+  description: "Operetions about teachers"
+
+schemes:
+- "http"
+
+paths:
+  /teacher:
+    post:
+      tags:
+      - "teacher"
+      summary: "Add a new teacher to db"
+      description: ""
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Teacher object that needs to be added to db"
+        required: true
+        schema:
+          $ref: "#/definitions/Teacher"
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: "Bad Request"
+    patch:
+      tags:
+      - "teacher"
+      summary: "Change teacher in db"
+      description: ""
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Teacher object that needs to be changed in db"
+        required: true
+        schema:
+          $ref: "#/definitions/Teacher"
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: "Bad Request"
+          
+          
+  # /teacher/{teacher_id}:
+  #   get:
+  #     tags:
+  #     - "teacher"
+  #     summary: "Get information about teacher from db"
+  #     description: ""
+  #     parameters:
+  #     - in: "path"
+  #       name: teacher_id
+  #       description: "ID of teacher to return"
+  #       required: true
+  #       type: "integer"
+  #       format: "int64"
+  #     responses:
+  #     "200":
+  #       description: "OK"
+  #       schema:
+  #         $ref: "#/definitions/Teacher"
+  #     "400":
+  #       description: "Bad Request"
+
+
+definitions:
+  Teacher:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      teacher_name:
+        type: "string"
+        description: "Teachers name"
+      class_name:
+        type: "string"
+        description: "Teachers class name"
+    xml:
+      name: "Teacher"
