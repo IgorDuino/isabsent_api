@@ -4,7 +4,6 @@ from flask import Flask
 from data import db_session
 from logging.config import dictConfig
 
-
 dictConfig({
     'version': 1,
     'formatters': {'default': {
@@ -22,13 +21,12 @@ dictConfig({
     }
 })
 
-
 app = Flask(__name__, )
 app.config['SECRET_KEY'] = 'secret_key'
 
 
 def main():
-    db_session.global_init('data/sdo_parse.sqlite')    # Подключение к БД
+    db_session.global_init('data/is_absent.sqlite')  # Подключение к БД
     app.register_blueprint(is_absent_api.blueprint, url_prefix='/v1')  # Подключение api
     app.run(port=8080, host='localhost')  # Запуск сервера
 

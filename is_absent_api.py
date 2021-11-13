@@ -11,7 +11,6 @@ from data.teacher import Teacher
 from data.school import School
 from tools.tools import generate_unique_code
 
-
 blueprint = flask.Blueprint(
     'sdo_parser_api',
     __name__,
@@ -137,7 +136,6 @@ def school_post():
     db_sess.commit()
 
     return make_response('HTTP 200 OK', 200)
-
 
 # @blueprint.route('/teacher', methods=['POST', 'PATCH'])
 # def teacher_post():
