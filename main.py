@@ -29,8 +29,8 @@ app.config['SECRET_KEY'] = 'secret_key'
 
 def main():
     db_session.global_init('data/sdo_parse.sqlite')    # Подключение к БД
-    app.register_blueprint(is_absent_api.blueprint)  # Подключение api
-    app.run(port=8080, host='0.0.0.0')  # Запуск сервера
+    app.register_blueprint(is_absent_api.blueprint, url_prefix='/v1')  # Подключение api
+    app.run(port=8080, host='localhost')  # Запуск сервера
 
 
 if __name__ == '__main__':

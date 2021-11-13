@@ -1,19 +1,2 @@
-[2021-11-12 23:11:26,207] WARNING in _internal:  * Running on all addresses.
-   WARNING: This is a development server. Do not use it in a production deployment.
-[2021-11-12 23:11:26,207] INFO in _internal:  * Running on http://192.168.1.66:8080/ (Press CTRL+C to quit)
-[2021-11-12 23:12:36,108] ERROR in app: Exception on /teacher [POST]
-Traceback (most recent call last):
-  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/flask/app.py", line 1502, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
-  File "/Users/father/PycharmProjects/is_absent/is_absent_api.py", line 21, in teacher_post
-    request_data_validate.teacher_post_validate(request_json)
-  File "/Users/father/PycharmProjects/is_absent/tools/request_data_validate.py", line 11, in teacher_post_validate
-    if data.keys() not in keys_type_dict.keys():
-TypeError: unhashable type: 'dict_keys'
-[2021-11-12 23:12:36,114] INFO in _internal: 127.0.0.1 - - [12/Nov/2021 23:12:36] "[35m[1mPOST /teacher HTTP/1.1[0m" 500 -
+[2021-11-14 00:20:53,358] INFO in _internal:  * Running on http://localhost:8080/ (Press CTRL+C to quit)
+[2021-11-14 00:21:49,897] INFO in _internal: 127.0.0.1 - - [14/Nov/2021 00:21:49] "POST /v1/students HTTP/1.1" 200 -
