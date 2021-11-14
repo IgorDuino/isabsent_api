@@ -1,0 +1,21 @@
+_id: req_4ca2ebc11d9d4f79b44ce3241e793339
+type: Request
+parentId: fld_wrk_2eb9c1ed9de742b6b3a90a2289606c32204036a1
+modified: 1636891255761
+created: 1636891255761
+url: "{{ base_url }}/students"
+name: Add list of students to db
+description: ""
+method: POST
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1636891255761
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

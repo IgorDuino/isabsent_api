@@ -1,0 +1,10 @@
+_id: fld_wrk_2eb9c1ed9de742b6b3a90a2289606c32655f83be
+type: RequestGroup
+parentId: wrk_2eb9c1ed9de742b6b3a90a2289606c32
+modified: 1636891255773
+created: 1636891255773
+name: school
+description: Operetions with schools
+environment: {}
+environmentPropertyOrder: null
+metaSortKey: -1636891255773

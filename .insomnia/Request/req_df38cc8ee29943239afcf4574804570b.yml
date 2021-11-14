@@ -1,0 +1,21 @@
+_id: req_df38cc8ee29943239afcf4574804570b
+type: Request
+parentId: fld_wrk_2eb9c1ed9de742b6b3a90a2289606c324a82cb6d
+modified: 1636891255764
+created: 1636891255764
+url: "{{ base_url }}/teacher/tg_auth"
+name: Binding tg_id to teacher
+description: ""
+method: POST
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1636891255764
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

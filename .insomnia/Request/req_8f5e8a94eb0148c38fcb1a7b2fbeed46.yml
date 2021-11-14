@@ -1,0 +1,21 @@
+_id: req_8f5e8a94eb0148c38fcb1a7b2fbeed46
+type: Request
+parentId: fld_wrk_2eb9c1ed9de742b6b3a90a2289606c32655f83be
+modified: 1636891255767
+created: 1636891255767
+url: "{{ base_url }}/school"
+name: Add new school to db
+description: ""
+method: POST
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1636891255767
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

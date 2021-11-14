@@ -1,0 +1,14 @@
+_id: env_env_926b5369b4f9ac4e3eeda7f6fa77471f96ca1f64_sub
+type: Environment
+parentId: env_926b5369b4f9ac4e3eeda7f6fa77471f96ca1f64
+modified: 1636891255776
+created: 1636891255776
+name: Swagger env
+data:
+  base_path: /v1
+  scheme: http
+  host: api.isabsent.tk
+dataPropertyOrder: null
+color: null
+isPrivate: false
+metaSortKey: 1636891255776

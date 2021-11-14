@@ -1,0 +1,462 @@
+_id: spc_e3eccd2da6ad4b73ae41506fcd2ee707
+type: ApiSpec
+parentId: wrk_2eb9c1ed9de742b6b3a90a2289606c32
+modified: 1636891409355
+created: 1636891256621
+fileName: Is absent app 1.0.0
+contents: "swagger: \"2.0\"
+
+  info:
+
+  \  description: \"Description\"
+
+  \  version: \"2.0.0\"
+
+  \  title: \"Is absent app\"
+
+  \  termsOfService: \"http://swagger.io/terms/\"
+
+  \  contact:
+
+  \    email: \"example@gmail.com\"
+
+  \  license:
+
+  \    name: \"Apache 2.0\"
+
+  \    url: \"http://www.apache.org/licenses/LICENSE-2.0.html\"
+
+  host: \"api.isabsent.tk\"
+
+  basePath: \"/v1\"
+
+  tags:
+
+  - name: \"school\"
+
+  \  description: \"Operetions with schools\"
+
+  - name: \"teacher\"
+
+  \  description: \"Operetions with teachers\"
+
+  - name: \"student\"
+
+  \  description: \"Operetions with students\"
+
+
+  schemes:
+
+  - \"http\"
+
+  paths:
+
+  \  /school:
+
+  \    post:
+
+  \      tags:
+
+  \      - \"school\"
+
+  \      summary: \"Add new school to db\"
+
+  \      description: \"\"
+
+  \      parameters:
+
+  \      - in: \"body\"
+
+  \        name: \"body\"
+
+  \        description: \"School data that needs to be added to db\"
+
+  \        required: true
+
+  \        schema:
+
+  \          $ref: \"#/definitions/School\"
+
+  \      responses:
+
+  \        \"200\":
+
+  \          description: \"School added to db\"
+
+  \        \"400\":
+
+  \          description: \"Bad Request\"
+
+  \         \ 
+
+  \         \ 
+
+  \  /teachers:
+
+  \    post:
+
+  \      tags:
+
+  \      - \"teacher\"
+
+  \      summary: \"Add list of teachers to db\"
+
+  \      description: \"\"
+
+  \      parameters:
+
+  \      - in: \"body\"
+
+  \        name: \"body\"
+
+  \        description: \"Teachers data that needs to be added to db\"
+
+  \        required: true
+
+  \        schema:
+
+  \          $ref: \"#/definitions/Teachers\"
+
+  \      responses:
+
+  \        \"200\":
+
+  \          description: \"Teachers added to db\"
+
+  \        \"400\":
+
+  \          description: \"Bad Request\"
+
+  \   \ 
+
+  \  /teacher/tg_auth:
+
+  \    post:
+
+  \      tags:
+
+  \      - \"teacher\"
+
+  \      summary: \"Binding tg_id to teacher\"
+
+  \      description: \"\"
+
+  \      parameters:
+
+  \      - in: \"body\"
+
+  \        name: \"body\"
+
+  \        description: \"\"
+
+  \        required: true
+
+  \        schema:
+
+  \          $ref: \"#/definitions/TeacherTgAuth\"
+
+  \      responses:
+
+  \        \"200\":
+
+  \          description: \"Teachers tg_id bind\"
+
+  \        \"400\":
+
+  \          description: \"Bad Request\"
+
+  \         \ 
+
+  \ \ 
+
+  \  /students:
+
+  \    post:
+
+  \      tags:
+
+  \      - \"student\"
+
+  \      summary: \"Add list of students to db\"
+
+  \      description: \"\"
+
+  \      parameters:
+
+  \      - in: \"body\"
+
+  \        name: \"body\"
+
+  \        description: \"Students data that needs to be added to db\"
+
+  \        required: true
+
+  \        schema:
+
+  \          $ref: \"#/definitions/Students\"
+
+  \      responses:
+
+  \        \"200\":
+
+  \          description: \"Students added to db\"
+
+  \        \"400\":
+
+  \          description: \"Bad Request\"
+
+  \         \ 
+
+  \  /student/tg_auth:
+
+  \    post:
+
+  \      tags:
+
+  \      - \"student\"
+
+  \      summary: \"Binding tg_id to student\"
+
+  \      description: \"\"
+
+  \      parameters:
+
+  \      - in: \"body\"
+
+  \        name: \"body\"
+
+  \        description: \"\"
+
+  \        required: true
+
+  \        schema:
+
+  \          $ref: \"#/definitions/StudentTgAuth\"
+
+  \      responses:
+
+  \        \"200\":
+
+  \          description: \"Students tg_id bind\"
+
+  \        \"400\":
+
+  \          description: \"Bad Request\"
+
+  \   \ 
+
+
+  definitions:
+
+  \  School:
+
+  \    type: \"object\"
+
+  \    properties:
+
+  \      name:
+
+  \        type: \"string\"
+
+  \        description: \"School name\"
+
+  \    xml:
+
+  \      name: \"School\"
+
+
+
+  \  Teacher:
+
+  \    type: \"object\"
+
+  \    properties:
+
+  \      name:
+
+  \        type: \"string\"
+
+  \        description: \"Teachers name\"
+
+  \      surname:
+
+  \        type: \"string\"
+
+  \        description: \"Teachers surname\"
+
+  \      patronymic:
+
+  \        type: \"string\"
+
+  \        description: \"Teachers patronymic\"
+
+  \      class_name:
+
+  \        type: \"string\"
+
+  \        description: \"Teachers class name\"
+
+  \    xml:
+
+  \      name: \"Teacher\"
+
+  \       \ 
+
+  \  Teachers:
+
+  \    type: \"object\"
+
+  \    properties:
+
+  \      school_name:
+
+  \        type: \"string\"
+
+  \        description: \"School, where those teachers work\"
+
+  \      teachers:
+
+  \        type: \"array\"
+
+  \        description: \"List of dicts with teacher info\"
+
+  \        items:
+
+  \          type: \"object\"
+
+  \          properties:
+
+  \            schema:
+
+  \              $ref: \"#/definitions/Teacher\"
+
+  \    xml:
+
+  \      name: \"Teachers\"
+
+  \ \ 
+
+  \  TeacherTgAuth:
+
+  \    type: \"object\"
+
+  \    properties:
+
+  \      code:
+
+  \        type: \"string\"
+
+  \        description: \"Unique teacher code id\"
+
+  \      tg_user_id:
+
+  \        type: \"integer\"
+
+  \        format: \"int64\"
+
+  \        description: \"Tg user id, that needs to bind\"
+
+  \    xml:
+
+  \      name: \"TeacherTgAuth\"
+
+  \   \ 
+
+  \   \ 
+
+  \  Student:
+
+  \    type: \"object\"
+
+  \    properties:
+
+  \      name:
+
+  \        type: \"string\"
+
+  \        description: \"Students name\"
+
+  \      surname:
+
+  \        type: \"string\"
+
+  \        description: \"Students surname\"
+
+  \      patronymic:
+
+  \        type: \"string\"
+
+  \        description: \"Students patronymic\"
+
+  \      class_name:
+
+  \        type: \"string\"
+
+  \        description: \"Students class name\"
+
+  \    xml:
+
+  \      name: \"Student\"
+
+  \       \ 
+
+  \  Students:
+
+  \    type: \"object\"
+
+  \    properties:
+
+  \      school_name:
+
+  \        type: \"string\"
+
+  \        description: \"School, where those students are learning\"
+
+  \      students:
+
+  \        type: \"array\"
+
+  \        description: \"List of dicts with srudent info\"
+
+  \        items:
+
+  \          type: \"object\"
+
+  \          properties:
+
+  \            schema:
+
+  \              $ref: \"#/definitions/Student\"
+
+  \    xml:
+
+  \      name: \"Students\"
+
+  \   \ 
+
+  \  StudentTgAuth:
+
+  \    type: \"object\"
+
+  \    properties:
+
+  \      code:
+
+  \        type: \"string\"
+
+  \        description: \"Unique student code id\"
+
+  \      tg_user_id:
+
+  \        type: \"integer\"
+
+  \        format: \"int64\"
+
+  \        description: \"Tg user id, that needs to bind\"
+
+  \    xml:
+
+  \      name: \"StudentTgAuth\"
+
+  \    "
+contentType: yaml
