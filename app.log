@@ -1,1 +1,8 @@
-[2021-11-14 14:25:36,365] INFO in _internal:  * Running on http://localhost:8080/ (Press CTRL+C to quit)
+[2021-11-14 21:36:36,838] INFO in _internal:  * Running on http://localhost:8080/ (Press CTRL+C to quit)
+[2021-11-14 21:36:39,428] INFO in _internal: 127.0.0.1 - - [14/Nov/2021 21:36:39] "GET /v1/teachers HTTP/1.1" 200 -
+[2021-11-14 21:37:17,255] WARNING in is_absent_api: Wrong type in key tg_user_id: must be <class 'int'>, get <class 'str'>
+[2021-11-14 21:37:17,258] INFO in _internal: 127.0.0.1 - - [14/Nov/2021 21:37:17] "[31m[1mPOST /v1/teacher/tg_auth HTTP/1.1[0m" 400 -
+[2021-11-14 21:37:39,503] WARNING in is_absent_api: Wrong type in key tg_user_id: must be <class 'int'>, get <class 'str'>
+[2021-11-14 21:37:39,503] INFO in _internal: 127.0.0.1 - - [14/Nov/2021 21:37:39] "[31m[1mPOST /v1/teacher/tg_auth HTTP/1.1[0m" 400 -
+[2021-11-14 21:37:47,910] INFO in _internal: 127.0.0.1 - - [14/Nov/2021 21:37:47] "POST /v1/teacher/tg_auth HTTP/1.1" 200 -
+[2021-11-14 21:37:54,829] INFO in _internal: 127.0.0.1 - - [14/Nov/2021 21:37:54] "GET /v1/teachers HTTP/1.1" 200 -

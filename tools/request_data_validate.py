@@ -27,7 +27,7 @@ def teacher_post_validate(data: dict) -> None:
 def teacher_tg_auth_validate(data: dict) -> None:
     keys_type_dict = {
         "code": str,
-        "tg_user_id": str
+        "tg_user_id": int
     }
 
     key_type_validate(data, keys_type_dict)
@@ -48,7 +48,7 @@ def student_post_validate(data: dict) -> None:
 def student_tg_auth_validate(data: dict) -> None:
     keys_type_dict = {
         "code": str,
-        "tg_user_id": str
+        "tg_user_id": int
     }
 
     key_type_validate(data, keys_type_dict)

@@ -40,8 +40,8 @@ paths:
           description: "School added to db"
         "400":
           description: "Bad Request"
-          
-          
+
+
   /teachers:
     post:
       tags:
@@ -99,7 +99,28 @@ paths:
           description: "Students added to db"
         "400":
           description: "Bad Request"
-          
+
+    get:
+      tags:
+      - "student"
+      summary: "Get list of dicts with student info"
+      description: ""
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "School data that needs to be added to db"
+          required: true
+          schema:
+            $ref: '#/definitions/School'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: "#/definitions/Students"
+        "400":
+          description: "Bad Request"
+
+
   /student/tg_auth:
     post:
       tags:
@@ -124,7 +145,7 @@ definitions:
   School:
     type: "object"
     properties:
-      name:
+      school_name:
         type: "string"
         description: "School name"
     xml:
@@ -152,9 +173,6 @@ definitions:
   Teachers:
     type: "object"
     properties:
-      school_name:
-        type: "string"
-        description: "School, where those teachers work"
       teachers:
         type: "array"
         description: "List of dicts with teacher info"
@@ -182,6 +200,11 @@ definitions:
     
   Student:
     type: "object"
+    required:
+      - name
+      - surname
+      - patronymic
+      - class_name
     properties:
       name:
         type: "string"
@@ -200,10 +223,9 @@ definitions:
         
   Students:
     type: "object"
+    required:
+      - students
     properties:
-      school_name:
-        type: "string"
-        description: "School, where those students are learning"
       students:
         type: "array"
         description: "List of dicts with srudent info"

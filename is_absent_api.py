@@ -1,3 +1,4 @@
+import json
 import random
 import flask
 import logging
@@ -10,6 +11,7 @@ from data.student import Student
 from data.teacher import Teacher
 from data.school import School
 from tools.tools import generate_unique_code
+
 
 blueprint = flask.Blueprint(
     'sdo_parser_api',
@@ -63,34 +65,58 @@ def student_tg_auth():
         return make_response('HTTP 400 Bad Request', 400)
 
 
-
-@blueprint.route('/teachers', methods=['POST'])
+@blueprint.route('/teachers', methods=['POST', 'GET'])
 def teachers_post():
     try:
         db_sess = db_session.create_session()
         teacher_list = []
 
         data_json = flask.request.json
-        school_name = data_json['school_name']
-        for teacher_json in data_json['teachers']:
-            request_data_validate.teacher_post_validate(teacher_json)
+        if flask.request.method == 'POST':
+            for teacher_json in data_json['teachers']:
+                request_data_validate.teacher_post_validate(teacher_json)
 
-            code = generate_unique_code(db_sess, Teacher)
+                code = generate_unique_code(db_sess, Teacher)
 
-            teacher_list.append(Teacher(
-                name=teacher_json['name'],
-                surname=teacher_json['surname'],
-                patronymic=teacher_json['patronymic'],
-                class_name=teacher_json['class_name'],
-                school_name=school_name,
-                code=code
-            ))
+                teacher_list.append(Teacher(
+                    name=teacher_json['name'],
+                    surname=teacher_json['surname'],
+                    patronymic=teacher_json['patronymic'],
+                    class_name=teacher_json['class_name'],
+                    school_name=teacher_json['school_name'],
+                    code=code
+                ))
 
-        db_sess.add_all(teacher_list)
-        db_sess.commit()
+            db_sess.add_all(teacher_list)
+            db_sess.commit()
 
-        return make_response('HTTP 200 OK', 200)
-    except (RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+            return make_response('HTTP 200 OK', 200)
+
+        if flask.request.method == 'GET':
+            school_name = data_json['school_name']
+
+            teacher_list = db_sess.query(Teacher).filter(Teacher.school_name == school_name).all()
+            if len(teacher_list) == 0:
+                raise SchoolNotFoundError(school_name)
+
+            teacher_dict_list = []
+            for teacher in teacher_list:
+                teacher_dict = {
+                    'name': teacher.name,
+                    'surname': teacher.surname,
+                    'patronymic': teacher.patronymic,
+                    'class_name': teacher.class_name,
+                    'school_name': teacher.school_name,
+                    'code': teacher.code
+                }
+
+                if not (teacher.tg_user_id is None):
+                    teacher_dict['tg_user_id'] = teacher.tg_user_id
+
+                teacher_dict_list.append(teacher_dict)
+
+            return make_response({"teachers": teacher_dict_list}, 200)
+    except (SchoolNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
         return make_response('HTTP 400 Bad Request', 400)
 
@@ -100,11 +126,9 @@ def students_post():
     try:
         db_sess = db_session.create_session()
         data_json = flask.request.json
-        school_name = data_json['school_name']
 
         if flask.request.method == 'POST':
             student_list = []
-            school_name = data_json['school_name']
             data_json = flask.request.json
             for teacher_json in data_json['students']:
                 request_data_validate.student_post_validate(teacher_json)
@@ -116,7 +140,7 @@ def students_post():
                     surname=teacher_json['surname'],
                     patronymic=teacher_json['patronymic'],
                     class_name=teacher_json['class_name'],
-                    school_name=school_name,
+                    school_name=teacher_json['school_name'],
                     code=code
                 ))
 
@@ -125,13 +149,30 @@ def students_post():
             return make_response('HTTP 200 OK', 200)
 
         if flask.request.method == 'GET':
-            school = db_sess.query(School).get(school_name)
-            if school is None:
-                SchoolNotFoundError(school_name)
-            teachers = school.teachers
+            school_name = data_json['school_name']
 
-            return make_response('HTTP 200 OK', 200)
-    except (RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+            student_list = db_sess.query(Student).filter(Student.school_name == school_name).all()
+            if len(student_list) == 0:
+                raise SchoolNotFoundError(school_name)
+
+            student_dict_list = []
+            for student in student_list:
+                student_dict = {
+                        'name': student.name,
+                        'surname': student.surname,
+                        'patronymic': student.patronymic,
+                        'class_name': student.class_name,
+                        'school_name': student.school_name,
+                        'code': student.code
+                    }
+
+                if not (student.tg_user_id is None):
+                    student_dict['tg_user_id'] = student.tg_user_id
+
+                student_dict_list.append(student_dict)
+
+            return make_response({"students": student_dict_list}, 200)
+    except (SchoolNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
         return make_response('HTTP 400 Bad Request', 400)
 
@@ -140,7 +181,7 @@ def students_post():
 def school_post():
     data_json = flask.request.json
     db_sess = db_session.create_session()
-    school = School(name=data_json['name'])
+    school = School(name=data_json['school_name'])
     db_sess.add(school)
     db_sess.commit()
 
