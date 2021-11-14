@@ -1,5 +1,3 @@
-import json
-import random
 import flask
 import logging
 
@@ -10,6 +8,7 @@ from tools import request_data_validate
 from data.student import Student
 from data.teacher import Teacher
 from data.school import School
+from data.absent import Absent
 from tools.tools import generate_unique_code
 
 
@@ -38,29 +37,6 @@ def teacher_tg_auth():
 
         return make_response('HTTP 200 OK', 200)
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
-        logging.warning(error)
-        return make_response('HTTP 400 Bad Request', 400)
-
-
-@blueprint.route('/student/tg_auth', methods=['POST'])
-def student_tg_auth():
-    try:
-        data_json = flask.request.json
-        request_data_validate.student_tg_auth_validate(data_json)
-
-        code = data_json['code']
-        tg_id = data_json['tg_user_id']
-
-        db_sess = db_session.create_session()
-        student = db_sess.query(Student).filter(Student.code == code).first()
-        if student is None:
-            raise StudentNotFoundError(code)
-
-        student.tg_user_id = tg_id
-        db_sess.commit()
-
-        return make_response('HTTP 200 OK', 200)
-    except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
         return make_response('HTTP 400 Bad Request', 400)
 
@@ -119,6 +95,47 @@ def teachers_post():
 
             return make_response({"teachers": teacher_dict_list}, 200)
     except (SchoolNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+        logging.warning(error)
+        return make_response('HTTP 400 Bad Request', 400)
+
+
+@blueprint.route('/student/absent', methods=['POST'])
+def student_absent():
+    try:
+        db_sess = db_session.create_session()
+        data_json = flask.request.json
+
+        if 'student_code' in data_json.keys():
+            student = db_sess.query(Student).filter(Student.code == data_json['student_code'])
+
+        if 'tg_user_id' in data_json.keys():
+            student = db_sess.query(Student).filter(Student.tg_user_id == data_json['tg_user_id'])
+
+    except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+        logging.warning(error)
+        return make_response('HTTP 400 Bad Request', 400)
+
+
+
+@blueprint.route('/student/tg_auth', methods=['POST'])
+def student_tg_auth():
+    try:
+        data_json = flask.request.json
+        request_data_validate.student_tg_auth_validate(data_json)
+
+        code = data_json['code']
+        tg_id = data_json['tg_user_id']
+
+        db_sess = db_session.create_session()
+        student = db_sess.query(Student).filter(Student.code == code).first()
+        if student is None:
+            raise StudentNotFoundError(code)
+
+        student.tg_user_id = tg_id
+        db_sess.commit()
+
+        return make_response('HTTP 200 OK', 200)
+    except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
         return make_response('HTTP 400 Bad Request', 400)
 
