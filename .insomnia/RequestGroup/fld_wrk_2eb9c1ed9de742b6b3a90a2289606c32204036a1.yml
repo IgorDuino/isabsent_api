@@ -1,0 +1,10 @@
+_id: fld_wrk_2eb9c1ed9de742b6b3a90a2289606c32204036a1
+type: RequestGroup
+parentId: wrk_2eb9c1ed9de742b6b3a90a2289606c32
+modified: 1636891255769
+created: 1636891255769
+name: student
+description: Operetions with students
+environment: {}
+environmentPropertyOrder: null
+metaSortKey: -1636891255769

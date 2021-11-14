@@ -1,0 +1,21 @@
+_id: req_90f96d616b6c45e88318ba14088cd745
+type: Request
+parentId: fld_wrk_2eb9c1ed9de742b6b3a90a2289606c32204036a1
+modified: 1636891255759
+created: 1636891255759
+url: "{{ base_url }}/student/tg_auth"
+name: Binding tg_id to student
+description: ""
+method: POST
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1636891255759
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

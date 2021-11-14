@@ -1,0 +1,21 @@
+_id: req_24a02311bfa84b5792e286a812f6d13a
+type: Request
+parentId: fld_wrk_2eb9c1ed9de742b6b3a90a2289606c324a82cb6d
+modified: 1636891255766
+created: 1636891255766
+url: "{{ base_url }}/teachers"
+name: Add list of teachers to db
+description: ""
+method: POST
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1636891255766
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
