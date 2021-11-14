@@ -95,33 +95,42 @@ def teachers_post():
         return make_response('HTTP 400 Bad Request', 400)
 
 
-@blueprint.route('/students', methods=['POST'])
+@blueprint.route('/students', methods=['POST', 'GET'])
 def students_post():
     try:
         db_sess = db_session.create_session()
-        student_list = []
-
         data_json = flask.request.json
         school_name = data_json['school_name']
-        data_json = flask.request.json
-        for teacher_json in data_json['students']:
-            request_data_validate.student_post_validate(teacher_json)
 
-            code = generate_unique_code(db_sess, Teacher)
+        if flask.request.method == 'POST':
+            student_list = []
+            school_name = data_json['school_name']
+            data_json = flask.request.json
+            for teacher_json in data_json['students']:
+                request_data_validate.student_post_validate(teacher_json)
 
-            student_list.append(Student(
-                name=teacher_json['name'],
-                surname=teacher_json['surname'],
-                patronymic=teacher_json['patronymic'],
-                class_name=teacher_json['class_name'],
-                school_name=school_name,
-                code=code
-            ))
+                code = generate_unique_code(db_sess, Teacher)
 
-        db_sess.add_all(student_list)
-        db_sess.commit()
+                student_list.append(Student(
+                    name=teacher_json['name'],
+                    surname=teacher_json['surname'],
+                    patronymic=teacher_json['patronymic'],
+                    class_name=teacher_json['class_name'],
+                    school_name=school_name,
+                    code=code
+                ))
 
-        return make_response('HTTP 200 OK', 200)
+            db_sess.add_all(student_list)
+            db_sess.commit()
+            return make_response('HTTP 200 OK', 200)
+
+        if flask.request.method == 'GET':
+            school = db_sess.query(School).get(school_name)
+            if school is None:
+                SchoolNotFoundError(school_name)
+            teachers = school.teachers
+
+            return make_response('HTTP 200 OK', 200)
     except (RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
         return make_response('HTTP 400 Bad Request', 400)

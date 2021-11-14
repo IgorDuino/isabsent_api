@@ -44,3 +44,12 @@ class StudentNotFoundError(Exception):
 
     def __str__(self):
         return f'Student with code: {self.student_id} not found'
+
+
+class SchoolNotFoundError(Exception):
+    """Exception raised when school with given in request data code not found"""
+    def __init__(self, school_name: int):
+        self.school_name = school_name
+
+    def __str__(self):
+        return f'School with name: {self.school_name} not found'
