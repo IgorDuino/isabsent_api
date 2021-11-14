@@ -9,7 +9,7 @@ def key_type_validate(data: dict, keys_type_dict: dict) -> None:
             raise RequestDataTypeError(key, item, type(data[key]))
 
     if len(data.keys()) != len(keys_type_dict.keys()):
-        raise RequestDataKeysError((list(data.keys()), list(keys_type_dict.keys())))
+        raise RequestDataKeysError(list(data.keys()), list(keys_type_dict.keys()))
 
 
 def teacher_post_validate(data: dict) -> None:
@@ -33,6 +33,22 @@ def teacher_tg_auth_validate(data: dict) -> None:
     key_type_validate(data, keys_type_dict)
 
 
+def teachers_post_validate(data: dict) -> None:
+    keys_type_dict = {
+        "students": list,
+    }
+
+    key_type_validate(data, keys_type_dict)
+
+
+def teachers_get_validate(data: dict) -> None:
+    keys_type_dict = {
+        "school_name": str,
+    }
+
+    key_type_validate(data, keys_type_dict)
+
+
 def student_post_validate(data: dict) -> None:
     keys_type_dict = {
         'name': str,
@@ -49,6 +65,22 @@ def student_tg_auth_validate(data: dict) -> None:
     keys_type_dict = {
         "code": str,
         "tg_user_id": int
+    }
+
+    key_type_validate(data, keys_type_dict)
+
+
+def students_post_validate(data: dict) -> None:
+    keys_type_dict = {
+        "students": list,
+    }
+
+    key_type_validate(data, keys_type_dict)
+
+
+def students_get_validate(data: dict) -> None:
+    keys_type_dict = {
+        "school_name": str,
     }
 
     key_type_validate(data, keys_type_dict)

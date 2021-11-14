@@ -69,10 +69,11 @@ def student_tg_auth():
 def teachers_post():
     try:
         db_sess = db_session.create_session()
-        teacher_list = []
-
         data_json = flask.request.json
+
         if flask.request.method == 'POST':
+            request_data_validate.teachers_post_validate(data_json)
+            teacher_list = []
             for teacher_json in data_json['teachers']:
                 request_data_validate.teacher_post_validate(teacher_json)
 
@@ -93,6 +94,7 @@ def teachers_post():
             return make_response('HTTP 200 OK', 200)
 
         if flask.request.method == 'GET':
+            request_data_validate.teachers_get_validate(data_json)
             school_name = data_json['school_name']
 
             teacher_list = db_sess.query(Teacher).filter(Teacher.school_name == school_name).all()
@@ -128,8 +130,9 @@ def students_post():
         data_json = flask.request.json
 
         if flask.request.method == 'POST':
+            request_data_validate.students_post_validate(data_json)
+
             student_list = []
-            data_json = flask.request.json
             for teacher_json in data_json['students']:
                 request_data_validate.student_post_validate(teacher_json)
 
@@ -149,6 +152,7 @@ def students_post():
             return make_response('HTTP 200 OK', 200)
 
         if flask.request.method == 'GET':
+            request_data_validate.students_get_validate(data_json)
             school_name = data_json['school_name']
 
             student_list = db_sess.query(Student).filter(Student.school_name == school_name).all()
