@@ -9,7 +9,9 @@ class Absent(SqlAlchemyBase, SerializerMixin):
     # Название таблицы
     __tablename__ = 'absents'
 
+    id = sqlalchemy.Column(sqlalchemy.Integer, unique=True, primary_key=True, autoincrement=True)
     date = sqlalchemy.Column(sqlalchemy.Date)
     reason = sqlalchemy.Column(sqlalchemy.String)
-    student_code = sqlalchemy.Column(sqlalchemy.String, unique=True, primary_key=True)
-    student = relationship('School', foreign_keys=[student_code])
+    file = sqlalchemy.Column(sqlalchemy.BINARY, nullable=True)
+    student_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey('students.id'))
+    student = relationship('Student', foreign_keys=[student_id])

@@ -1,3 +1,77 @@
-[2021-11-14 22:37:14,655] INFO in _internal:  * Running on http://localhost:8080/ (Press CTRL+C to quit)
-[2021-11-14 22:37:16,858] INFO in _internal: 127.0.0.1 - - [14/Nov/2021 22:37:16] "[31m[1mGET /v1/students HTTP/1.1[0m" 400 -
-[2021-11-14 22:37:37,296] INFO in _internal: 127.0.0.1 - - [14/Nov/2021 22:37:37] "[31m[1mGET /v1/students HTTP/1.1[0m" 400 -
+[2021-11-16 21:42:14,554] INFO in _internal:  * Running on http://localhost:8080/ (Press CTRL+C to quit)
+[2021-11-16 21:42:17,843] WARNING in is_absent_api: Student with tg_id: 0 not found
+[2021-11-16 21:42:17,844] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 21:42:17] "[31m[1mPOST /v1/student/absent HTTP/1.1[0m" 400 -
+[2021-11-16 21:42:32,014] WARNING in is_absent_api: Student with id: 1 is already absent in 2021-11-16T00:00:00
+[2021-11-16 21:42:32,015] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 21:42:32] "[31m[1mPOST /v1/student/absent HTTP/1.1[0m" 400 -
+[2021-11-16 21:44:03,239] WARNING in is_absent_api: Student with id: 1 is already absent in 2021-11-16T00:00:00
+[2021-11-16 21:44:03,240] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 21:44:03] "[31m[1mPOST /v1/student/absent HTTP/1.1[0m" 400 -
+[2021-11-16 21:44:56,943] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 21:44:56] "POST /v1/student/tg_auth HTTP/1.1" 200 -
+[2021-11-16 21:45:01,703] ERROR in app: Exception on /v1/student/tg_auth [POST]
+Traceback (most recent call last):
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1802, in _execute_context
+    self.dialect.do_execute(
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 719, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.IntegrityError: UNIQUE constraint failed: students.tg_user_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/flask/app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/flask/app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/flask/app.py", line 1502, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/Users/father/PycharmProjects/is_absent/is_absent_api.py", line 210, in student_tg_auth
+    db_sess.commit()
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 1428, in commit
+    self._transaction.commit(_to_root=self.future)
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 829, in commit
+    self._prepare_impl()
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 808, in _prepare_impl
+    self.session.flush()
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 3345, in flush
+    self._flush(objects)
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 3485, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py", line 207, in raise_
+    raise exception
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 3445, in _flush
+    flush_context.execute()
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/orm/unitofwork.py", line 456, in execute
+    rec.execute(self)
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/orm/unitofwork.py", line 630, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/orm/persistence.py", line 236, in save_obj
+    _emit_update_statements(
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/orm/persistence.py", line 1000, in _emit_update_statements
+    c = connection._execute_20(
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1614, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/sql/elements.py", line 325, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1481, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1845, in _execute_context
+    self._handle_dbapi_exception(
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 2026, in _handle_dbapi_exception
+    util.raise_(
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py", line 207, in raise_
+    raise exception
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1802, in _execute_context
+    self.dialect.do_execute(
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 719, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: students.tg_user_id
+[SQL: UPDATE students SET tg_user_id=? WHERE students.id = ?]
+[parameters: (5, 2)]
+(Background on this error at: https://sqlalche.me/e/14/gkpj)
+[2021-11-16 21:45:01,731] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 21:45:01] "[35m[1mPOST /v1/student/tg_auth HTTP/1.1[0m" 500 -
+[2021-11-16 21:47:27,301] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 21:47:27] "POST /v1/student/tg_auth HTTP/1.1" 200 -
+[2021-11-16 21:47:34,009] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 21:47:34] "GET /v1/student/absent HTTP/1.1" 200 -
+[2021-11-16 21:47:46,891] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 21:47:46] "POST /v1/student/absent HTTP/1.1" 200 -

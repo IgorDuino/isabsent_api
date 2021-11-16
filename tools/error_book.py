@@ -1,3 +1,6 @@
+import datetime
+
+
 class RequestDataTypeError(Exception):
     """Exception raised when wrong type given in request data"""
     def __init__(self, key: str, right_type: type, wrong_type: type):
@@ -30,20 +33,34 @@ class RequestDataMissedKeyError(Exception):
 
 class TeacherNotFoundError(Exception):
     """Exception raised when teacher with given in request data code not found"""
-    def __init__(self, teacher_id: int):
-        self.teacher_id = teacher_id
+    def __init__(self, teacher_code: str):
+        self.teacher_code = teacher_code
 
     def __str__(self):
-        return f'Teacher with code: {self.teacher_id} not found'
+        return f'Teacher with code: {self.teacher_code} not found'
 
 
 class StudentNotFoundError(Exception):
-    """Exception raised when student with given in request data code not found"""
-    def __init__(self, student_id: int):
+    """Exception raised when student with given in request data code or tg_user_id not found"""
+    def __init__(self, student_code: str = '', student_tg_user_id: int = -1):
+        self.student_code = student_code
+        self.student_tg_user_id = student_tg_user_id
+
+    def __str__(self):
+        if self.student_code != '':
+            return f'Student with code: {self.student_code} not found'
+        if self.student_tg_user_id != -1:
+            return f'Student with tg_id: {self.student_tg_user_id} not found'
+
+
+class StudentDuplicateAbsent(Exception):
+    """Exception raised when student with given in request data code or tg_user_id is already absent"""
+    def __init__(self, date: datetime.date, student_id: int):
+        self.date = date
         self.student_id = student_id
 
     def __str__(self):
-        return f'Student with code: {self.student_id} not found'
+        return f'Student with id: {self.student_id} is already absent in {self.date.isoformat()}'
 
 
 class SchoolNotFoundError(Exception):

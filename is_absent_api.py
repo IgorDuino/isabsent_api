@@ -1,10 +1,12 @@
 import flask
 import logging
+import datetime
 
 from flask import make_response
-from error_book import *
+from tools.error_book import *
 from data import db_session
 from tools import request_data_validate
+from settings import *
 from data.student import Student
 from data.teacher import Teacher
 from data.school import School
@@ -41,7 +43,7 @@ def teacher_tg_auth():
         return make_response('HTTP 400 Bad Request', 400)
 
 
-@blueprint.route('/teachers', methods=['POST', 'GET'])
+@blueprint.route('/teacher', methods=['POST', 'GET'])
 def teachers_post():
     try:
         db_sess = db_session.create_session()
@@ -99,22 +101,94 @@ def teachers_post():
         return make_response('HTTP 400 Bad Request', 400)
 
 
-@blueprint.route('/student/absent', methods=['POST'])
+@blueprint.route('/student/absent', methods=['POST', 'GET'])
 def student_absent():
     try:
         db_sess = db_session.create_session()
         data_json = flask.request.json
+        student_id = 0
 
-        if 'student_code' in data_json.keys():
-            student = db_sess.query(Student).filter(Student.code == data_json['student_code'])
+        if flask.request.method == 'POST':
+            request_data_validate.student_absent_post(data_json)
 
-        if 'tg_user_id' in data_json.keys():
-            student = db_sess.query(Student).filter(Student.tg_user_id == data_json['tg_user_id'])
+            date = datetime.datetime.strptime(data_json['date'], string_date_format)
 
-    except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+            if 'code' in data_json.keys():
+                student_code = data_json['code']
+                student = db_sess.query(Student).filter(Student.code == student_code).first()
+
+                if student is None:
+                    raise StudentNotFoundError(student_code=student_code)
+
+                student_id = student.id
+
+            if 'tg_user_id' in data_json.keys():
+                tg_user_id = data_json['tg_user_id']
+                student = db_sess.query(Student).filter(Student.tg_user_id == tg_user_id).first()
+
+                if student is None:
+                    raise StudentNotFoundError(student_tg_user_id=tg_user_id)
+
+                student_id = student.id
+
+            absent = db_sess.query(Absent).filter(Absent.student_id == student_id and Absent.date == date).first()
+            if not(absent is None):
+                raise StudentDuplicateAbsent(date, student_id)
+
+            absent = Absent(
+                date=date,
+                reason=data_json['reason'],
+                student_id=student_id
+            )
+
+            if 'file' in flask.request.files.keys():
+                file = flask.request.files['file']
+                absent.file = file.read()
+
+            db_sess.add(absent)
+            db_sess.commit()
+
+            return make_response('HTTP 200 OK', 200)
+
+        if flask.request.method == 'GET':
+            request_data_validate.student_absent_get(data_json)
+
+            if 'code' in data_json.keys():
+                student_code = data_json['code']
+                student = db_sess.query(Student).filter(Student.code == student_code).first()
+
+                if student is None:
+                    raise StudentNotFoundError(student_code=student_code)
+
+                student_id = student.id
+
+            if 'tg_user_id' in data_json.keys():
+                student = db_sess.query(Student).filter(Student.tg_user_id == data_json['tg_user_id']).first()
+
+                if student is None:
+                    raise StudentNotFoundError(student_tg_user_id=data_json['tg_user_id'])
+
+                student_id = student.id
+
+            absents = db_sess.query(Absent).filter(Absent.student_id == student_id).all()
+
+            absent_json_list = []
+            for absent in absents:
+                absent_json = {
+                    "date": absent.date,
+                    "reason": absent.reason,
+                }
+
+                if not (absent.file is None):
+                    absent_json['file'] = absent.file
+
+                absent_json_list.append(absent_json)
+
+            return make_response({"absents": absent_json_list}, 200)
+    except (StudentDuplicateAbsent, StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
+            RequestDataTypeError) as error:
         logging.warning(error)
         return make_response('HTTP 400 Bad Request', 400)
-
 
 
 @blueprint.route('/student/tg_auth', methods=['POST'])
@@ -140,7 +214,7 @@ def student_tg_auth():
         return make_response('HTTP 400 Bad Request', 400)
 
 
-@blueprint.route('/students', methods=['POST', 'GET'])
+@blueprint.route('/student', methods=['POST', 'GET'])
 def students_post():
     try:
         db_sess = db_session.create_session()
@@ -208,6 +282,16 @@ def school_post():
 
     return make_response('HTTP 200 OK', 200)
 
+
+# @blueprint.route('/school/absent', methods=['GET'])
+# def school_post():
+#     data_json = flask.request.json
+#     db_sess = db_session.create_session()
+#     school = School(name=data_json['school_name'])
+#     db_sess.add(school)
+#     db_sess.commit()
+#
+#     return make_response('HTTP 200 OK', 200)
 # @blueprint.route('/teacher', methods=['POST', 'PATCH'])
 # def teacher_post():
 #     try:
