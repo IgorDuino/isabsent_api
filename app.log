@@ -1,15 +1,11 @@
-[2021-11-16 22:55:21,454] INFO in _internal:  * Running on http://localhost:8080/ (Press CTRL+C to quit)
-[2021-11-16 22:55:23,438] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 22:55:23] "POST /v1/student HTTP/1.1" 200 -
-[2021-11-16 22:55:31,023] WARNING in is_absent_api: Teacher with code: ZJgIhjQ2w5 not found
-[2021-11-16 22:55:31,024] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 22:55:31] "[31m[1mPOST /v1/teacher/tg_auth HTTP/1.1[0m" 400 -
-[2021-11-16 22:55:33,935] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 22:55:33] "POST /v1/teacher HTTP/1.1" 200 -
-[2021-11-16 22:55:36,800] WARNING in is_absent_api: Teacher with code: ZJgIhjQ2w5 not found
-[2021-11-16 22:55:36,800] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 22:55:36] "[31m[1mPOST /v1/teacher/tg_auth HTTP/1.1[0m" 400 -
-[2021-11-16 22:55:55,612] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 22:55:55] "POST /v1/teacher/tg_auth HTTP/1.1" 200 -
-[2021-11-16 22:56:02,156] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 22:56:02] "POST /v1/teacher/tg_auth HTTP/1.1" 200 -
-[2021-11-16 22:56:12,032] WARNING in is_absent_api: Teacher with tg id: 23 is already exist
-[2021-11-16 22:56:12,032] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 22:56:12] "[31m[1mPOST /v1/teacher/tg_auth HTTP/1.1[0m" 400 -
-[2021-11-16 22:56:30,853] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 22:56:30] "POST /v1/teacher/tg_auth HTTP/1.1" 200 -
-[2021-11-16 22:56:43,027] WARNING in is_absent_api: Teacher with tg id: 0 is already exist
-[2021-11-16 22:56:43,028] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 22:56:43] "[31m[1mPOST /v1/teacher/tg_auth HTTP/1.1[0m" 400 -
-[2021-11-16 22:56:50,458] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 22:56:50] "POST /v1/teacher/tg_auth HTTP/1.1" 200 -
+[2021-11-16 23:45:15,897] INFO in _internal:  * Running on http://localhost:8080/ (Press CTRL+C to quit)
+[2021-11-16 23:45:18,653] WARNING in is_absent_api: Student with id: 2 is already absent in 2010-10-10
+[2021-11-16 23:45:18,653] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 23:45:18] "[31m[1mPOST /v1/student/absent HTTP/1.1[0m" 400 -
+[2021-11-16 23:45:27,970] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 23:45:27] "POST /v1/student/absent HTTP/1.1" 200 -
+[2021-11-16 23:45:31,905] WARNING in is_absent_api: Student with id: 2 is already absent in 2010-10-09
+[2021-11-16 23:45:31,905] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 23:45:31] "[31m[1mPOST /v1/student/absent HTTP/1.1[0m" 400 -
+[2021-11-16 23:45:35,082] WARNING in is_absent_api: Student with id: 2 is already absent in 2010-10-09
+[2021-11-16 23:45:35,082] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 23:45:35] "[31m[1mPOST /v1/student/absent HTTP/1.1[0m" 400 -
+[2021-11-16 23:45:38,935] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 23:45:38] "POST /v1/student/absent HTTP/1.1" 200 -
+[2021-11-16 23:45:41,668] WARNING in is_absent_api: Student with id: 2 is already absent in 2010-10-08
+[2021-11-16 23:45:41,669] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 23:45:41] "[31m[1mPOST /v1/student/absent HTTP/1.1[0m" 400 -

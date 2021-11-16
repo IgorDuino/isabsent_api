@@ -1,11 +1,11 @@
 _type: export
 __export_format: 4
-__export_date: 2021-11-16T20:02:24.971Z
+__export_date: 2021-11-16T20:48:59.496Z
 __export_source: insomnia.desktop.app:v2021.6.0
 resources:
   - _id: req_8fdffbca98234eeea126c0aa93a34567
     parentId: fld_3fb71142b35040dd9a2da9db52c033c8
-    modified: 1637090137975
+    modified: 1637093517393
     created: 1637090079514
     url: http://localhost:8080/v1/absent
     name: Get absents list from current school
@@ -60,9 +60,50 @@ resources:
     description: ""
     scope: collection
     _type: workspace
+  - _id: req_fd44ef4b1ba44616b72db7a73455a98b
+    parentId: fld_dbe806a6472e4962bc6e49c48a4085b0
+    modified: 1637095537667
+    created: 1637093618562
+    url: http://localhost:8080/v1/student/absent
+    name: Add absent for current student
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"date": "2010-10-8",
+        	"reason": "akjdakfa",
+        	"tg_user_id": 6
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_b641683442444325adec756755203e4b
+    authentication: {}
+    metaSortKey: -1637093618562
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_dbe806a6472e4962bc6e49c48a4085b0
+    parentId: fld_088af33907d746f08b72d6b76925a3e5
+    modified: 1636912852845
+    created: 1636912852845
+    name: students
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1636912852845
+    _type: request_group
   - _id: req_567a6ece421a4efab5542544e0a0e943
     parentId: fld_dbe806a6472e4962bc6e49c48a4085b0
-    modified: 1637089381889
+    modified: 1637093652092
     created: 1637085639537
     url: http://localhost:8080/v1/student/absent
     name: Get absent list for current student
@@ -89,16 +130,6 @@ resources:
     settingRebuildPath: true
     settingFollowRedirects: global
     _type: request
-  - _id: fld_dbe806a6472e4962bc6e49c48a4085b0
-    parentId: fld_088af33907d746f08b72d6b76925a3e5
-    modified: 1636912852845
-    created: 1636912852845
-    name: students
-    description: ""
-    environment: {}
-    environmentPropertyOrder: null
-    metaSortKey: -1636912852845
-    _type: request_group
   - _id: req_ca87f3d882244ff48f2264b6fc574ffd
     parentId: fld_dbe806a6472e4962bc6e49c48a4085b0
     modified: 1637092470301
@@ -146,7 +177,7 @@ resources:
     _type: request
   - _id: req_e3a4e422b104431e8a1bea6c317e10da
     parentId: fld_dbe806a6472e4962bc6e49c48a4085b0
-    modified: 1637091953865
+    modified: 1637093653929
     created: 1636842385697
     url: http://localhost:8080/v1/student/tg_auth
     name: Auth to student tg id

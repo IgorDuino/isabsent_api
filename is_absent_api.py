@@ -118,7 +118,7 @@ def student_absent():
         if flask.request.method == 'POST':
             request_data_validate.student_absent_post_validate(data_json)
 
-            date = datetime.datetime.strptime(data_json['date'], string_date_format)
+            date = datetime.datetime.strptime(data_json['date'], string_date_format).date()
 
             if 'code' in data_json.keys():
                 student_code = data_json['code']
@@ -138,9 +138,12 @@ def student_absent():
 
                 student_id = student.id
 
-            absent = db_sess.query(Absent).filter(Absent.student_id == student_id and Absent.date == date).first()
-            if not(absent is None):
-                raise StudentDuplicateAbsent(date, student_id)
+            absents = db_sess.query(Absent).filter(Absent.student_id == student_id).all()
+
+            for absent in absents:
+                if absent.date == date:
+                    raise StudentDuplicateAbsent(date, student_id)
+
 
             absent = Absent(
                 date=date,
