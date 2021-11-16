@@ -35,7 +35,7 @@ def teacher_tg_auth_validate(data: dict) -> None:
 
 def teachers_post_validate(data: dict) -> None:
     keys_type_dict = {
-        "students": list,
+        "teachers": list,
     }
 
     key_type_validate(data, keys_type_dict)
@@ -86,7 +86,7 @@ def students_get_validate(data: dict) -> None:
     key_type_validate(data, keys_type_dict)
 
 
-def student_absent_post(data: dict) -> None:
+def student_absent_post_validate(data: dict) -> None:
     key_type_dict = {
         'date': str,
         'reason': str,
@@ -112,7 +112,7 @@ def student_absent_post(data: dict) -> None:
         raise RequestDataTypeError('tg_user_id', type(data['tg_user_id']), variable_key_type_dict['tg_user_id'])
 
 
-def student_absent_get(data: dict) -> None:
+def student_absent_get_validate(data: dict) -> None:
     key_type_dict = {
         'date': str,
         'reason': str,
@@ -130,3 +130,19 @@ def student_absent_get(data: dict) -> None:
 
     if 'tg_user_id' in data.keys() and type(data['tg_user_id']) != variable_key_type_dict['tg_user_id']:
         raise RequestDataTypeError('tg_user_id', type(data['tg_user_id']), variable_key_type_dict['tg_user_id'])
+
+
+def school_post_validate(data: dict) -> None:
+    keys_type_dict = {
+        "school_name": str,
+    }
+
+    key_type_validate(data, keys_type_dict)
+
+
+def absents_get_validate(data: dict) -> None:
+    keys_type_dict = {
+        "school_name": str,
+    }
+
+    key_type_validate(data, keys_type_dict)

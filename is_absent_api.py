@@ -1,6 +1,5 @@
 import flask
 import logging
-import datetime
 
 from flask import make_response
 from tools.error_book import *
@@ -30,21 +29,28 @@ def teacher_tg_auth():
         tg_id = data_json['tg_user_id']
 
         db_sess = db_session.create_session()
+
         teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
         if teacher is None:
             raise TeacherNotFoundError(code)
+
+        teacher_tg = db_sess.query(Teacher).filter(Teacher.tg_user_id == tg_id).first()
+        if not (teacher_tg is None) and teacher_tg.code != code:
+            raise TeacherDuplicateTgUserIdError(tg_id)
+
 
         teacher.tg_user_id = tg_id
         db_sess.commit()
 
         return make_response('HTTP 200 OK', 200)
-    except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+    except (TeacherDuplicateTgUserIdError, TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
+            RequestDataTypeError) as error:
         logging.warning(error)
         return make_response('HTTP 400 Bad Request', 400)
 
 
 @blueprint.route('/teacher', methods=['POST', 'GET'])
-def teachers_post():
+def teachers_post_get():
     try:
         db_sess = db_session.create_session()
         data_json = flask.request.json
@@ -77,7 +83,7 @@ def teachers_post():
 
             teacher_list = db_sess.query(Teacher).filter(Teacher.school_name == school_name).all()
             if len(teacher_list) == 0:
-                raise SchoolNotFoundError(school_name)
+                raise TeachersFromSchoolNotFoundError(school_name)
 
             teacher_dict_list = []
             for teacher in teacher_list:
@@ -96,7 +102,8 @@ def teachers_post():
                 teacher_dict_list.append(teacher_dict)
 
             return make_response({"teachers": teacher_dict_list}, 200)
-    except (SchoolNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+    except (TeachersFromSchoolNotFoundError, SchoolNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
+            RequestDataTypeError) as error:
         logging.warning(error)
         return make_response('HTTP 400 Bad Request', 400)
 
@@ -109,7 +116,7 @@ def student_absent():
         student_id = 0
 
         if flask.request.method == 'POST':
-            request_data_validate.student_absent_post(data_json)
+            request_data_validate.student_absent_post_validate(data_json)
 
             date = datetime.datetime.strptime(data_json['date'], string_date_format)
 
@@ -151,7 +158,7 @@ def student_absent():
             return make_response('HTTP 200 OK', 200)
 
         if flask.request.method == 'GET':
-            request_data_validate.student_absent_get(data_json)
+            request_data_validate.student_absent_get_validate(data_json)
 
             if 'code' in data_json.keys():
                 student_code = data_json['code']
@@ -201,21 +208,27 @@ def student_tg_auth():
         tg_id = data_json['tg_user_id']
 
         db_sess = db_session.create_session()
+
         student = db_sess.query(Student).filter(Student.code == code).first()
         if student is None:
             raise StudentNotFoundError(code)
+
+        student_tg = db_sess.query(Student).filter(Student.tg_user_id == tg_id).first()
+        if not (student_tg is None) and student_tg.code != code:
+            raise StudentDuplicateTgUserIdError(tg_id)
 
         student.tg_user_id = tg_id
         db_sess.commit()
 
         return make_response('HTTP 200 OK', 200)
-    except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+    except (StudentDuplicateTgUserIdError, StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
+            RequestDataTypeError) as error:
         logging.warning(error)
         return make_response('HTTP 400 Bad Request', 400)
 
 
 @blueprint.route('/student', methods=['POST', 'GET'])
-def students_post():
+def students_post_get():
     try:
         db_sess = db_session.create_session()
         data_json = flask.request.json
@@ -274,24 +287,53 @@ def students_post():
 
 @blueprint.route('/school', methods=['POST'])
 def school_post():
-    data_json = flask.request.json
-    db_sess = db_session.create_session()
-    school = School(name=data_json['school_name'])
-    db_sess.add(school)
-    db_sess.commit()
+    try:
+        data_json = flask.request.json
+        request_data_validate.school_post_validate(data_json)
+        db_sess = db_session.create_session()
+        school = School(name=data_json['school_name'])
+        db_sess.add(school)
+        db_sess.commit()
 
-    return make_response('HTTP 200 OK', 200)
+        return make_response('HTTP 200 OK', 200)
+    except (RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+        logging.warning(error)
+        return make_response('HTTP 400 Bad Request', 400)
 
 
-# @blueprint.route('/school/absent', methods=['GET'])
-# def school_post():
-#     data_json = flask.request.json
-#     db_sess = db_session.create_session()
-#     school = School(name=data_json['school_name'])
-#     db_sess.add(school)
-#     db_sess.commit()
-#
-#     return make_response('HTTP 200 OK', 200)
+@blueprint.route('/absent', methods=['GET'])
+def absents_get():
+    try:
+        db_sess = db_session.create_session()
+        data_json = flask.request.json
+
+        request_data_validate.absents_get_validate(data_json)
+
+        school_name = data_json['school_name']
+        absents = []
+
+        students = db_sess.query(Student).filter(Student.school_name == school_name).all()
+        for student in students:
+            absents += student.absents
+
+        absent_json_list = []
+        for absent in absents:
+            absent_json = {
+                "date": absent.date,
+                "reason": absent.reason,
+            }
+
+            if not (absent.file is None):
+                absent_json['file'] = absent.file
+
+            absent_json_list.append(absent_json)
+
+        return make_response({"absents": absent_json_list}, 200)
+    except (RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+        logging.warning(error)
+        return make_response('HTTP 400 Bad Request', 400)
+
+
 # @blueprint.route('/teacher', methods=['POST', 'PATCH'])
 # def teacher_post():
 #     try:
