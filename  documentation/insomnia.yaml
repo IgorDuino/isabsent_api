@@ -1,13 +1,13 @@
 _type: export
 __export_format: 4
-__export_date: 2021-11-16T20:48:59.496Z
+__export_date: 2021-11-17T08:39:57.535Z
 __export_source: insomnia.desktop.app:v2021.6.0
 resources:
   - _id: req_8fdffbca98234eeea126c0aa93a34567
     parentId: fld_3fb71142b35040dd9a2da9db52c033c8
-    modified: 1637093517393
+    modified: 1637134830477
     created: 1637090079514
-    url: http://localhost:8080/v1/absent
+    url: http://localhost:8080/v1/absents
     name: Get absents list from current school
     description: ""
     method: GET
@@ -60,9 +60,48 @@ resources:
     description: ""
     scope: collection
     _type: workspace
+  - _id: req_8f39277882fa4a1fbcd51118b36f5d2a
+    parentId: fld_dbe806a6472e4962bc6e49c48a4085b0
+    modified: 1637138328320
+    created: 1637138194589
+    url: http://localhost:8080/v1/student/password
+    name: Generate new code for student
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"code": "J8X0PSExfU"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_5e12e2a1f0384584b42d6c317cd727f7
+    authentication: {}
+    metaSortKey: -1637138194589
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_dbe806a6472e4962bc6e49c48a4085b0
+    parentId: fld_088af33907d746f08b72d6b76925a3e5
+    modified: 1636912852845
+    created: 1636912852845
+    name: students
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1636912852845
+    _type: request_group
   - _id: req_fd44ef4b1ba44616b72db7a73455a98b
     parentId: fld_dbe806a6472e4962bc6e49c48a4085b0
-    modified: 1637095537667
+    modified: 1637137523049
     created: 1637093618562
     url: http://localhost:8080/v1/student/absent
     name: Add absent for current student
@@ -91,16 +130,35 @@ resources:
     settingRebuildPath: true
     settingFollowRedirects: global
     _type: request
-  - _id: fld_dbe806a6472e4962bc6e49c48a4085b0
-    parentId: fld_088af33907d746f08b72d6b76925a3e5
-    modified: 1636912852845
-    created: 1636912852845
-    name: students
+  - _id: req_2d3d268b23524d4fa37c4e0dc0ea5cbc
+    parentId: fld_dbe806a6472e4962bc6e49c48a4085b0
+    modified: 1637138183776
+    created: 1637137283918
+    url: http://localhost:8080/v1/student
+    name: Get student by code or tg user id
     description: ""
-    environment: {}
-    environmentPropertyOrder: null
-    metaSortKey: -1636912852845
-    _type: request_group
+    method: GET
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"tg_user_id": 0
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_f75b62cbebd04abebee7e6c78e439431
+    authentication: {}
+    metaSortKey: -1636994975336
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
   - _id: req_567a6ece421a4efab5542544e0a0e943
     parentId: fld_dbe806a6472e4962bc6e49c48a4085b0
     modified: 1637093652092
@@ -132,9 +190,9 @@ resources:
     _type: request
   - _id: req_ca87f3d882244ff48f2264b6fc574ffd
     parentId: fld_dbe806a6472e4962bc6e49c48a4085b0
-    modified: 1637092470301
+    modified: 1637134786960
     created: 1636836037798
-    url: http://localhost:8080/v1/student
+    url: http://localhost:8080/v1/students
     name: Add list of students
     description: ""
     method: POST
@@ -207,7 +265,7 @@ resources:
     _type: request
   - _id: req_81a8d195c7624717bddfe8c7ea030c48
     parentId: fld_dbe806a6472e4962bc6e49c48a4085b0
-    modified: 1637089292344
+    modified: 1637137521421
     created: 1636896331898
     url: http://localhost:8080/v1/students
     name: Get student list from school
@@ -234,11 +292,50 @@ resources:
     settingRebuildPath: true
     settingFollowRedirects: global
     _type: request
+  - _id: req_6ce06d541a3c49b6b408f63564c52bf8
+    parentId: fld_d03493e78f7d46209e60d48009a943a4
+    modified: 1637138226889
+    created: 1637133004699
+    url: http://localhost:8080/v1/teacher/password
+    name: Generate new code for teacher
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"tg_user_id": 0
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_9247b0c040be4034867a221df2f87d64
+    authentication: {}
+    metaSortKey: -1636869359017
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_d03493e78f7d46209e60d48009a943a4
+    parentId: fld_088af33907d746f08b72d6b76925a3e5
+    modified: 1636912831842
+    created: 1636912831842
+    name: teachers
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1636912831842
+    _type: request_group
   - _id: req_c6ab2b789fb247abb83877c7d9c90185
     parentId: fld_d03493e78f7d46209e60d48009a943a4
-    modified: 1637092532884
+    modified: 1637134803869
     created: 1636834822640
-    url: http://localhost:8080/v1/teacher
+    url: http://localhost:8080/v1/teachers
     name: Add list of teachers
     description: ""
     method: POST
@@ -279,19 +376,9 @@ resources:
     settingRebuildPath: true
     settingFollowRedirects: global
     _type: request
-  - _id: fld_d03493e78f7d46209e60d48009a943a4
-    parentId: fld_088af33907d746f08b72d6b76925a3e5
-    modified: 1636912831842
-    created: 1636912831842
-    name: teachers
-    description: ""
-    environment: {}
-    environmentPropertyOrder: null
-    metaSortKey: -1636912831842
-    _type: request_group
   - _id: req_66a4b952a7724af38ddf648601f5d21c
     parentId: fld_d03493e78f7d46209e60d48009a943a4
-    modified: 1637092609359
+    modified: 1637134801280
     created: 1636840058672
     url: http://localhost:8080/v1/teacher/tg_auth
     name: Auth to teacher tg id
@@ -321,9 +408,9 @@ resources:
     _type: request
   - _id: req_dcd83f7ac460475c9ab1f75cc7f1510e
     parentId: fld_d03493e78f7d46209e60d48009a943a4
-    modified: 1637092128111
+    modified: 1637134793331
     created: 1636912765476
-    url: http://localhost:8080/v1/teacher
+    url: http://localhost:8080/v1/teachers
     name: Get teacher list from school
     description: ""
     method: GET

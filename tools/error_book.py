@@ -32,12 +32,16 @@ class RequestDataMissedKeyError(Exception):
 
 
 class TeacherNotFoundError(Exception):
-    """Exception raised when teacher with given in request data code not found"""
-    def __init__(self, teacher_code: str):
+    """Exception raised when teacher with given in request data code or tg user id not found"""
+    def __init__(self, teacher_code: str = '', teacher_tg_user_id: int = -1):
         self.teacher_code = teacher_code
+        self.teacher_tg_user_id = teacher_tg_user_id
 
     def __str__(self):
-        return f'Teacher with code: {self.teacher_code} not found'
+        if self.teacher_code != '':
+            return f'Teacher with code: {self.teacher_code} not found'
+        if self.teacher_tg_user_id != -1:
+            return f'Teacher with tg_id: {self.teacher_tg_user_id} not found'
 
 
 class TeachersFromSchoolNotFoundError(Exception):

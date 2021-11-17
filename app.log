@@ -1,11 +1,1 @@
-[2021-11-16 23:45:15,897] INFO in _internal:  * Running on http://localhost:8080/ (Press CTRL+C to quit)
-[2021-11-16 23:45:18,653] WARNING in is_absent_api: Student with id: 2 is already absent in 2010-10-10
-[2021-11-16 23:45:18,653] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 23:45:18] "[31m[1mPOST /v1/student/absent HTTP/1.1[0m" 400 -
-[2021-11-16 23:45:27,970] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 23:45:27] "POST /v1/student/absent HTTP/1.1" 200 -
-[2021-11-16 23:45:31,905] WARNING in is_absent_api: Student with id: 2 is already absent in 2010-10-09
-[2021-11-16 23:45:31,905] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 23:45:31] "[31m[1mPOST /v1/student/absent HTTP/1.1[0m" 400 -
-[2021-11-16 23:45:35,082] WARNING in is_absent_api: Student with id: 2 is already absent in 2010-10-09
-[2021-11-16 23:45:35,082] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 23:45:35] "[31m[1mPOST /v1/student/absent HTTP/1.1[0m" 400 -
-[2021-11-16 23:45:38,935] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 23:45:38] "POST /v1/student/absent HTTP/1.1" 200 -
-[2021-11-16 23:45:41,668] WARNING in is_absent_api: Student with id: 2 is already absent in 2010-10-08
-[2021-11-16 23:45:41,669] INFO in _internal: 127.0.0.1 - - [16/Nov/2021 23:45:41] "[31m[1mPOST /v1/student/absent HTTP/1.1[0m" 400 -
+[2021-11-17 11:40:23,045] INFO in _internal:  * Running on http://localhost:5050/ (Press CTRL+C to quit)

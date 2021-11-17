@@ -38,7 +38,6 @@ def teacher_tg_auth():
         if not (teacher_tg is None) and teacher_tg.code != code:
             raise TeacherDuplicateTgUserIdError(tg_id)
 
-
         teacher.tg_user_id = tg_id
         db_sess.commit()
 
@@ -49,7 +48,7 @@ def teacher_tg_auth():
         return make_response('HTTP 400 Bad Request', 400)
 
 
-@blueprint.route('/teacher', methods=['POST', 'GET'])
+@blueprint.route('/teachers', methods=['POST', 'GET'])
 def teachers_post_get():
     try:
         db_sess = db_session.create_session()
@@ -104,6 +103,39 @@ def teachers_post_get():
             return make_response({"teachers": teacher_dict_list}, 200)
     except (TeachersFromSchoolNotFoundError, SchoolNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
             RequestDataTypeError) as error:
+        logging.warning(error)
+        return make_response('HTTP 400 Bad Request', 400)
+
+
+@blueprint.route('/teacher/password', methods=['POST'])
+def teacher_pass():
+    try:
+        data_json = flask.request.json
+        request_data_validate.teacher_gen_password_validate(data_json)
+
+        db_sess = db_session.create_session()
+        if 'code' in data_json.keys():
+            code = data_json['code']
+
+            teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
+            if teacher is None:
+                raise TeacherNotFoundError(teacher_code=code)
+
+            teacher.code = generate_unique_code(db_sess, Teacher)
+
+        if 'tg_user_id' in data_json.keys():
+            tg_id = data_json['tg_user_id']
+
+            teacher = db_sess.query(Teacher).filter(Teacher.tg_user_id == tg_id).first()
+            if teacher is None:
+                raise TeacherNotFoundError(teacher_tg_user_id=teacher)
+
+            teacher.code = generate_unique_code(db_sess, Teacher)
+
+        db_sess.commit()
+
+        return make_response('HTTP 200 OK', 200)
+    except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
         return make_response('HTTP 400 Bad Request', 400)
 
@@ -230,7 +262,83 @@ def student_tg_auth():
         return make_response('HTTP 400 Bad Request', 400)
 
 
-@blueprint.route('/student', methods=['POST', 'GET'])
+@blueprint.route('/student/password', methods=['POST'])
+def student_pass():
+    try:
+        data_json = flask.request.json
+        request_data_validate.student_gen_password_validate(data_json)
+
+        db_sess = db_session.create_session()
+        if 'code' in data_json.keys():
+            code = data_json['code']
+
+            student = db_sess.query(Student).filter(Student.code == code).first()
+            if student is None:
+                raise StudentNotFoundError(student_code=code)
+
+            student.code = generate_unique_code(db_sess, Student)
+
+        if 'tg_user_id' in data_json.keys():
+            tg_id = data_json['tg_user_id']
+
+            student = db_sess.query(Student).filter(Student.tg_user_id == tg_id).first()
+            if student is None:
+                raise StudentNotFoundError(student_tg_user_id=tg_id)
+
+            student.code = generate_unique_code(db_sess, Student)
+
+        db_sess.commit()
+
+        return make_response('HTTP 200 OK', 200)
+    except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+        logging.warning(error)
+        return make_response('HTTP 400 Bad Request', 400)
+
+
+@blueprint.route('/student', methods=['GET'])
+def student_get():
+    try:
+        db_sess = db_session.create_session()
+        data_json = flask.request.json
+
+        request_data_validate.student_get_validate(data_json)
+        if 'code' in data_json.keys():
+            code = data_json['code']
+            student = db_sess.query(Student).filter(Student.code == code).first()
+
+            if student is None:
+                raise StudentNotFoundError(student_code=code)
+
+            return make_response({
+                'name': student.name,
+                'surname': student.surname,
+                'patronymic': student.patronymic,
+                'class_name': student.class_name,
+                'school_name': student.school_name
+            }, 200)
+
+        if 'tg_user_id' in data_json.keys():
+            tg_user_id = data_json['tg_user_id']
+
+            student = db_sess.query(Student).filter(Student.tg_user_id == tg_user_id).first()
+
+            if student is None:
+                raise StudentNotFoundError(student_tg_user_id=tg_user_id)
+
+            return make_response({
+                'name': student.name,
+                'surname': student.surname,
+                'patronymic': student.patronymic,
+                'class_name': student.class_name,
+                'school_name': student.school_name
+                }, 200)
+
+    except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+        logging.warning(error)
+        return make_response('HTTP 400 Bad Request', 400)
+
+
+@blueprint.route('/students', methods=['POST', 'GET'])
 def students_post_get():
     try:
         db_sess = db_session.create_session()
@@ -304,7 +412,7 @@ def school_post():
         return make_response('HTTP 400 Bad Request', 400)
 
 
-@blueprint.route('/absent', methods=['GET'])
+@blueprint.route('/absents', methods=['GET'])
 def absents_get():
     try:
         db_sess = db_session.create_session()
@@ -321,9 +429,11 @@ def absents_get():
 
         absent_json_list = []
         for absent in absents:
+            student = absent.student
             absent_json = {
                 "date": absent.date,
                 "reason": absent.reason,
+                "code": student.code
             }
 
             if not (absent.file is None):
@@ -372,23 +482,4 @@ def absents_get():
 #         logging.warning(error)
 #         return make_response('HTTP 400 Bad Request', 400)
 #
-#
-# @blueprint.route('/teacher/<int:teacher_id>', methods=['GET'])
-# def teacher_get(teacher_id):
-#     try:
-#         db_sess = db_session.create_session()
-#         teacher = db_sess.query(Teacher).get(teacher_id)
-#
-#         if teacher is None:
-#             raise TeacherNotFoundError(teacher_id)
-#
-#         return make_response(json.dumps({
-#                 'name': teacher.name,
-#                 'surname': teacher.surname,
-#                 'patronymic': teacher.patronymic,
-#                 'class_name': teacher.class_name
-#             }), 200)
-#
-#     except TeacherNotFoundError as error:
-#         logging.warning(error)
-#         return make_response('HTTP 400 Bad Request', 400)
+

@@ -33,6 +33,22 @@ def teacher_tg_auth_validate(data: dict) -> None:
     key_type_validate(data, keys_type_dict)
 
 
+def teacher_gen_password_validate(data: dict) -> None:
+    variable_key_type_dict = {
+        'code': str,
+        'tg_user_id': int
+    }
+
+    if ('code' not in data.keys()) and ('tg_user_id' not in data.keys()):
+        raise RequestDataKeysError(list(data.keys()), list(variable_key_type_dict.keys()))
+
+    if 'code' in data.keys() and type(data['code']) != variable_key_type_dict['code']:
+        raise RequestDataTypeError('code', type(data['code']), variable_key_type_dict['code'])
+
+    if 'tg_user_id' in data.keys() and type(data['tg_user_id']) != variable_key_type_dict['tg_user_id']:
+        raise RequestDataTypeError('tg_user_id', type(data['tg_user_id']), variable_key_type_dict['tg_user_id'])
+
+
 def teachers_post_validate(data: dict) -> None:
     keys_type_dict = {
         "teachers": list,
@@ -68,6 +84,38 @@ def student_tg_auth_validate(data: dict) -> None:
     }
 
     key_type_validate(data, keys_type_dict)
+
+
+def student_gen_password_validate(data: dict) -> None:
+    variable_key_type_dict = {
+        'code': str,
+        'tg_user_id': int
+    }
+
+    if ('code' not in data.keys()) and ('tg_user_id' not in data.keys()):
+        raise RequestDataKeysError(list(data.keys()), list(variable_key_type_dict.keys()))
+
+    if 'code' in data.keys() and type(data['code']) != variable_key_type_dict['code']:
+        raise RequestDataTypeError('code', type(data['code']), variable_key_type_dict['code'])
+
+    if 'tg_user_id' in data.keys() and type(data['tg_user_id']) != variable_key_type_dict['tg_user_id']:
+        raise RequestDataTypeError('tg_user_id', type(data['tg_user_id']), variable_key_type_dict['tg_user_id'])
+
+
+def student_get_validate(data: dict) -> None:
+    variable_key_type_dict = {
+        'code': str,
+        'tg_user_id': int
+    }
+
+    if ('code' not in data.keys()) and ('tg_user_id' not in data.keys()):
+        raise RequestDataKeysError(list(data.keys()), list(variable_key_type_dict.keys()))
+
+    if 'code' in data.keys() and type(data['code']) != variable_key_type_dict['code']:
+        raise RequestDataTypeError('code', type(data['code']), variable_key_type_dict['code'])
+
+    if 'tg_user_id' in data.keys() and type(data['tg_user_id']) != variable_key_type_dict['tg_user_id']:
+        raise RequestDataTypeError('tg_user_id', type(data['tg_user_id']), variable_key_type_dict['tg_user_id'])
 
 
 def students_post_validate(data: dict) -> None:
