@@ -1,6 +1,7 @@
 import flask
 import logging
 
+
 from flask import make_response
 from tools.error_book import *
 from data import db_session
@@ -11,6 +12,8 @@ from data.teacher import Teacher
 from data.school import School
 from data.absent import Absent
 from tools.tools import generate_unique_code
+from tools.google_spread_sheets import google_sheets_student_absent, google_sheets_teachers_codes,\
+    google_sheets_teacher_code_generate, google_sheets_student_code_generate, google_sheets_students_codes
 
 
 blueprint = flask.Blueprint(
@@ -57,6 +60,7 @@ def teachers_post_get():
         if flask.request.method == 'POST':
             request_data_validate.teachers_post_validate(data_json)
             teacher_list = []
+            teacher_code_list = []
             for teacher_json in data_json['teachers']:
                 request_data_validate.teacher_post_validate(teacher_json)
 
@@ -71,8 +75,13 @@ def teachers_post_get():
                     code=code
                 ))
 
+                teacher_code_list.append(code)
+
             db_sess.add_all(teacher_list)
             db_sess.commit()
+
+            link = data_json['google_spreadsheet_link']
+            google_sheets_teachers_codes(link, teacher_code_list)
 
             return make_response('HTTP 200 OK', 200)
 
@@ -109,11 +118,13 @@ def teachers_post_get():
 
 @blueprint.route('/teacher/password', methods=['POST'])
 def teacher_pass():
+    """Generating new code for teacher"""
     try:
         data_json = flask.request.json
         request_data_validate.teacher_gen_password_validate(data_json)
 
         db_sess = db_session.create_session()
+        gen_code = generate_unique_code(db_sess, Teacher)
         if 'code' in data_json.keys():
             code = data_json['code']
 
@@ -121,7 +132,7 @@ def teacher_pass():
             if teacher is None:
                 raise TeacherNotFoundError(teacher_code=code)
 
-            teacher.code = generate_unique_code(db_sess, Teacher)
+            teacher.code = gen_code
 
         if 'tg_user_id' in data_json.keys():
             tg_id = data_json['tg_user_id']
@@ -130,9 +141,11 @@ def teacher_pass():
             if teacher is None:
                 raise TeacherNotFoundError(teacher_tg_user_id=teacher)
 
-            teacher.code = generate_unique_code(db_sess, Teacher)
+            teacher.code = gen_code
 
         db_sess.commit()
+
+        google_sheets_teacher_code_generate(gen_code)
 
         return make_response('HTTP 200 OK', 200)
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
@@ -146,6 +159,7 @@ def student_absent():
         db_sess = db_session.create_session()
         data_json = flask.request.json
         student_id = 0
+        student = None
 
         if flask.request.method == 'POST':
             request_data_validate.student_absent_post_validate(data_json)
@@ -176,7 +190,6 @@ def student_absent():
                 if absent.date == date:
                     raise StudentDuplicateAbsent(date, student_id)
 
-
             absent = Absent(
                 date=date,
                 reason=data_json['reason'],
@@ -189,6 +202,13 @@ def student_absent():
 
             db_sess.add(absent)
             db_sess.commit()
+
+            name = student.name
+            surname = student.surname
+            patronymic = student.patronymic
+            class_name = student.class_name
+            google_sheets_student_absent(data_json['google_spread_sheet_link'], date, data_json['reason'],
+                                          name, surname, patronymic, class_name)
 
             return make_response('HTTP 200 OK', 200)
 
@@ -264,11 +284,13 @@ def student_tg_auth():
 
 @blueprint.route('/student/password', methods=['POST'])
 def student_pass():
+    """Generating new code for student"""
     try:
         data_json = flask.request.json
         request_data_validate.student_gen_password_validate(data_json)
 
         db_sess = db_session.create_session()
+        gen_code = generate_unique_code(db_sess, Student)
         if 'code' in data_json.keys():
             code = data_json['code']
 
@@ -276,7 +298,7 @@ def student_pass():
             if student is None:
                 raise StudentNotFoundError(student_code=code)
 
-            student.code = generate_unique_code(db_sess, Student)
+            student.code = gen_code
 
         if 'tg_user_id' in data_json.keys():
             tg_id = data_json['tg_user_id']
@@ -285,9 +307,12 @@ def student_pass():
             if student is None:
                 raise StudentNotFoundError(student_tg_user_id=tg_id)
 
-            student.code = generate_unique_code(db_sess, Student)
+            student.code = gen_code
 
         db_sess.commit()
+
+        link = data_json['google_spread_sheet_link']
+        google_sheets_student_code_generate(link, gen_code)
 
         return make_response('HTTP 200 OK', 200)
     except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
@@ -348,6 +373,7 @@ def students_post_get():
             request_data_validate.students_post_validate(data_json)
 
             student_list = []
+            student_code_list = []
             for teacher_json in data_json['students']:
                 request_data_validate.student_post_validate(teacher_json)
 
@@ -362,8 +388,14 @@ def students_post_get():
                     code=code
                 ))
 
+                student_code_list.append(code)
+
             db_sess.add_all(student_list)
             db_sess.commit()
+
+            link = data_json['google_spread_sheet_link']
+            google_sheets_students_codes(link, student_code_list)
+
             return make_response('HTTP 200 OK', 200)
 
         if flask.request.method == 'GET':
