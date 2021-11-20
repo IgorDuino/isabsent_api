@@ -10,5 +10,6 @@ class School(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'schools'
 
     name = sqlalchemy.Column(sqlalchemy.String, unique=True, primary_key=True)
+    link = sqlalchemy.Column(sqlalchemy.String)
     teachers = relationship("Teacher", back_populates='school', foreign_keys='Teacher.school_name')
     students = relationship("Student", back_populates='school', foreign_keys='Student.school_name')

@@ -59,6 +59,12 @@ def teachers_post_get():
 
         if flask.request.method == 'POST':
             request_data_validate.teachers_post_validate(data_json)
+
+            school_name = data_json['school_name']
+            school = db_sess.query(School).get(school_name)
+            if school is None:
+                raise StudentNotFoundError(school_name)
+
             teacher_list = []
             teacher_code_list = []
             for teacher_json in data_json['teachers']:
@@ -71,7 +77,7 @@ def teachers_post_get():
                     surname=teacher_json['surname'],
                     patronymic=teacher_json['patronymic'],
                     class_name=teacher_json['class_name'],
-                    school_name=teacher_json['school_name'],
+                    school_name=school_name,
                     code=code
                 ))
 
@@ -80,7 +86,7 @@ def teachers_post_get():
             db_sess.add_all(teacher_list)
             db_sess.commit()
 
-            link = data_json['google_spreadsheet_link']
+            link = school.link
             google_sheets_teachers_codes(link, teacher_code_list)
 
             return make_response('HTTP 200 OK', 200)
@@ -110,8 +116,8 @@ def teachers_post_get():
                 teacher_dict_list.append(teacher_dict)
 
             return make_response({"teachers": teacher_dict_list}, 200)
-    except (TeachersFromSchoolNotFoundError, SchoolNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
-            RequestDataTypeError) as error:
+    except (StudentNotFoundError, TeachersFromSchoolNotFoundError, SchoolNotFoundError, RequestDataKeysError,
+            RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
         return make_response('HTTP 400 Bad Request', 400)
 
@@ -119,6 +125,7 @@ def teachers_post_get():
 @blueprint.route('/teacher/password', methods=['POST'])
 def teacher_pass():
     """Generating new code for teacher"""
+    link = ''
     try:
         data_json = flask.request.json
         request_data_validate.teacher_gen_password_validate(data_json)
@@ -133,6 +140,8 @@ def teacher_pass():
                 raise TeacherNotFoundError(teacher_code=code)
 
             teacher.code = gen_code
+            school = teacher.school
+            link = school.link
 
         if 'tg_user_id' in data_json.keys():
             tg_id = data_json['tg_user_id']
@@ -142,10 +151,12 @@ def teacher_pass():
                 raise TeacherNotFoundError(teacher_tg_user_id=teacher)
 
             teacher.code = gen_code
+            school = teacher.school
+            link = school.link
 
         db_sess.commit()
 
-        google_sheets_teacher_code_generate(gen_code)
+        google_sheets_teacher_code_generate(link, gen_code)
 
         return make_response('HTTP 200 OK', 200)
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
@@ -160,6 +171,7 @@ def student_absent():
         data_json = flask.request.json
         student_id = 0
         student = None
+        link = ''
 
         if flask.request.method == 'POST':
             request_data_validate.student_absent_post_validate(data_json)
@@ -174,6 +186,8 @@ def student_absent():
                     raise StudentNotFoundError(student_code=student_code)
 
                 student_id = student.id
+                school = student.school
+                link = school.link
 
             if 'tg_user_id' in data_json.keys():
                 tg_user_id = data_json['tg_user_id']
@@ -183,6 +197,8 @@ def student_absent():
                     raise StudentNotFoundError(student_tg_user_id=tg_user_id)
 
                 student_id = student.id
+                school = student.school
+                link = school.link
 
             absents = db_sess.query(Absent).filter(Absent.student_id == student_id).all()
 
@@ -207,8 +223,7 @@ def student_absent():
             surname = student.surname
             patronymic = student.patronymic
             class_name = student.class_name
-            google_sheets_student_absent(data_json['google_spread_sheet_link'], date, data_json['reason'],
-                                          name, surname, patronymic, class_name)
+            google_sheets_student_absent(link, date, data_json['reason'], name, surname, patronymic, class_name)
 
             return make_response('HTTP 200 OK', 200)
 
@@ -286,6 +301,7 @@ def student_tg_auth():
 def student_pass():
     """Generating new code for student"""
     try:
+        link = ''
         data_json = flask.request.json
         request_data_validate.student_gen_password_validate(data_json)
 
@@ -299,6 +315,8 @@ def student_pass():
                 raise StudentNotFoundError(student_code=code)
 
             student.code = gen_code
+            school = student.school
+            link = school.link
 
         if 'tg_user_id' in data_json.keys():
             tg_id = data_json['tg_user_id']
@@ -308,10 +326,11 @@ def student_pass():
                 raise StudentNotFoundError(student_tg_user_id=tg_id)
 
             student.code = gen_code
+            school = student.school
+            link = school.link
 
         db_sess.commit()
 
-        link = data_json['google_spread_sheet_link']
         google_sheets_student_code_generate(link, gen_code)
 
         return make_response('HTTP 200 OK', 200)
@@ -372,6 +391,11 @@ def students_post_get():
         if flask.request.method == 'POST':
             request_data_validate.students_post_validate(data_json)
 
+            school_name = data_json['school_name']
+            school = db_sess.query(School).get(school_name)
+            if school is None:
+                raise SchoolNotFoundError(school_name)
+
             student_list = []
             student_code_list = []
             for teacher_json in data_json['students']:
@@ -384,7 +408,7 @@ def students_post_get():
                     surname=teacher_json['surname'],
                     patronymic=teacher_json['patronymic'],
                     class_name=teacher_json['class_name'],
-                    school_name=teacher_json['school_name'],
+                    school_name=school_name,
                     code=code
                 ))
 
@@ -393,7 +417,7 @@ def students_post_get():
             db_sess.add_all(student_list)
             db_sess.commit()
 
-            link = data_json['google_spread_sheet_link']
+            link = school.link
             google_sheets_students_codes(link, student_code_list)
 
             return make_response('HTTP 200 OK', 200)
@@ -434,12 +458,20 @@ def school_post():
         data_json = flask.request.json
         request_data_validate.school_post_validate(data_json)
         db_sess = db_session.create_session()
-        school = School(name=data_json['school_name'])
+
+        school = db_sess.query(School).get(data_json['school_name'])
+        if school is not None:
+            raise SchoolDuplicateError(data_json['school_name'])
+
+        school = School(
+            name=data_json['school_name'],
+            link=data_json['link']
+        )
         db_sess.add(school)
         db_sess.commit()
 
         return make_response('HTTP 200 OK', 200)
-    except (RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+    except (SchoolDuplicateError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
         return make_response('HTTP 400 Bad Request', 400)
 

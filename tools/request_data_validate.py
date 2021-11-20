@@ -18,7 +18,6 @@ def teacher_post_validate(data: dict) -> None:
         'surname': str,
         'patronymic': str,
         'class_name': str,
-        'school_name': str
     }
 
     key_type_validate(data, keys_type_dict)
@@ -51,6 +50,7 @@ def teacher_gen_password_validate(data: dict) -> None:
 
 def teachers_post_validate(data: dict) -> None:
     keys_type_dict = {
+        "school_name": str,
         "teachers": list,
     }
 
@@ -71,7 +71,6 @@ def student_post_validate(data: dict) -> None:
         'surname': str,
         'patronymic': str,
         'class_name': str,
-        'school_name': str
     }
 
     key_type_validate(data, keys_type_dict)
@@ -120,6 +119,7 @@ def student_get_validate(data: dict) -> None:
 
 def students_post_validate(data: dict) -> None:
     keys_type_dict = {
+        "school_name": str,
         "students": list,
     }
 
@@ -163,7 +163,7 @@ def student_absent_post_validate(data: dict) -> None:
 def student_absent_get_validate(data: dict) -> None:
     key_type_dict = {
         'date': str,
-        'reason': str,
+        'reason': str
     }
     variable_key_type_dict = {
         'code': str,
@@ -183,6 +183,7 @@ def student_absent_get_validate(data: dict) -> None:
 def school_post_validate(data: dict) -> None:
     keys_type_dict = {
         "school_name": str,
+        "link": str
     }
 
     key_type_validate(data, keys_type_dict)

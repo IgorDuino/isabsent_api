@@ -101,3 +101,12 @@ class SchoolNotFoundError(Exception):
 
     def __str__(self):
         return f'School with name: {self.school_name} not found'
+
+
+class SchoolDuplicateError(Exception):
+    """Exception raised when school with given in request data name is already exist"""
+    def __init__(self, school_name: int):
+        self.school_name = school_name
+
+    def __str__(self):
+        return f'School with name: {self.school_name} is already exist'
