@@ -217,18 +217,21 @@ def student_absent():
                 student_id=student_id
             )
 
-            if 'file' in flask.request.files.keys():
-                file = flask.request.files['file']
-                absent.file = file.read()
-
-            db_sess.add(absent)
-            db_sess.commit()
-
             name = student.name
             surname = student.surname
             patronymic = student.patronymic
             class_name = student.class_name
-            google_sheets_student_absent(link, date, data_json['reason'], name, surname, patronymic, class_name)
+
+            if 'file' in data_json:
+                file = data_json['file']
+                absent.file = file.read()
+                google_sheets_student_absent(link, date, data_json['reason'], name, surname, patronymic, class_name,
+                                             file.read())
+            else:
+                google_sheets_student_absent(link, date, data_json['reason'], name, surname, patronymic, class_name)
+
+            db_sess.add(absent)
+            db_sess.commit()
 
             return make_response('HTTP 200 OK', 200)
 
