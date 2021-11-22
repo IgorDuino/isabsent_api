@@ -1,9 +1,7 @@
-import json
 import gspread
-import datetime
-
 
 from .error_book import *
+
 
 gc = gspread.service_account(filename='google_credentials.json')
 
@@ -77,13 +75,13 @@ def google_sheets_get_teachers(link: str, school: str):
         return
     data = data[1:]
 
-    a = {
+    teachers_list_dict = {
         "school_name": school,
         "teachers": []
     }
 
     for student in data:
-        a['teachers'].append(
+        teachers_list_dict['teachers'].append(
             {
                 'name': student[2],
                 'surname': student[1],
@@ -92,11 +90,11 @@ def google_sheets_get_teachers(link: str, school: str):
             }
         )
 
-    return a
+    return teachers_list_dict
 
 
 def google_sheets_student_absent(link: str, date: datetime.date, reason: str,
-                                 name: str, surname: str, patronymic: str, class_name: str):
+                                 name: str, surname: str, patronymic: str, class_name: str, proof: bytes = ''):
     """Adding student absent into google sheet"""
     table = gc.open_by_url(link)
     for worksheet_elem in table.worksheets():
