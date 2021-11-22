@@ -1,7 +1,6 @@
 import flask
 import logging
 
-
 from flask import make_response
 from tools.error_book import *
 from data import db_session
@@ -12,9 +11,8 @@ from data.teacher import Teacher
 from data.school import School
 from data.absent import Absent
 from tools.tools import generate_unique_code
-from tools.google_spread_sheets import google_sheets_student_absent, google_sheets_teachers_codes,\
+from tools.google_spread_sheets import google_sheets_student_absent, google_sheets_teachers_codes, \
     google_sheets_teacher_code_generate, google_sheets_student_code_generate, google_sheets_students_codes
-
 
 blueprint = flask.Blueprint(
     'sdo_parser_api',
@@ -156,7 +154,7 @@ def teacher_pass():
 
         db_sess.commit()
 
-        google_sheets_teacher_code_generate(link, gen_code)
+        google_sheets_teacher_code_generate(link, old_code, gen_code)
 
         return make_response('HTTP 200 OK', 200)
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
@@ -375,7 +373,7 @@ def student_get():
                 'patronymic': student.patronymic,
                 'class_name': student.class_name,
                 'school_name': student.school_name
-                }, 200)
+            }, 200)
 
     except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
@@ -433,13 +431,13 @@ def students_post_get():
             student_dict_list = []
             for student in student_list:
                 student_dict = {
-                        'name': student.name,
-                        'surname': student.surname,
-                        'patronymic': student.patronymic,
-                        'class_name': student.class_name,
-                        'school_name': student.school_name,
-                        'code': student.code
-                    }
+                    'name': student.name,
+                    'surname': student.surname,
+                    'patronymic': student.patronymic,
+                    'class_name': student.class_name,
+                    'school_name': student.school_name,
+                    'code': student.code
+                }
 
                 if not (student.tg_user_id is None):
                     student_dict['tg_user_id'] = student.tg_user_id
@@ -510,7 +508,6 @@ def absents_get():
         logging.warning(error)
         return make_response('HTTP 400 Bad Request', 400)
 
-
 # @blueprint.route('/teacher', methods=['POST', 'PATCH'])
 # def teacher_post():
 #     try:
@@ -546,4 +543,3 @@ def absents_get():
 #         logging.warning(error)
 #         return make_response('HTTP 400 Bad Request', 400)
 #
-
