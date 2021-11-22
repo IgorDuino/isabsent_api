@@ -11,14 +11,16 @@ from data.teacher import Teacher
 from data.school import School
 from data.absent import Absent
 from tools.tools import generate_unique_code
-from tools.google_spread_sheets import google_sheets_student_absent, google_sheets_teachers_codes, \
-    google_sheets_teacher_code_generate, google_sheets_student_code_generate, google_sheets_students_codes, \
-    google_sheets_get_teachers, google_sheets_get_students
+from tools.google_spread_sheets import GoogleSpreadSheetsApi
+
 
 blueprint = flask.Blueprint(
     'sdo_parser_api',
     __name__,
 )
+
+
+google_spread_sheets = GoogleSpreadSheetsApi('tools/google_credentials.json')
 
 
 @blueprint.route('/teacher/tg_auth', methods=['POST'])
@@ -65,7 +67,7 @@ def teachers_post_get():
                 raise StudentNotFoundError(school_name)
 
             if len(data_json['teachers']) == 0:
-                data_json = google_sheets_get_teachers(school.link, school_name)
+                data_json = google_spread_sheets.google_sheets_get_teachers(school.link, school_name)
 
             teacher_list = []
             teacher_code_list = []
@@ -89,7 +91,7 @@ def teachers_post_get():
             db_sess.commit()
 
             link = school.link
-            google_sheets_teachers_codes(link, teacher_code_list)
+            google_spread_sheets.google_sheets_teachers_codes(link, teacher_code_list)
 
             return make_response('HTTP 200 OK', 200)
 
@@ -161,7 +163,7 @@ def teacher_pass():
 
         db_sess.commit()
 
-        google_sheets_teacher_code_generate(link, old_code, gen_code)
+        google_spread_sheets.google_sheets_teacher_code_generate(link, old_code, gen_code)
 
         return make_response('HTTP 200 OK', 200)
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
@@ -225,10 +227,11 @@ def student_absent():
             if 'file' in data_json:
                 file = data_json['file']
                 absent.file = file.read()
-                google_sheets_student_absent(link, date, data_json['reason'], name, surname, patronymic, class_name,
-                                             file.read())
+                google_spread_sheets.google_sheets_student_absent(link, date, data_json['reason'], name, surname,
+                                                                  patronymic, class_name, file.read())
             else:
-                google_sheets_student_absent(link, date, data_json['reason'], name, surname, patronymic, class_name)
+                google_spread_sheets.google_sheets_student_absent(link, date, data_json['reason'], name, surname,
+                                                                  patronymic, class_name)
 
             db_sess.add(absent)
             db_sess.commit()
@@ -342,7 +345,7 @@ def student_pass():
 
         db_sess.commit()
 
-        google_sheets_student_code_generate(link, old_code, gen_code)
+        google_spread_sheets.google_sheets_student_code_generate(link, old_code, gen_code)
 
         return make_response('HTTP 200 OK', 200)
     except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
@@ -408,7 +411,7 @@ def students_post_get():
                 raise SchoolNotFoundError(school_name)
 
             if len(data_json['students']) == 0:
-                data_json = google_sheets_get_students(school.link, school_name)
+                data_json = google_spread_sheets.google_sheets_get_students(school.link, school_name)
 
             student_list = []
             student_code_list = []
@@ -432,7 +435,7 @@ def students_post_get():
             db_sess.commit()
 
             link = school.link
-            google_sheets_students_codes(link, student_code_list)
+            google_spread_sheets.google_sheets_students_codes(link, student_code_list)
 
             return make_response('HTTP 200 OK', 200)
 
