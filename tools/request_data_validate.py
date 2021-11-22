@@ -167,7 +167,8 @@ def student_absent_get_validate(data: dict) -> None:
     }
     variable_key_type_dict = {
         'code': str,
-        'tg_user_id': int
+        'tg_user_id': int,
+        'file': bytes
     }
 
     if ('code' not in data.keys()) and ('tg_user_id' not in data.keys()):
@@ -178,6 +179,9 @@ def student_absent_get_validate(data: dict) -> None:
 
     if 'tg_user_id' in data.keys() and type(data['tg_user_id']) != variable_key_type_dict['tg_user_id']:
         raise RequestDataTypeError('tg_user_id', type(data['tg_user_id']), variable_key_type_dict['tg_user_id'])
+
+    if 'file' in data.keys() and type(data['file']) != variable_key_type_dict['file']:
+        raise RequestDataTypeError('file', type(data['file']), variable_key_type_dict['file'])
 
 
 def school_post_validate(data: dict) -> None:

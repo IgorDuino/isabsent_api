@@ -1,7 +1,9 @@
 import json
 import gspread
 import datetime
-from gspread_formatting import *
+
+
+from .error_book import *
 
 gc = gspread.service_account(filename='google_credentials.json')
 
@@ -23,7 +25,7 @@ def google_sheets_teacher_code_generate(link: str, old_code: str, code: str):
     worksheet = table.get_worksheet(0)
     cell: gspread.Cell = worksheet.find(old_code)
     if cell is None:
-        return
+        return TeacherNotFoundError(teacher_code=code, google_spread_sheet_link=link)
     cell.update(code)
 
 
@@ -32,7 +34,7 @@ def google_sheets_students_codes(link: str, code_list: list):
     pass
 
 
-def google_sheets_student_code_generate(link: str, code: str):
+def google_sheets_student_code_generate(link: str, old_code: str, code: str):
     """Changing student code to generate one"""
     pass
 
@@ -117,7 +119,7 @@ def google_sheets_student_absent(link: str, date: datetime.date, reason: str,
 #
 # google_sheets_get_students(
 #     'https://docs.google.com/spreadsheets/d/1UPO9M6_fOwzSQmmasYmnxMnSEtCiq9LC4qf3300YzEc/edit#gid=1955592902', '1580')
-
-google_sheets_teacher_code_generate(
-    'https://docs.google.com/spreadsheets/d/1UPO9M6_fOwzSQmmasYmnxMnSEtCiq9LC4qf3300YzEc/edit#gid=1955592902', '882352',
-    '123456')
+#
+# google_sheets_teacher_code_generate(
+#     'https://docs.google.com/spreadsheets/d/1UPO9M6_fOwzSQmmasYmnxMnSEtCiq9LC4qf3300YzEc/edit#gid=1955592902', '882352',
+#     '123456')
