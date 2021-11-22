@@ -10,7 +10,7 @@ class GoogleSpreadSheetsApi:
     def style_new_worksheet(self, worksheet):
         worksheet.format('1:1000', {'textFormat': {"fontSize": 12}})
         worksheet.format('1:1', {'textFormat': {"fontSize": 14, 'bold': True}})
-        worksheet.append_row(['Класс', 'Фамилия', 'Имя', 'Отчество', 'Причина', 'Докозательства'])
+        worksheet.append_row(['Класс', 'Фамилия', 'Имя', 'Отчество', 'Причина', 'Доказательства'])
 
     def google_sheets_teachers_codes(self, link: str, code_list: list):
         """Adding teachers codes into google sheet"""
@@ -42,7 +42,8 @@ class GoogleSpreadSheetsApi:
         data = worksheet.get_all_values()
 
         if len(data) < 1:
-            return
+            raise StudentsEmptyData(link, school)
+
         data = data[1:]
 
         student_dict_list = {
@@ -69,7 +70,7 @@ class GoogleSpreadSheetsApi:
         data = worksheet.get_all_values()
 
         if len(data) < 1:
-            return
+            raise TeachersEmptyData(link, school)
 
         data = data[1:]
 
@@ -102,7 +103,7 @@ class GoogleSpreadSheetsApi:
             worksheet = table.add_worksheet(title=str(date), rows=1000, cols=6)
             self.style_new_worksheet(worksheet)
 
-        worksheet.append_row([class_name, surname, name, patronymic, reason])
+        worksheet.append_row([class_name, surname, name, patronymic, reason, proof])
 
 
 # google_spread_sheets = GoogleSpreadSheetsApi(file_name='google_credentials.json')
