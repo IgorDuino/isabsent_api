@@ -12,7 +12,8 @@ from data.school import School
 from data.absent import Absent
 from tools.tools import generate_unique_code
 from tools.google_spread_sheets import google_sheets_student_absent, google_sheets_teachers_codes, \
-    google_sheets_teacher_code_generate, google_sheets_student_code_generate, google_sheets_students_codes
+    google_sheets_teacher_code_generate, google_sheets_student_code_generate, google_sheets_students_codes, \
+    google_sheets_get_teachers, google_sheets_get_students
 
 blueprint = flask.Blueprint(
     'sdo_parser_api',
@@ -62,6 +63,9 @@ def teachers_post_get():
             school = db_sess.query(School).get(school_name)
             if school is None:
                 raise StudentNotFoundError(school_name)
+
+            if len(data_json['teachers']) == 0:
+                data_json = google_sheets_get_teachers(school.link, school_name)
 
             teacher_list = []
             teacher_code_list = []
@@ -123,8 +127,9 @@ def teachers_post_get():
 @blueprint.route('/teacher/password', methods=['POST'])
 def teacher_pass():
     """Generating new code for teacher"""
-    link = ''
     try:
+        link = ''
+        old_code = ''
         data_json = flask.request.json
         request_data_validate.teacher_gen_password_validate(data_json)
 
@@ -140,6 +145,7 @@ def teacher_pass():
             teacher.code = gen_code
             school = teacher.school
             link = school.link
+            old_code = teacher.code
 
         if 'tg_user_id' in data_json.keys():
             tg_id = data_json['tg_user_id']
@@ -151,6 +157,7 @@ def teacher_pass():
             teacher.code = gen_code
             school = teacher.school
             link = school.link
+            old_code = teacher.code
 
         db_sess.commit()
 
@@ -300,6 +307,7 @@ def student_pass():
     """Generating new code for student"""
     try:
         link = ''
+        old_code = ''
         data_json = flask.request.json
         request_data_validate.student_gen_password_validate(data_json)
 
@@ -315,6 +323,7 @@ def student_pass():
             student.code = gen_code
             school = student.school
             link = school.link
+            old_code = student.code
 
         if 'tg_user_id' in data_json.keys():
             tg_id = data_json['tg_user_id']
@@ -326,10 +335,11 @@ def student_pass():
             student.code = gen_code
             school = student.school
             link = school.link
+            old_code = student.code
 
         db_sess.commit()
 
-        google_sheets_student_code_generate(link, gen_code)
+        google_sheets_student_code_generate(link, old_code, gen_code)
 
         return make_response('HTTP 200 OK', 200)
     except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
@@ -393,6 +403,9 @@ def students_post_get():
             school = db_sess.query(School).get(school_name)
             if school is None:
                 raise SchoolNotFoundError(school_name)
+
+            if len(data_json['students']) == 0:
+                data_json = google_sheets_get_students(school.link, school_name)
 
             student_list = []
             student_code_list = []

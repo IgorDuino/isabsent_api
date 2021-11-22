@@ -33,15 +33,20 @@ class RequestDataMissedKeyError(Exception):
 
 class TeacherNotFoundError(Exception):
     """Exception raised when teacher with given in request data code or tg user id not found"""
-    def __init__(self, teacher_code: str = '', teacher_tg_user_id: int = -1):
+    def __init__(self, teacher_code: str = '', teacher_tg_user_id: int = -1, google_spread_sheet_link: str = ''):
         self.teacher_code = teacher_code
         self.teacher_tg_user_id = teacher_tg_user_id
+        self.link = google_spread_sheet_link
 
     def __str__(self):
+        error_message = ''
         if self.teacher_code != '':
-            return f'Teacher with code: {self.teacher_code} not found'
+            error_message = f'Teacher with code: {self.teacher_code} not found'
         if self.teacher_tg_user_id != -1:
-            return f'Teacher with tg_id: {self.teacher_tg_user_id} not found'
+            error_message = f'Teacher with tg_id: {self.teacher_tg_user_id} not found'
+        if self.link != '':
+            error_message  += f' in google spreadsheet{self.link}'
+        return error_message
 
 
 class TeachersFromSchoolNotFoundError(Exception):
@@ -64,15 +69,20 @@ class TeacherDuplicateTgUserIdError(Exception):
 
 class StudentNotFoundError(Exception):
     """Exception raised when student with given in request data code or tg_user_id not found"""
-    def __init__(self, student_code: str = '', student_tg_user_id: int = -1):
+    def __init__(self, student_code: str = '', student_tg_user_id: int = -1, google_spread_sheet_link: str = ''):
         self.student_code = student_code
         self.student_tg_user_id = student_tg_user_id
+        self.link = google_spread_sheet_link
 
     def __str__(self):
+        error_message = ''
         if self.student_code != '':
-            return f'Student with code: {self.student_code} not found'
+            error_message = f'Student with code: {self.student_code} not found'
         if self.student_tg_user_id != -1:
-            return f'Student with tg_id: {self.student_tg_user_id} not found'
+            error_message = f'Student with tg_id: {self.student_tg_user_id} not found'
+        if self.link != '':
+            error_message += f' in google spreadsheet{self.link}'
+        return error_message
 
 
 class StudentDuplicateTgUserIdError(Exception):

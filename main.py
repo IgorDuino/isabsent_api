@@ -1,8 +1,10 @@
 import is_absent_api
 
+
 from flask import Flask
 from data import db_session
 from logging.config import dictConfig
+
 
 dictConfig({
     'version': 1,
@@ -20,6 +22,7 @@ dictConfig({
         'handlers': ['wsgi']
     }
 })
+
 
 app = Flask(__name__, )
 app.config['SECRET_KEY'] = 'secret_key'
