@@ -28,7 +28,7 @@ class RequestDataMissedKeyError(Exception):
         self.missed_key = missed_key
 
     def __str__(self):
-        return f'Missed key in request data {self.missed_key}'
+        return f'Missed key in request data: {self.missed_key}'
 
 
 class TeachersEmptyData(Exception):
@@ -55,17 +55,17 @@ class TeacherNotFoundError(Exception):
         if self.teacher_tg_user_id != -1:
             error_message = f'Teacher with tg_id: {self.teacher_tg_user_id} not found'
         if self.link != '':
-            error_message += f' in google spreadsheet{self.link}'
+            error_message += f' in google spreadsheet {self.link}'
         return error_message
 
 
-class TeachersFromSchoolNotFoundError(Exception):
-    """Exception raised when teacher with given in request data school_name not found"""
-    def __init__(self, school_name: str):
-        self.school_name = school_name
-
-    def __str__(self):
-        return f'Teachers with school name: {self.school_name} not found'
+# class TeachersFromSchoolNotFoundError(Exception):
+#     """Exception raised when teacher with given in request data school_name not found"""
+#     def __init__(self, school_name: str):
+#         self.school_name = school_name
+#
+#     def __str__(self):
+#         return f'Teachers with school name: {self.school_name} not found'
 
 
 class TeacherDuplicateTgUserIdError(Exception):
@@ -101,7 +101,7 @@ class StudentNotFoundError(Exception):
         if self.student_tg_user_id != -1:
             error_message = f'Student with tg_id: {self.student_tg_user_id} not found'
         if self.link != '':
-            error_message += f' in google spreadsheet{self.link}'
+            error_message += f' in google spreadsheet {self.link}'
         return error_message
 
 
