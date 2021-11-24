@@ -1,6 +1,6 @@
 import gspread
 
-from .error_book import *
+from tools.error_book import *
 
 
 class GoogleSpreadSheetsApi:
@@ -14,7 +14,12 @@ class GoogleSpreadSheetsApi:
 
     def google_sheets_teachers_codes(self, link: str, code_list: list):
         """Adding teachers codes into google sheet"""
-        pass
+        table = self.gc.open_by_url(link)
+        worksheet = table.get_worksheet(0)
+
+        cell_range = f'E2:E{len(code_list) + 1}'
+
+        worksheet.update(cell_range, code_list)
 
     def google_sheets_teacher_code_generate(self, link: str, old_code: str, code: str):
         """Changing teacher code to generate one"""
@@ -26,42 +31,6 @@ class GoogleSpreadSheetsApi:
             raise TeacherNotFoundError(teacher_code=old_code, google_spread_sheet_link=link)
 
         worksheet.update(cell.address, code)
-
-    def google_sheets_students_codes(self, link: str, code_list: list):
-        """Adding students codes into google sheet"""
-        pass
-
-    def google_sheets_student_code_generate(self, link: str, old_code: str, code: str):
-        """Changing student code to generate one"""
-        pass
-
-    def google_sheets_get_students(self, link: str, school: str):
-        """Getting students list"""
-        table = self.gc.open_by_url(link)
-        worksheet = table.get_worksheet(1)
-        data = worksheet.get_all_values()
-
-        if len(data) < 1:
-            raise StudentsEmptyData(link, school)
-
-        data = data[1:]
-
-        student_dict_list = {
-            "school_name": school,
-            "students": []
-        }
-
-        for student in data:
-            student_dict_list['students'].append(
-                {
-                    'name': student[2],
-                    'surname': student[1],
-                    'patronymic': student[3],
-                    'class_name': student[0]
-                }
-            )
-
-        return student_dict_list
 
     def google_sheets_get_teachers(self, link: str, school: str):
         """Getting teachers list"""
@@ -90,6 +59,54 @@ class GoogleSpreadSheetsApi:
             )
 
         return teachers_list_dict
+
+    def google_sheets_students_codes(self, link: str, code_list: list):
+        """Adding students codes into google sheet"""
+        table = self.gc.open_by_url(link)
+        worksheet = table.get_worksheet(1)
+
+        cell_range = f'E2:E{len(code_list) + 1}'
+
+        worksheet.update(cell_range, code_list)
+
+    def google_sheets_student_code_generate(self, link: str, old_code: str, code: str):
+        """Changing student code to generate one"""
+        table = self.gc.open_by_url(link)
+        worksheet = table.get_worksheet(1)
+        cell: gspread.Cell = worksheet.find(old_code)
+
+        if cell is None:
+            raise StudentNotFoundError(teacher_code=old_code, google_spread_sheet_link=link)
+
+        worksheet.update(cell.address, code)
+
+    def google_sheets_get_students(self, link: str, school: str):
+        """Getting students list"""
+        table = self.gc.open_by_url(link)
+        worksheet = table.get_worksheet(1)
+        data = worksheet.get_all_values()
+
+        if len(data) < 1:
+            raise StudentsEmptyData(link, school)
+
+        data = data[1:]
+
+        student_dict_list = {
+            "school_name": school,
+            "students": []
+        }
+
+        for student in data:
+            student_dict_list['students'].append(
+                {
+                    'name': student[2],
+                    'surname': student[1],
+                    'patronymic': student[3],
+                    'class_name': student[0]
+                }
+            )
+
+        return student_dict_list
 
     def google_sheets_student_absent(self, link: str, date: datetime.date, reason: str,
                                      name: str, surname: str, patronymic: str, class_name: str, proof: bytes = ''):
