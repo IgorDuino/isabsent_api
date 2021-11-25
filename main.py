@@ -31,7 +31,7 @@ app.config['SECRET_KEY'] = 'secret_key'
 def main():
     db_session.global_init('data/is_absent.sqlite')  # Подключение к БД
     app.register_blueprint(is_absent_api.blueprint, url_prefix='/v1')  # Подключение api
-    app.run(port=8080, host='localhost')  # Запуск сервера
+    app.run(port=5050, host='localhost')  # Запуск сервера
 
 
 if __name__ == '__main__':
