@@ -97,6 +97,55 @@ def teacher_pass():
         return make_response('HTTP 400 Bad Request', 400)
 
 
+@blueprint.route('/teacher', methods=['GET'])
+def teacher_get():
+    try:
+        db_sess = db_session.create_session()
+        data_json = flask.request.json
+
+        request_data_validate.teacher_get_validate(data_json)
+        if 'code' in data_json.keys():
+            code = data_json['code']
+            teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
+
+            if teacher is None:
+                raise TeacherNotFoundError(teacher_code=code)
+
+            response_dict = {
+                'name': teacher.name,
+                'surname': teacher.surname,
+                'patronymic': teacher.patronymic,
+                'class_name': teacher.class_name,
+                'school_name': teacher.school_name
+            }
+
+            if not (teacher.tg_user_id is None):
+                response_dict['tg_user_id'] = teacher.tg_user_id
+
+            return make_response(response_dict, 200)
+
+        if 'tg_user_id' in data_json.keys():
+            tg_user_id = data_json['tg_user_id']
+
+            teacher = db_sess.query(Teacher).filter(Teacher.tg_user_id == tg_user_id).first()
+
+            if teacher is None:
+                raise TeacherNotFoundError(teacher_tg_user_id=tg_user_id)
+
+            return make_response({
+                'name': teacher.name,
+                'surname': teacher.surname,
+                'patronymic': teacher.patronymic,
+                'class_name': teacher.class_name,
+                'school_name': teacher.school_name,
+                'tg_user_id': tg_user_id
+            }, 200)
+
+    except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+        logging.warning(error)
+        return make_response('HTTP 400 Bad Request', 400)
+
+
 @blueprint.route('/student/absent', methods=['POST', 'GET'])
 def student_absent():
     try:
