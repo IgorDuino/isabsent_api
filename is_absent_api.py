@@ -1,3 +1,5 @@
+import base64
+
 import flask
 import logging
 
@@ -201,7 +203,7 @@ def student_absent():
 
             if 'file' in data_json:
                 file = data_json['file']
-                absent.file = file.read()
+                absent.file = base64.b64decode(file)
                 google_spread_sheets.google_sheets_student_absent(link, date, data_json['reason'], name, surname,
                                                                   patronymic, class_name, file.read())
             else:

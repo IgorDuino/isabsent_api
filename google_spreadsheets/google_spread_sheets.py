@@ -7,7 +7,8 @@ class GoogleSpreadSheetsApi:
     def __init__(self, file_name):
         self.gc = gspread.service_account(filename=file_name)
 
-    def style_new_worksheet(self, worksheet):
+    @staticmethod
+    def style_new_worksheet(worksheet):
         worksheet.format('1:1000', {'textFormat': {"fontSize": 12}})
         worksheet.format('1:1', {'textFormat': {"fontSize": 14, 'bold': True}})
         worksheet.append_row(['Класс', 'Фамилия', 'Имя', 'Отчество', 'Причина', 'Доказательства'])
