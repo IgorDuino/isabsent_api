@@ -12,6 +12,6 @@ class Absent(SqlAlchemyBase, SerializerMixin):
     id = sqlalchemy.Column(sqlalchemy.Integer, unique=True, primary_key=True, autoincrement=True)
     date = sqlalchemy.Column(sqlalchemy.Date)
     reason = sqlalchemy.Column(sqlalchemy.String)
-    file = sqlalchemy.Column(sqlalchemy.BINARY, nullable=True)
+    file = sqlalchemy.Column(sqlalchemy.BLOB, nullable=True)
     student_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey('students.id'))
     student = relationship('Student', foreign_keys=[student_id])
