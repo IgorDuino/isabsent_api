@@ -124,9 +124,9 @@ class GoogleSpreadSheetsApi:
         worksheet.append_row([class_name, surname, name, patronymic, reason, proof])
 
 
-# google_spread_sheets = GoogleSpreadSheetsApi(file_name='google_credentials.json')
-#
-#
+google_spread_sheets = GoogleSpreadSheetsApi('google_spreadsheets/google_credentials.json')
+
+
 # google_spread_sheets.google_sheets_student_absent(
 #     'https://docs.google.com/spreadsheets/d/1UPO9M6_fOwzSQmmasYmnxMnSEtCiq9LC4qf3300YzEc/edit#gid=1955592902',
 #     datetime.date.today(), 'болезнь', 'игорь', 'кузьменков', 'кириллович', '10-Г')
