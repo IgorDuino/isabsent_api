@@ -11,131 +11,15 @@ from data.school import School
 from data.absent import Absent
 from tools.tools import generate_unique_code
 from google_spreadsheets.google_spread_sheets import GoogleSpreadSheetsApi
-from tools.models import TeacherTgAuth,TeacherPasswordGenerate
+import tools.models as json_body
 
 
 api_router= APIRouter()
-
 google_spread_sheets = GoogleSpreadSheetsApi('google_spreadsheets/google_credentials.json')
 
 
-@api_router.post("/v1/teacher/tg_auth", tags=["teacher"], status_code=status.HTTP_201_CREATED)
-def teacher_tg_auth(body: TeacherTgAuth):
-    try:
-        code = body.code
-        tg_id = body.tg_user_id
-
-        db_sess = db_session.create_session()
-
-        teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
-        if teacher is None:
-            raise TeacherNotFoundError(code)
-
-        teacher_tg = db_sess.query(Teacher).filter(Teacher.tg_user_id == tg_id).first ()
-        if not (teacher_tg is None) and teacher_tg.code != code:
-            raise TeacherDuplicateTgUserIdError(tg_id)
-
-        teacher.tg_user_id = tg_id
-        db_sess.commit()
-        return Response(content='HTTP_201_CREATED', status_code=status.HTTP_201_CREATED)
-    except (TeacherDuplicateTgUserIdError, TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
-            RequestDataTypeError) as error:
-        logging.warning(error)
-        return Response(content='HTTP 400 Bad Request', status_code=status.HTTP_400_BAD_REQUEST)
 
 
-@api_router.post('/v1/teacher/code', tags=["teacher"], status_code=status.HTTP_201_CREATED)
-def teacher_pass(body: TeacherPasswordGenerate):
-    """Generating new code for teacher"""
-    try:
-        link = ''
-        old_code = ''
-
-        db_sess = db_session.create_session()
-        gen_code = generate_unique_code(db_sess, Teacher)
-        if body.code != '':
-            code = body.code
-
-            teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
-            if teacher is None:
-                raise TeacherNotFoundError(teacher_code=code)
-
-            teacher.code = gen_code
-            school = teacher.school
-            link = school.link
-            old_code = code
-
-        elif body.tg_user_id != -1:
-            tg_id = body.tg_user_id
-
-            teacher = db_sess.query(Teacher).filter(Teacher.tg_user_id == tg_id).first()
-            if teacher is None:
-                raise TeacherNotFoundError(teacher_tg_user_id=tg_id)
-
-            old_code = teacher.code
-            teacher.code = gen_code
-            school = teacher.school
-            link = school.link
-
-        db_sess.commit()
-
-        google_spread_sheets.google_sheets_teacher_code_generate(link, old_code, gen_code)
-
-        return Response(content='HTTP 200 OK', status_code=status.HTTP_200_OK)
-    except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
-        logging.warning(error)
-        return Response(content=error, status_code=status.HTTP_400_BAD_REQUEST)
-#
-#
-# @api_router.route('/teacher', methods=['GET'])
-# def teacher_get():
-#     try:
-#         db_sess = db_session.create_session()
-#         data_json = flask.request.json
-#
-#         request_data_validate.teacher_get_validate(data_json)
-#         if 'code' in data_json.keys():
-#             code = data_json['code']
-#             teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
-#
-#             if teacher is None:
-#                 raise TeacherNotFoundError(teacher_code=code)
-#
-#             response_dict = {
-#                 'name': teacher.name,
-#                 'surname': teacher.surname,
-#                 'patronymic': teacher.patronymic,
-#                 'class_name': teacher.class_name,
-#                 'school_name': teacher.school_name
-#             }
-#
-#             if not (teacher.tg_user_id is None):
-#                 response_dict['tg_user_id'] = teacher.tg_user_id
-#
-#             return make_response(response_dict, 200)
-#
-#         if 'tg_user_id' in data_json.keys():
-#             tg_user_id = data_json['tg_user_id']
-#
-#             teacher = db_sess.query(Teacher).filter(Teacher.tg_user_id == tg_user_id).first()
-#
-#             if teacher is None:
-#                 raise TeacherNotFoundError(teacher_tg_user_id=tg_user_id)
-#
-#             return make_response({
-#                 'name': teacher.name,
-#                 'surname': teacher.surname,
-#                 'patronymic': teacher.patronymic,
-#                 'class_name': teacher.class_name,
-#                 'school_name': teacher.school_name,
-#                 'tg_user_id': tg_user_id
-#             }, 200)
-#
-#     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
-#         logging.warning(error)
-#         return make_response('HTTP 400 Bad Request', 400)
-#
-#
 # @api_router.route('/student/absent', methods=['POST', 'GET'])
 # def student_absent():
 #     try:

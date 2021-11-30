@@ -1,13 +1,21 @@
-from data import db_session
-from logging.config import dictConfig
-from fastapi import FastAPI
-from is_absent_api import api_router
-import json
+import uvicorn
+import logging
 
-with open('log_config.json', 'r') as f:
-    dictConfig(json.load(f))
+from data import db_session
+from logging.config import fileConfig
+from fastapi import FastAPI
+from teacher_router import teacher_router
+from student_router import student_router
+
+
+logger = logging.getLogger("uvicorn")
+logger.addHandler(logging.FileHandler("app.log"))
 
 
 app = FastAPI()
-app.include_router(api_router)
-db_session.global_init('data/is_absent.sqlite')  # Подключение к БД
+app.include_router(teacher_router, prefix='/v1', tags=['Teacher'])
+app.include_router(student_router, prefix='/v1', tags=['Student'])
+db_session.global_init('data/is_absent.sqlite')
+
+if __name__ == "__main__":  # Подключение к БД
+    uvicorn.run("main:app", host="localhost", port=5050, reload=True)
