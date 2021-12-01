@@ -1,6 +1,7 @@
 import logging
 
 from fastapi import APIRouter, Response, status
+from fastapi.responses import JSONResponse
 from tools.error_book import *
 from data import db_session
 from data.teacher import Teacher
@@ -14,7 +15,9 @@ teacher_router = APIRouter()
 
 @teacher_router.post("/teacher/tg_auth",
                      summary='Binding tg user id to teacher code',
-                     status_code=status.HTTP_201_CREATED)
+                     status_code=status.HTTP_201_CREATED,
+                     responses = {201: {"model": json_body.OkResponse, "description": "Tg user id has been bind"},
+                                  400: {"model": json_body.BadResponse}})
 def teacher_tg_auth(body: json_body.TeacherTgAuth):
     """
         Binding tg user id to teacher code, all parameters are required:
@@ -22,7 +25,6 @@ def teacher_tg_auth(body: json_body.TeacherTgAuth):
         - **code**: unique code, all teachers have this code
         - **tg_user_id**: unique telegram user id
     """
-
     try:
         code = body.code
         tg_id = body.tg_user_id
@@ -39,16 +41,20 @@ def teacher_tg_auth(body: json_body.TeacherTgAuth):
 
         teacher.tg_user_id = tg_id
         db_sess.commit()
-        return Response(content='HTTP_201_CREATED', status_code=status.HTTP_201_CREATED)
+
+        return JSONResponse(content=json_body.OkResponse(msg='HTTP 201 CREATED'), status_code=status.HTTP_201_CREATED)
     except (TeacherDuplicateTgUserIdError, TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
             RequestDataTypeError) as error:
         logging.warning(error)
-        return Response(content=str(error), status_code=status.HTTP_400_BAD_REQUEST)
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+                            status_code=status.HTTP_400_BAD_REQUEST)
 
 
 @teacher_router.post('/teacher/code',
                      summary='Generating new code for teacher',
-                     status_code=status.HTTP_201_CREATED)
+                     status_code=status.HTTP_201_CREATED,
+                     responses={201: {"model": json_body.OkResponse, "description": "New code generate success"},
+                                400: {"model": json_body.BadResponse}})
 def teacher_pass(body: json_body.TeacherCodeTgUserId):
     """
         Generating new code for teacher, only one of parameters is required:
@@ -90,16 +96,19 @@ def teacher_pass(body: json_body.TeacherCodeTgUserId):
 
         google_spread_sheets.google_sheets_teacher_code_generate(link, old_code, gen_code)
 
-        return Response(content='HTTP 200 OK', status_code=status.HTTP_200_OK)
+        return JSONResponse(content=json_body.OkResponse(msg='HTTP 201 CREATED'), status_code=status.HTTP_201_CREATED)
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return Response(content=str(error), status_code=status.HTTP_400_BAD_REQUEST)
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+                            status_code=status.HTTP_400_BAD_REQUEST)
 
 
 @teacher_router.get('/teacher',
                     summary='Get information about teacher',
                     status_code=status.HTTP_200_OK,
-                    response_model=json_body.Teacher)
+                    response_model=json_body.Teacher,
+                    responses={200: {"model": json_body.Teacher, "description": "Successful Response"},
+                               400: {"model": json_body.BadResponse}})
 def teacher_get(body: json_body.TeacherCodeTgUserId):
     """
         Get information about teacher with given code or tg user id, only one of parameters is required:
@@ -128,7 +137,7 @@ def teacher_get(body: json_body.TeacherCodeTgUserId):
             if not (teacher.tg_user_id is None):
                 response_body.tg_user_id = teacher.tg_user_id
 
-            return response_body
+            return JSONResponse(content=response_body, status_code=status.HTTP_200_OK)
 
         if not (body.tg_user_id is None):
             tg_user_id = body.tg_user_id
@@ -147,8 +156,9 @@ def teacher_get(body: json_body.TeacherCodeTgUserId):
                 tg_user_id=teacher.tg_user_id
             )
 
-            return response_body
+            return JSONResponse(content=response_body, status_code=status.HTTP_200_OK)
 
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return Response(content=str(error), status_code=status.HTTP_400_BAD_REQUEST)
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+                            status_code=status.HTTP_400_BAD_REQUEST)

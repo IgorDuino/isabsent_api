@@ -2,6 +2,14 @@ from pydantic import BaseModel
 from typing import Optional, List
 
 
+class OkResponse(BaseModel):
+    msg: str
+
+
+class BadResponse(BaseModel):
+    error_msg: str
+
+
 class TeacherTgAuth(BaseModel):
     code: str
     tg_user_id: int
@@ -18,12 +26,13 @@ class Teacher(BaseModel):
     patronymic: str
     class_name: str
     school_name: str
-    tg_user_id: Optional[int] = -1
+    tg_user_id: Optional[int]
 
 
 class StudentTgAuth(BaseModel):
     code: str
     tg_user_id: int
+
 
 class StudentCodeTgUserId(BaseModel):
     code: Optional[str]
@@ -43,4 +52,9 @@ class StudentAbsentList(BaseModel):
 
 
 class Student(BaseModel):
-    pass
+    name: str
+    surname: str
+    patronymic: str
+    class_name: str
+    school_name: str
+    tg_user_id: Optional[int]
