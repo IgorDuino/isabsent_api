@@ -2,7 +2,7 @@ import base64
 import logging
 import tools.models as json_body
 
-from fastapi import APIRouter, Response, status
+from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
 from tools.error_book import *
 from data import db_session
@@ -21,7 +21,7 @@ student_router = APIRouter()
                      status_code=status.HTTP_201_CREATED,
                      responses={201: {"model": json_body.OkResponse, "description": "Absent has been added"},
                                 400: {"model": json_body.BadResponse}})
-def student_absent(body: json_body.StudentAbsent):
+def student_absent_post(body: json_body.StudentAbsent):
     """
         Add student absent in db and google spreadsheets:
 
@@ -104,7 +104,7 @@ def student_absent(body: json_body.StudentAbsent):
                     status_code=status.HTTP_200_OK,
                     responses={200: {"model": json_body.OkResponse, "description": "Successful Response"},
                                400: {"model": json_body.BadResponse}})
-def student_absent(body: json_body.StudentCodeTgUserId):
+def student_absent_get(body: json_body.StudentCodeTgUserId):
     """
         Get student absents by code or tg user id, only one of parameters is required:
 

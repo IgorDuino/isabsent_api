@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import APIRouter, Response, status
+from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
 from tools.error_book import *
 from data import db_session

@@ -6,6 +6,7 @@ from logging.config import fileConfig
 from fastapi import FastAPI
 from teacher_router import teacher_router
 from student_router import student_router
+from school_router import school_router
 
 
 logger = logging.getLogger("uvicorn")
@@ -15,6 +16,7 @@ logger.addHandler(logging.FileHandler("app.log"))
 app = FastAPI()
 app.include_router(teacher_router, prefix='/v1', tags=['Teacher'])
 app.include_router(student_router, prefix='/v1', tags=['Student'])
+app.include_router(school_router, prefix='/v1', tags=['School'])
 db_session.global_init('data/is_absent.sqlite')
 
 if __name__ == "__main__":  # Подключение к БД
