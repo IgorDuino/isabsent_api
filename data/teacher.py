@@ -19,6 +19,7 @@ class Teacher(SqlAlchemyBase, SerializerMixin):
     code = sqlalchemy.Column(sqlalchemy.String, unique=True)
     school_name = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey('schools.name'))
     school = relationship('School', foreign_keys=[school_name])
+    students = relationship("Student", back_populates='teacher', foreign_keys='Student.class_name')
 
     def __setitem__(self, key, value):
         if key == 'name':

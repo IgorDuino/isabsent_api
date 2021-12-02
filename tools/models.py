@@ -150,4 +150,10 @@ class AbsentList(BaseModel):
 
 class FindByCode(BaseModel):
     code: Optional[str]
-    tg_user_id: Optional[str]
+    tg_user_id: Optional[int]
+
+
+class FindByName(BaseModel):
+    code: Optional[str]
+    tg_user_id: Optional[int]
+    name: str
