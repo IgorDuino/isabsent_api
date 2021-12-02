@@ -83,6 +83,32 @@ class StudentAbsentList(BaseModel):
     absents: List[StudentAbsentGet]
 
 
+class StudentPost(BaseModel):
+    name: str
+    surname: str
+    patronymic: str
+    class_name: str
+
+
+class StudentListPost(BaseModel):
+    school_name: str
+    students: Optional[List[StudentPost]]
+
+
+class StudentGet(BaseModel):
+    name: str
+    surname: str
+    patronymic: str
+    class_name: str
+    school_name: str
+    code: str
+    tg_user_id: Optional[int]
+
+
+class StudentListGet(BaseModel):
+    students: List[StudentGet]
+
+
 class Student(BaseModel):
     name: str
     surname: str
@@ -95,3 +121,18 @@ class Student(BaseModel):
 class School(BaseModel):
     school_name: str
     link: str
+
+
+class SchoolGet(BaseModel):
+    school_name: str
+
+
+class Absent(BaseModel):
+    date: str
+    reason: str
+    code: str
+    file: Optional[bytes]
+
+
+class AbsentList(BaseModel):
+    absents: List[Absent]
