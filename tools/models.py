@@ -29,6 +29,32 @@ class Teacher(BaseModel):
     tg_user_id: Optional[int]
 
 
+class TeacherPost(BaseModel):
+    name: str
+    surname: str
+    patronymic: str
+    class_name: str
+
+
+class TeacherListPost(BaseModel):
+    school_name: str
+    teachers: Optional[List[TeacherPost]]
+
+
+class TeacherGet(BaseModel):
+    name: str
+    surname: str
+    patronymic: str
+    class_name: str
+    school_name: str
+    code: str
+    tg_user_id: Optional[int]
+
+
+class TeacherListGet(BaseModel):
+    teachers: List[TeacherGet]
+
+
 class StudentTgAuth(BaseModel):
     code: str
     tg_user_id: int
@@ -47,8 +73,14 @@ class StudentAbsent(BaseModel):
     file: Optional[bytes]
 
 
+class StudentAbsentGet(BaseModel):
+    date: str
+    reason: str
+    file: Optional[bytes]
+
+
 class StudentAbsentList(BaseModel):
-    absents: List[StudentAbsent]
+    absents: List[StudentAbsentGet]
 
 
 class Student(BaseModel):
@@ -58,3 +90,8 @@ class Student(BaseModel):
     class_name: str
     school_name: str
     tg_user_id: Optional[int]
+
+
+class School(BaseModel):
+    school_name: str
+    link: str
