@@ -55,6 +55,16 @@ class TeacherListGet(BaseModel):
     teachers: List[TeacherGet]
 
 
+class StudentTeacher(BaseModel):
+    name: str
+    surname: str
+    patronymic: str
+    class_name: str
+    school_name: str
+    type: str
+    tg_user_id: Optional[int]
+
+
 class StudentTgAuth(BaseModel):
     code: str
     tg_user_id: int
@@ -136,3 +146,8 @@ class Absent(BaseModel):
 
 class AbsentList(BaseModel):
     absents: List[Absent]
+
+
+class FindByCode(BaseModel):
+    code: Optional[str]
+    tg_user_id: Optional[str]
