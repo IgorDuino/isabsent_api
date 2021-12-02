@@ -125,8 +125,8 @@ class StudentDuplicateAbsent(Exception):
 
 
 class SchoolNotFoundError(Exception):
-    """Exception raised when school with given in request data code not found"""
-    def __init__(self, school_name: int):
+    """Exception raised when school with given in request data name not found"""
+    def __init__(self, school_name: str):
         self.school_name = school_name
 
     def __str__(self):
@@ -140,3 +140,16 @@ class SchoolDuplicateError(Exception):
 
     def __str__(self):
         return f'School with name: {self.school_name} is already exist'
+
+
+class StudentTeacherNotFoundError(Exception):
+    """Exception raised when teacher and student with given in request data code not found"""
+    def __init__(self, code: str = '', tg_user_id: int = -1):
+        self.code = code
+        self.tg_user_id = tg_user_id
+
+    def __str__(self):
+        if self.code != '':
+            return f'Student and Teacher with code: {self.code} not found'
+        if self.tg_user_id != -1:
+            return f'Student and Teacher with tg_id: {self.tg_user_id} not found'

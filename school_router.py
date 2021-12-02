@@ -200,7 +200,7 @@ def absents_get(body: json_body.SchoolGet):
                                400: {"model": json_body.BadResponse}})
 def students_post(body: json_body.StudentListPost):
     """
-        Add students list to given school:
+        Add student list to given school:
 
         - **school_name**: school name, required
         - **teachers**: list of students, not required, if not given, teachers will take from google spreadsheets
@@ -255,6 +255,11 @@ def students_post(body: json_body.StudentListPost):
                    responses={200: {"model": json_body.StudentListGet, "description": "Success response"},
                               400: {"model": json_body.BadResponse}})
 def students_get(body: json_body.SchoolGet):
+    """
+        Get student list from given school:
+
+        - **school_name**: school name, required
+    """
     try:
         db_sess = db_session.create_session()
         school_name = body.school_name
@@ -282,3 +287,93 @@ def students_get(body: json_body.SchoolGet):
         logging.warning(error)
         return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
                             status_code=status.HTTP_400_BAD_REQUEST.dict())
+
+
+@school_router.get('/school/find_by_code',
+                    summary='Get information about teacher',
+                    status_code=status.HTTP_200_OK,
+                    response_model=json_body.Teacher,
+                    responses={200: {"model": json_body.StudentTeacher, "description": "Successful Response"},
+                               400: {"model": json_body.BadResponse}})
+def find_by_code(body: json_body.FindByCode):
+    """
+        Get information about teacher with given code or tg user id, only one of parameters is required:
+
+        - **code**: unique code, all teachers have this code
+        - **tg_user_id**: unique telegram user id
+    """
+    try:
+        db_sess = db_session.create_session()
+
+        if not (body.code is None):
+            code = body.code
+            teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
+            student = db_sess.query(Student).filter(Student.code == code).first()
+
+            if not (teacher is None):
+                response_body = json_body.StudentTeacher(
+                    name=teacher.name,
+                    surname=teacher.surname,
+                    patronymic=teacher.patronymic,
+                    class_name=teacher.class_name,
+                    school_name=teacher.school_name,
+                    type='teacher'
+                )
+
+                if not (teacher.tg_user_id is None):
+                    response_body.tg_user_id = teacher.tg_user_id
+
+
+            elif not (student is None):
+                response_body = json_body.StudentTeacher(
+                    name=student.name,
+                    surname=student.surname,
+                    patronymic=student.patronymic,
+                    class_name=student.class_name,
+                    school_name=student.school_name,
+                    type='student'
+                )
+
+                if not (student.tg_user_id is None):
+                    response_body.tg_user_id = student.tg_user_id
+
+            else:
+                raise StudentTeacherNotFoundError(code=code)
+
+            return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
+
+        elif not (body.tg_user_id is None):
+            tg_user_id = body.tg_user_id
+            teacher = db_sess.query(Teacher).filter(Teacher.tg_user_id == tg_user_id).first()
+            student = db_sess.query(Student).filter(Student.tg_user_id == tg_user_id).first()
+
+            if not (teacher is None):
+                response_body = json_body.StudentTeacher(
+                    name=teacher.name,
+                    surname=teacher.surname,
+                    patronymic=teacher.patronymic,
+                    class_name=teacher.class_name,
+                    school_name=teacher.school_name,
+                    tg_user_id=teacher.tg_user_id,
+                    type='teacher'
+                )
+
+            elif not (student is None):
+                response_body = json_body.StudentTeacher(
+                    name=teacher.name,
+                    surname=teacher.surname,
+                    patronymic=teacher.patronymic,
+                    class_name=teacher.class_name,
+                    school_name=teacher.school_name,
+                    tg_user_id=teacher.tg_user_id,
+                    type='student'
+                )
+            else:
+                raise StudentTeacherNotFoundError(tg_user_id=tg_user_id)
+
+            return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
+
+    except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+        logging.warning(error)
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
+                            status_code=status.HTTP_400_BAD_REQUEST)
