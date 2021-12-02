@@ -42,11 +42,12 @@ def teacher_tg_auth(body: json_body.TeacherTgAuth):
         teacher.tg_user_id = tg_id
         db_sess.commit()
 
-        return JSONResponse(content=json_body.OkResponse(msg='HTTP 201 CREATED'), status_code=status.HTTP_201_CREATED)
+        return JSONResponse(content=json_body.OkResponse(msg='HTTP 201 CREATED').dict(),
+                            status_code=status.HTTP_201_CREATED)
     except (TeacherDuplicateTgUserIdError, TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
             RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
@@ -67,7 +68,7 @@ def teacher_pass(body: json_body.TeacherCodeTgUserId):
         old_code = ''
 
         db_sess = db_session.create_session()
-        gen_code = generate_unique_code(db_sess, Teacher)
+        gen_code = generate_unique_code(db_sess)
         if not (body.code is None):
             code = body.code
 
@@ -96,10 +97,11 @@ def teacher_pass(body: json_body.TeacherCodeTgUserId):
 
         google_spread_sheets.google_sheets_teacher_code_generate(link, old_code, gen_code)
 
-        return JSONResponse(content=json_body.OkResponse(msg='HTTP 201 CREATED'), status_code=status.HTTP_201_CREATED)
+        return JSONResponse(content=json_body.OkResponse(msg='HTTP 201 CREATED').dict()
+                            , status_code=status.HTTP_201_CREATED)
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
@@ -137,7 +139,7 @@ def teacher_get(body: json_body.TeacherCodeTgUserId):
             if not (teacher.tg_user_id is None):
                 response_body.tg_user_id = teacher.tg_user_id
 
-            return JSONResponse(content=response_body, status_code=status.HTTP_200_OK)
+            return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
 
         if not (body.tg_user_id is None):
             tg_user_id = body.tg_user_id
@@ -156,9 +158,9 @@ def teacher_get(body: json_body.TeacherCodeTgUserId):
                 tg_user_id=teacher.tg_user_id
             )
 
-            return JSONResponse(content=response_body, status_code=status.HTTP_200_OK)
+            return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
 
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)

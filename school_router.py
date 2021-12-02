@@ -7,6 +7,7 @@ from tools.error_book import *
 from data import db_session
 from data.school import School
 from data.teacher import Teacher
+from tools.settings import string_date_format
 from tools.tools import generate_unique_code
 from google_spreadsheets.google_spread_sheets import google_spread_sheets
 import tools.models as json_body
@@ -41,10 +42,11 @@ def school_post(body: json_body.School):
         db_sess.add(school)
         db_sess.commit()
 
-        return JSONResponse(content=json_body.OkResponse(msg='HTTP_201_CREATED'), status_code=status.HTTP_201_CREATED)
+        return JSONResponse(content=json_body.OkResponse(msg='HTTP_201_CREATED').dict(),
+                            status_code=status.HTTP_201_CREATED)
     except (SchoolDuplicateError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
@@ -79,10 +81,10 @@ def teachers_post(body: json_body.TeacherListPost):
             code = generate_unique_code(db_sess)
 
             teacher_list.append(Teacher(
-                name=teacher_json['name'],
-                surname=teacher_json['surname'],
-                patronymic=teacher_json['patronymic'],
-                class_name=teacher_json['class_name'],
+                name=teacher_json.name,
+                surname=teacher_json.surname,
+                patronymic=teacher_json.patronymic,
+                class_name=teacher_json.class_name,
                 school_name=school_name,
                 code=code
             ))
@@ -96,19 +98,20 @@ def teachers_post(body: json_body.TeacherListPost):
             link = school.link
             google_spread_sheets.google_sheets_teachers_codes(link, teacher_code_list)
 
-        return JSONResponse(content=json_body.OkResponse(msg='HTTP_201_CREATED'), status_code=status.HTTP_201_CREATED)
+        return JSONResponse(content=json_body.OkResponse(msg='HTTP_201_CREATED').dict(),
+                            status_code=status.HTTP_201_CREATED)
     except (StudentNotFoundError, SchoolNotFoundError, RequestDataKeysError,
             RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
 @school_router.get('/school/teachers',
                    summary='Get list of teachers',
-                   status_code=status.HTTP_200_OK)
-                   # responses={200: {"model": {json_body.TeacherListGet}, "description": "Success response"},
-                   #            400: {"model": json_body.BadResponse}})
+                   status_code=status.HTTP_200_OK,
+                   responses={200: {"model": json_body.TeacherListGet, "description": "Success response"},
+                              400: {"model": json_body.BadResponse}})
 def teachers_get(body: json_body.SchoolGet):
     """
         Get teacher list from given school:
@@ -125,27 +128,27 @@ def teachers_get(body: json_body.SchoolGet):
 
         teacher_list = db_sess.query(Teacher).filter(Teacher.school_name == school_name).all()
 
-        teacher_dict_list = json_body.TeacherListGet(teachers=[{}])
+        teacher_dict_list = json_body.TeacherListGet(teachers=[])
         for teacher in teacher_list:
-            teacher_dict = {
-                'name': teacher.name,
-                'surname': teacher.surname,
-                'patronymic': teacher.patronymic,
-                'class_name': teacher.class_name,
-                'school_name': teacher.school_name,
-                'code': teacher.code
-            }
+            response = json_body.TeacherGet(
+                name=teacher.name,
+                surname=teacher.surname,
+                patronymic=teacher.patronymic,
+                class_name=teacher.class_name,
+                school_name=teacher.school_name,
+                code=teacher.code
+            )
 
             if not (teacher.tg_user_id is None):
-                teacher_dict['tg_user_id'] = teacher.tg_user_id
+                response.tg_user_id = teacher.tg_user_id
 
-            teacher_dict_list.teachers.append(teacher_dict)
+            teacher_dict_list.teachers.append(response)
 
-        return JSONResponse(content=teacher_dict_list, status_code=status.HTTP_200_OK)
+        return JSONResponse(content=teacher_dict_list.dict(), status_code=status.HTTP_200_OK)
     except (StudentNotFoundError, SchoolNotFoundError, RequestDataKeysError,
             RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
@@ -154,7 +157,7 @@ def teachers_get(body: json_body.SchoolGet):
                    status_code=status.HTTP_200_OK,
                    responses={200: {"model": json_body.AbsentList, "description": "Successful response"},
                               400: {"model": json_body.BadResponse}})
-def absents_get(school_name: str):
+def absents_get(body: json_body.SchoolGet):
     """
        Get absent list from given school:
 
@@ -163,6 +166,7 @@ def absents_get(school_name: str):
     try:
         db_sess = db_session.create_session()
         absents = []
+        school_name = body.school_name
 
         students = db_sess.query(Student).filter(Student.school_name == school_name).all()
         for student in students:
@@ -172,7 +176,7 @@ def absents_get(school_name: str):
         for absent in absents:
             student = absent.student
             absent_json = {
-                "date": absent.date,
+                "date": datetime.date.strftime(absent.date, string_date_format),
                 "reason": absent.reason,
                 "code": student.code
             }
@@ -182,10 +186,10 @@ def absents_get(school_name: str):
 
             absent_json_list.absents.append(absent_json)
 
-        return JSONResponse(content=absent_json_list, status_code=status.HTTP_200_OK)
+        return JSONResponse(content=absent_json_list.dict(), status_code=status.HTTP_200_OK)
     except (RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
@@ -220,10 +224,10 @@ def students_post(body: json_body.StudentListPost):
             code = generate_unique_code(db_sess)
 
             student_list.append(Student(
-                name=student_json['name'],
-                surname=student_json['surname'],
-                patronymic=student_json['patronymic'],
-                class_name=student_json['class_name'],
+                name=student_json.name,
+                surname=student_json.surname,
+                patronymic=student_json.patronymic,
+                class_name=student_json.class_name,
                 school_name=school_name,
                 code=code
             ))
@@ -237,17 +241,18 @@ def students_post(body: json_body.StudentListPost):
             link = school.link
             google_spread_sheets.google_sheets_students_codes(link, student_code_list)
 
-        return JSONResponse(content=json_body.OkResponse(msg='HTTP_201_CREATED'), status_code=status.HTTP_201_CREATED)
+        return JSONResponse(content=json_body.OkResponse(msg='HTTP_201_CREATED').dict(),
+                            status_code=status.HTTP_201_CREATED)
     except (SchoolNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
 @school_router.get('/school/students',
                    summary='Get list of teachers',
                    status_code=status.HTTP_200_OK,
-                   responses={200: {"model": {json_body.StudentListGet}, "description": "Success response"},
+                   responses={200: {"model": json_body.StudentListGet, "description": "Success response"},
                               400: {"model": json_body.BadResponse}})
 def students_get(body: json_body.SchoolGet):
     try:
@@ -272,9 +277,8 @@ def students_get(body: json_body.SchoolGet):
 
             student_dict_list.students.append(student_dict)
 
-        return JSONResponse(content=student_dict_list, status_code=status.HTTP_200_OK)
+        return JSONResponse(content=student_dict_list.dict(), status_code=status.HTTP_200_OK)
     except (SchoolNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
         return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
-                            status_code=status.HTTP_400_BAD_REQUEST)
-
+                            status_code=status.HTTP_400_BAD_REQUEST.dict())
