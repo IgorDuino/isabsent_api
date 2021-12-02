@@ -1,11 +1,12 @@
 import logging
+from typing import List
 
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
 from tools.error_book import *
 from data import db_session
 from data.teacher import Teacher
-from tools.tools import generate_unique_code
+from tools.tools import generate_unique_code, find_student
 from google_spreadsheets.google_spread_sheets import google_spread_sheets
 import tools.models as json_body
 
@@ -159,6 +160,51 @@ def teacher_get(body: json_body.TeacherCodeTgUserId):
             )
 
             return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
+
+    except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+        logging.warning(error)
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
+                            status_code=status.HTTP_400_BAD_REQUEST)
+
+
+@teacher_router.get('/teacher/students_by_name',
+                    summary='Get information about teach ier',
+                    status_code=status.HTTP_200_OK,
+                    response_model=json_body.Teacher,
+                    responses={200: {"model": List[str], "description": "Successful Response"},
+                               400: {"model": json_body.BadResponse}})
+def teacher_get_student_by_name(body: json_body.FindByName):
+    """
+        Get information about teacher with given code or tg user id, only one of parameters is required:
+
+        - **code**: unique code, all teachers have this code
+        - **tg_user_id**: unique telegram user id
+    """
+    try:
+        db_sess = db_session.create_session()
+        teacher = None
+
+        if not (body.code is None):
+            code = body.code
+            teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
+
+            if teacher is None:
+                raise TeacherNotFoundError(teacher_code=code)
+
+        elif not (body.tg_user_id is None):
+            tg_user_id = body.tg_user_id
+
+            teacher = db_sess.query(Teacher).filter(Teacher.tg_user_id == tg_user_id).first()
+
+            if teacher is None:
+                raise TeacherNotFoundError(teacher_tg_user_id=tg_user_id)
+
+        student_list = []
+        for student in teacher.students:
+            student_list.append((f'{student.surname} {student.name} {student.patronymic}', student.code))
+
+        response_list = find_student(student_list, body.name)
+        return JSONResponse(content=response_list, status_code=status.HTTP_200_OK)
 
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
