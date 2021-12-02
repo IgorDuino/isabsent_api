@@ -90,12 +90,13 @@ def student_absent_post(body: json_body.StudentAbsent):
         db_sess.add(absent)
         db_sess.commit()
 
-        return JSONResponse(content=json_body.OkResponse(msg='HTTP_201_CREATED'), status_code=status.HTTP_201_CREATED)
+        return JSONResponse(content=json_body.OkResponse(msg='HTTP_201_CREATED').dict(),
+                            status_code=status.HTTP_201_CREATED)
 
     except (StudentDuplicateAbsent, StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
             RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
@@ -137,7 +138,7 @@ def student_absent_get(body: json_body.StudentCodeTgUserId):
         absent_list = json_body.StudentAbsentList(absents=[])
         for absent in absents:
             absent_json = {
-                "date": absent.date,
+                "date": datetime.date.strftime(absent.date, string_date_format),
                 "reason": absent.reason,
             }
 
@@ -145,13 +146,14 @@ def student_absent_get(body: json_body.StudentCodeTgUserId):
                 absent_json['file'] = str(absent.file)
 
             absent_list.absents.append(absent_json)
+        print(absent_list)
 
-        return JSONResponse(content=absent_list, status_code=status.HTTP_200_OK)
+        return JSONResponse(content=absent_list.dict(), status_code=status.HTTP_200_OK)
 
     except (StudentDuplicateAbsent, StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
             RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
@@ -184,11 +186,12 @@ def student_tg_auth(body: json_body.StudentTgAuth):
         student.tg_user_id = tg_id
         db_sess.commit()
 
-        return JSONResponse(content=json_body.OkResponse(msg='HTTP_201_CREATED'), status_code=status.HTTP_201_CREATED)
+        return JSONResponse(content=json_body.OkResponse(msg='HTTP_201_CREATED').dict(),
+                            status_code=status.HTTP_201_CREATED)
     except (StudentDuplicateTgUserIdError, StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
             RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
@@ -209,7 +212,7 @@ def student_pass(body: json_body.StudentCodeTgUserId):
         old_code = ''
 
         db_sess = db_session.create_session()
-        gen_code = generate_unique_code(db_sess, Student)
+        gen_code = generate_unique_code(db_sess)
         if not (body.code is None):
             code = body.code
 
@@ -238,10 +241,11 @@ def student_pass(body: json_body.StudentCodeTgUserId):
 
         google_spread_sheets.google_sheets_student_code_generate(link, old_code, gen_code)
 
-        return JSONResponse(content=json_body.OkResponse(msg='HTTP_201_CREATED'), status_code=status.HTTP_201_CREATED)
+        return JSONResponse(content=json_body.OkResponse(msg='HTTP_201_CREATED').dict(),
+                            status_code=status.HTTP_201_CREATED)
     except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
@@ -278,7 +282,7 @@ def student_get(body: json_body.StudentCodeTgUserId):
             if not (student.tg_user_id is None):
                 response_body.tg_user_id = student.tg_user_id
 
-            return JSONResponse(content=response_body, status_code=status.HTTP_200_OK)
+            return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
 
         elif not (body.tg_user_id is None):
             tg_user_id = body.tg_user_id
@@ -297,9 +301,9 @@ def student_get(body: json_body.StudentCodeTgUserId):
                 tg_user_id=student.tg_user_id
             )
 
-            return JSONResponse(content=response_body, status_code=status.HTTP_200_OK)
+            return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
 
     except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)),
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
