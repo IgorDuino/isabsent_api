@@ -10,7 +10,7 @@ from data.teacher import Teacher
 from tools.settings import string_date_format
 from tools.tools import generate_unique_code
 from google_spreadsheets.google_spread_sheets import google_spread_sheets
-import tools.models as json_body
+import routers.models as json_body
 
 
 school_router = APIRouter()
@@ -290,11 +290,11 @@ def students_get(body: json_body.SchoolGet):
 
 
 @school_router.get('/school/find_by_code',
-                    summary='Get information about teacher',
-                    status_code=status.HTTP_200_OK,
-                    response_model=json_body.Teacher,
-                    responses={200: {"model": json_body.StudentTeacher, "description": "Successful Response"},
-                               400: {"model": json_body.BadResponse}})
+                   summary='Get information about teacher',
+                   status_code=status.HTTP_200_OK,
+                   response_model=json_body.Teacher,
+                   responses={200: {"model": json_body.StudentTeacher, "description": "Successful Response"},
+                              400: {"model": json_body.BadResponse}})
 def find_by_code(body: json_body.FindByCode):
     """
         Get information about teacher with given code or tg user id, only one of parameters is required:
@@ -322,7 +322,6 @@ def find_by_code(body: json_body.FindByCode):
 
                 if not (teacher.tg_user_id is None):
                     response_body.tg_user_id = teacher.tg_user_id
-
 
             elif not (student is None):
                 response_body = json_body.StudentTeacher(

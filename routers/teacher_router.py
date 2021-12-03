@@ -9,7 +9,7 @@ from data import db_session
 from data.teacher import Teacher
 from tools.tools import generate_unique_code, find_student
 from google_spreadsheets.google_spread_sheets import google_spread_sheets
-import tools.models as json_body
+import routers.models as json_body
 
 
 teacher_router = APIRouter()
