@@ -20,7 +20,8 @@ def generate_unique_code(db_sess):
     return code
 
 
-def find_student(student_list, key):
-    find = process.extract(key, list(map(lambda x: x[0], student_list)))
-    print(find)
+def find_student(student_list: list, key: str) -> list:
+    student_name_list = list(map(lambda x: x[0], student_list))
+    find = process.extract(key, student_name_list)
+    find = list(map(lambda x: student_list[student_name_list.index(x[0])][1], find))
     return find
