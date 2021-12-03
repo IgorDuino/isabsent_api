@@ -1,8 +1,11 @@
 import logging
 from typing import List
 
+import requests
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
+
+from data.student import Student
 from tools.error_book import *
 from data import db_session
 from data.teacher import Teacher
@@ -168,17 +171,18 @@ def teacher_get(body: json_body.TeacherCodeTgUserId):
 
 
 @teacher_router.get('/teacher/students_by_name',
-                    summary='Get information about teach ier',
+                    summary='Get students by name',
                     status_code=status.HTTP_200_OK,
                     response_model=json_body.Teacher,
-                    responses={200: {"model": List[str], "description": "Successful Response"},
+                    responses={200: {"model": json_body.FindByNameResponse, "description": "Successful Response"},
                                400: {"model": json_body.BadResponse}})
 def teacher_get_student_by_name(body: json_body.FindByName):
     """
-        Get information about teacher with given code or tg user id, only one of parameters is required:
+        Get information about students with given code or tg user id:
 
-        - **code**: unique code, all teachers have this code
-        - **tg_user_id**: unique telegram user id
+        - **code**: unique code, all teachers have this code, not required
+        - **tg_user_id**: unique telegram user id, not required
+        - **name**: student name, required
     """
     try:
         db_sess = db_session.create_session()
@@ -204,7 +208,24 @@ def teacher_get_student_by_name(body: json_body.FindByName):
             student_list.append((f'{student.surname} {student.name} {student.patronymic}', student.code))
 
         response_list = find_student(student_list, body.name)
-        return JSONResponse(content=response_list, status_code=status.HTTP_200_OK)
+
+        response_json = json_body.FindByNameResponse(students=[])
+        for code in response_list:
+            student = db_sess.query(Student).filter(Student.code == code).first()
+            student_json = json_body.StudentGet(
+                name=student.name,
+                surname=student.surname,
+                patronymic=student.patronymic,
+                class_name=student.class_name,
+                school_name=student.school_name,
+                code=student.code
+            )
+            if not (student.tg_user_id is None):
+                student_json.tg_user_id = student.tg_user_id
+
+            response_json.students.append(student_json)
+        print(response_json)
+        return JSONResponse(content=response_json.dict(), status_code=status.HTTP_200_OK)
 
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
