@@ -4,7 +4,6 @@ from .db_session import SqlAlchemyBase
 from sqlalchemy_serializer import SerializerMixin
 
 
-
 # Класс учителя
 class Teacher(SqlAlchemyBase, SerializerMixin):
     # Название таблицы

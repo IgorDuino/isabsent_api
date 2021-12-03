@@ -2,14 +2,13 @@ import random
 
 from data.student import Student
 from data.teacher import Teacher
-from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
 
 def generate_random_code():
-    ETALON = list('qwertyuiopadfghjklzxcvbnm1234567890QWERTYUIOPASDFGHJKLZZXCVBNM')
-    random.shuffle(ETALON)
-    return ''.join(ETALON[:10])
+    etalon = list('qwertyuiopadfghjklzxcvbnm1234567890QWERTYUIOPASDFGHJKLZZXCVBNM')
+    random.shuffle(etalon)
+    return ''.join(etalon[:10])
 
 
 def generate_unique_code(db_sess):
