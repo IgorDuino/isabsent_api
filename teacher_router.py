@@ -224,7 +224,6 @@ def teacher_get_student_by_name(body: json_body.FindByName):
                 student_json.tg_user_id = student.tg_user_id
 
             response_json.students.append(student_json)
-        print(response_json)
         return JSONResponse(content=response_json.dict(), status_code=status.HTTP_200_OK)
 
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
