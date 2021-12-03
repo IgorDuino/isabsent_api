@@ -2,11 +2,10 @@ import uvicorn
 import logging
 
 from data import db_session
-from logging.config import fileConfig
 from fastapi import FastAPI
-from teacher_router import teacher_router
-from student_router import student_router
-from school_router import school_router
+from routers.teacher_router import teacher_router
+from routers.student_router import student_router
+from routers.school_router import school_router
 
 
 logger = logging.getLogger("uvicorn")

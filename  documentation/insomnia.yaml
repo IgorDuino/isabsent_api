@@ -1,11 +1,11 @@
 _type: export
 __export_format: 4
-__export_date: 2021-11-25T20:36:02.228Z
+__export_date: 2021-12-03T16:18:25.419Z
 __export_source: insomnia.desktop.app:v2021.6.0
 resources:
   - _id: req_8f39277882fa4a1fbcd51118b36f5d2a
     parentId: fld_dbe806a6472e4962bc6e49c48a4085b0
-    modified: 1637872429578
+    modified: 1638465514646
     created: 1637138194589
     url: http://localhost:5050/v1/student/code
     name: Generate new code for student
@@ -62,7 +62,7 @@ resources:
     _type: workspace
   - _id: req_fd44ef4b1ba44616b72db7a73455a98b
     parentId: fld_dbe806a6472e4962bc6e49c48a4085b0
-    modified: 1637872429042
+    modified: 1638465508092
     created: 1637093618562
     url: http://localhost:5050/v1/student/absent
     name: Add absent for current student
@@ -72,9 +72,9 @@ resources:
       mimeType: application/json
       text: |-
         {
-        	"date": "2010-10-8",
+        	"date": "2010-10-10",
         	"reason": "akjdakfa",
-        	"tg_user_id": 6
+        	"code": "YT6NkOCZEJ"
         }
     parameters: []
     headers:
@@ -93,7 +93,7 @@ resources:
     _type: request
   - _id: req_567a6ece421a4efab5542544e0a0e943
     parentId: fld_dbe806a6472e4962bc6e49c48a4085b0
-    modified: 1637872428510
+    modified: 1638468339831
     created: 1637085639537
     url: http://localhost:5050/v1/student/absent
     name: Get absent list for current student
@@ -103,7 +103,7 @@ resources:
       mimeType: application/json
       text: |-
         {
-        	"tg_user_id": 7
+        	"code": "qK8OpRZle6"
         }
     parameters: []
     headers:
@@ -122,7 +122,7 @@ resources:
     _type: request
   - _id: req_2d3d268b23524d4fa37c4e0dc0ea5cbc
     parentId: fld_dbe806a6472e4962bc6e49c48a4085b0
-    modified: 1637872427764
+    modified: 1638468362291
     created: 1637137283918
     url: http://localhost:5050/v1/student
     name: Get student by code or tg user id
@@ -132,7 +132,7 @@ resources:
       mimeType: application/json
       text: |-
         {
-        	"tg_user_id": 0
+        	"code": "nErpM7j8H6"
         }
     parameters: []
     headers:
@@ -151,7 +151,7 @@ resources:
     _type: request
   - _id: req_e3a4e422b104431e8a1bea6c317e10da
     parentId: fld_dbe806a6472e4962bc6e49c48a4085b0
-    modified: 1637872427182
+    modified: 1638465490725
     created: 1636842385697
     url: http://localhost:5050/v1/student/tg_auth
     name: Auth to student tg id
@@ -181,7 +181,7 @@ resources:
     _type: request
   - _id: req_d109675ff805406f8e1a510b6fced6e4
     parentId: fld_d03493e78f7d46209e60d48009a943a4
-    modified: 1637872438202
+    modified: 1638472860613
     created: 1637871151106
     url: http://localhost:5050/v1/teacher
     name: Get teacher by code or tg user id
@@ -191,7 +191,7 @@ resources:
       mimeType: application/json
       text: |-
         {
-        	"code": "lPZHz9v74m"
+        	"code": "gMRKrFdZwn"
         }
     parameters: []
     headers:
@@ -218,9 +218,39 @@ resources:
     environmentPropertyOrder: null
     metaSortKey: -1636912831842
     _type: request_group
+  - _id: req_8af9528d1ccb42c8bd7956fadd037822
+    parentId: fld_d03493e78f7d46209e60d48009a943a4
+    modified: 1638546937161
+    created: 1638472887184
+    url: http://localhost:5050/v1/teacher/students_by_name
+    name: Get list of students by name
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"tg_user_id": 12,
+        	"name": "Анто"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_dc9294117c0c4896bf8156c30ebb7714
+    authentication: {}
+    metaSortKey: -1636869359042
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
   - _id: req_6ce06d541a3c49b6b408f63564c52bf8
     parentId: fld_d03493e78f7d46209e60d48009a943a4
-    modified: 1637872440319
+    modified: 1638465446853
     created: 1637133004699
     url: http://localhost:5050/v1/teacher/code
     name: Generate new code for teacher
@@ -230,8 +260,8 @@ resources:
       mimeType: application/json
       text: |-
         {
-        	"tg_user_id": 5
-        }
+        	"tg_user_id": 12
+        } 
     parameters: []
     headers:
       - name: Content-Type
@@ -249,7 +279,7 @@ resources:
     _type: request
   - _id: req_66a4b952a7724af38ddf648601f5d21c
     parentId: fld_d03493e78f7d46209e60d48009a943a4
-    modified: 1637872437084
+    modified: 1638465487250
     created: 1636840058672
     url: http://localhost:5050/v1/teacher/tg_auth
     name: Auth to teacher tg id
@@ -259,8 +289,8 @@ resources:
       mimeType: application/json
       text: |-
         {
-        	"code": "QHPknptmLW",
-        	"tg_user_id": 5
+        	"code": "gMRKrFdZwn",
+        	"tg_user_id": 12
         }
     parameters: []
     headers:
@@ -279,7 +309,7 @@ resources:
     _type: request
   - _id: req_4d9be788724a448286400d20a8b98c29
     parentId: fld_205b986641bf4a3cbed5716186383583
-    modified: 1637872432649
+    modified: 1638465049531
     created: 1636835116369
     url: http://localhost:5050/v1/school
     name: Add new school
@@ -319,7 +349,7 @@ resources:
     _type: request_group
   - _id: req_c6ab2b789fb247abb83877c7d9c90185
     parentId: fld_205b986641bf4a3cbed5716186383583
-    modified: 1637872433081
+    modified: 1638467421799
     created: 1636834822640
     url: http://localhost:5050/v1/school/teachers
     name: Add list of teachers
@@ -363,7 +393,7 @@ resources:
     _type: request
   - _id: req_dcd83f7ac460475c9ab1f75cc7f1510e
     parentId: fld_205b986641bf4a3cbed5716186383583
-    modified: 1637872433567
+    modified: 1638465058751
     created: 1636912765476
     url: http://localhost:5050/v1/school/teachers
     name: Get teacher list from school
@@ -392,7 +422,7 @@ resources:
     _type: request
   - _id: req_ca87f3d882244ff48f2264b6fc574ffd
     parentId: fld_205b986641bf4a3cbed5716186383583
-    modified: 1637872434446
+    modified: 1638465333162
     created: 1636836037798
     url: http://localhost:5050/v1/school/students
     name: Add list of students
@@ -436,7 +466,7 @@ resources:
     _type: request
   - _id: req_81a8d195c7624717bddfe8c7ea030c48
     parentId: fld_205b986641bf4a3cbed5716186383583
-    modified: 1637872434713
+    modified: 1638465336069
     created: 1636896331898
     url: http://localhost:5050/v1/school/students
     name: Get student list from school
@@ -465,7 +495,7 @@ resources:
     _type: request
   - _id: req_8fdffbca98234eeea126c0aa93a34567
     parentId: fld_205b986641bf4a3cbed5716186383583
-    modified: 1637872435638
+    modified: 1638465338836
     created: 1637090079514
     url: http://localhost:5050/v1/school/absents
     name: Get absents list from school
@@ -484,6 +514,35 @@ resources:
         id: pair_7135cbae195743d4b89214ca6285ce69
     authentication: {}
     metaSortKey: -1624579480513.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_efe9fb91294843229e069448889cef1a
+    parentId: fld_088af33907d746f08b72d6b76925a3e5
+    modified: 1638468312527
+    created: 1638467445754
+    url: http://localhost:5050/v1/school/find_by_code
+    name: Get teacher or student by code
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"code": "fGB4yAPkQo"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_1ae0db481ea344349196f5517b744737
+    authentication: {}
+    metaSortKey: -1636912831742
     isPrivate: false
     settingStoreCookies: true
     settingSendCookies: true
