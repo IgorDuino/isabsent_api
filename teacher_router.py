@@ -1,10 +1,8 @@
 import logging
-from typing import List
 
-import requests
+
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
-
 from data.student import Student
 from tools.error_book import *
 from data import db_session
@@ -20,8 +18,8 @@ teacher_router = APIRouter()
 @teacher_router.post("/teacher/tg_auth",
                      summary='Binding tg user id to teacher code',
                      status_code=status.HTTP_201_CREATED,
-                     responses = {201: {"model": json_body.OkResponse, "description": "Tg user id has been bind"},
-                                  400: {"model": json_body.BadResponse}})
+                     responses={201: {"model": json_body.OkResponse, "description": "Tg user id has been bind"},
+                                400: {"model": json_body.BadResponse}})
 def teacher_tg_auth(body: json_body.TeacherTgAuth):
     """
         Binding tg user id to teacher code, all parameters are required:
@@ -101,8 +99,8 @@ def teacher_pass(body: json_body.TeacherCodeTgUserId):
 
         google_spread_sheets.google_sheets_teacher_code_generate(link, old_code, gen_code)
 
-        return JSONResponse(content=json_body.OkResponse(msg='HTTP 201 CREATED').dict()
-                            , status_code=status.HTTP_201_CREATED)
+        return JSONResponse(content=json_body.OkResponse(msg='HTTP 201 CREATED').dict(),
+                            status_code=status.HTTP_201_CREATED)
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
         return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
