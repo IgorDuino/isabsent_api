@@ -1,7 +1,8 @@
-<<<<<<< HEAD
-# isabsent_api
-
-APIдля проекта IsAbsent
-=======
 isabsenttable@isabsent.iam.gserviceaccount.com
->>>>>>> mod req.txt
+
+Запуск:
+    1. docker-compose build
+    2. docker-compose up
+
+После отключения:
+    3. docker-compose down

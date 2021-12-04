@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    volumes:
+      - ./logs:/logs
+    restart: always
+    ports:
+      - 5050:5050
+
+#  db: # когда-нибудь пригодится))
+#    build: postgres:12
+#    restart: always
+#    network_mode: host
+#    environment:
+#      POSTGRES_DB: ${POSTGRES_DB}
+#      POSTGRES_USER: ${POSTGRES_USER}
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#    volumes:
+#      - block_db_volume:/var/lib/postgresql/data
+# volumes:
+#    block_db_volume: null
