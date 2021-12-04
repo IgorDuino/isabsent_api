@@ -5,14 +5,13 @@ certifi==2021.10.8
 charset-normalizer==2.0.7
 click==8.0.3
 colorama==0.4.4
-fastapi==0.70.0
 Flask==2.0.2
 fuzzywuzzy==0.18.0
 google-auth==2.3.3
 google-auth-oauthlib==0.4.6
 greenlet==1.1.2
-gspread==4.0.1
 h11==0.12.0
+gspread==4.0.1
 httptools==0.2.0
 idna==3.3
 itsdangerous==2.0.1
@@ -34,8 +33,8 @@ SQLAlchemy-serializer==1.4.1
 starlette==0.16.0
 typing-extensions==4.0.0
 urllib3==1.26.7
-uvicorn==0.15.0
+fastapi
+uvicorn
 uvloop==0.16.0
 watchgod==0.7
 websockets==10.1
-Werkzeug==2.0.2
