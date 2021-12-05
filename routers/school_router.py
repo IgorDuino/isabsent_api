@@ -12,7 +12,6 @@ from tools.tools import generate_unique_code
 from google_spreadsheets.google_spread_sheets import google_spread_sheets
 import routers.models as json_body
 
-
 school_router = APIRouter()
 
 
@@ -372,7 +371,8 @@ def find_by_code(body: json_body.FindByCode):
 
             return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
 
-    except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+    except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError,
+            StudentTeacherNotFoundError) as error:
         logging.warning(error)
         return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
