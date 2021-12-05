@@ -49,6 +49,32 @@ def school_post(body: json_body.School):
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
+@school_router.get('/schools',
+                   summary='Get school list',
+                   status_code=status.HTTP_200_OK,
+                   responses={200: {"model": json_body.SchoolList, "description": "Successful response"},
+                              400: {"model": json_body.BadResponse}})
+def school_post():
+    """
+        Get school list, no parameters need
+    """
+    try:
+        db_sess = db_session.create_session()
+
+        school_list = db_sess.query(School).all()
+
+        response_dict = json_body.SchoolList(schools=[])
+        for school in school_list:
+            response_dict.schools.append(json_body.School(school_name=school.name, link=school.link))
+
+        return JSONResponse(content=response_dict.dict(),
+                            status_code=status.HTTP_200_OK)
+    except (SchoolDuplicateError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+        logging.warning(error)
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
+                            status_code=status.HTTP_400_BAD_REQUEST)
+
+
 @school_router.post('/school/teachers',
                     summary='Add list of teachers',
                     status_code=status.HTTP_201_CREATED,
