@@ -359,12 +359,12 @@ def find_by_code(body: json_body.FindByCode):
 
             elif not (student is None):
                 response_body = json_body.StudentTeacher(
-                    name=teacher.name,
-                    surname=teacher.surname,
-                    patronymic=teacher.patronymic,
-                    class_name=teacher.class_name,
-                    school_name=teacher.school_name,
-                    tg_user_id=teacher.tg_user_id,
+                    name=student.name,
+                    surname=student.surname,
+                    patronymic=student.patronymic,
+                    class_name=student.class_name,
+                    school_name=student.school_name,
+                    tg_user_id=student.tg_user_id,
                     type='student'
                 )
             else:
