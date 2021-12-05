@@ -49,6 +49,40 @@ def school_post(body: json_body.School):
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
+@school_router.post('/school',
+                    summary='Add new school',
+                    status_code=status.HTTP_201_CREATED,
+                    responses={201: {"model": json_body.OkResponse, "description": "Sucse"},
+                               400: {"model": json_body.BadResponse}})
+def school_post(body: json_body.School):
+    """
+        Add new school, all parameters are required:
+
+        - **school_name**: school name
+        - **link**: link to google spreadsheets
+    """
+    try:
+        db_sess = db_session.create_session()
+
+        school = db_sess.query(School).get(body.school_name)
+        if school is not None:
+            raise SchoolDuplicateError(body.school_name)
+
+        school = School(
+            name=body.school_name,
+            link=body.link
+        )
+        db_sess.add(school)
+        db_sess.commit()
+
+        return JSONResponse(content=json_body.OkResponse(msg='HTTP_201_CREATED').dict(),
+                            status_code=status.HTTP_201_CREATED)
+    except (SchoolDuplicateError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+        logging.warning(error)
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
+                            status_code=status.HTTP_400_BAD_REQUEST)
+
+
 @school_router.post('/school/teachers',
                     summary='Add list of teachers',
                     status_code=status.HTTP_201_CREATED,
@@ -193,7 +227,7 @@ def absents_get(body: json_body.SchoolGet):
 
 
 @school_router.post('/school/students',
-                    summary='Add list of teachers',
+                    summary='Add list of students',
                     status_code=status.HTTP_201_CREATED,
                     responses={201: {"model": json_body.OkResponse, "description": "Students has been added"},
                                400: {"model": json_body.BadResponse}})
@@ -249,7 +283,7 @@ def students_post(body: json_body.StudentListPost):
 
 
 @school_router.get('/school/students',
-                   summary='Get list of teachers',
+                   summary='Get list of students',
                    status_code=status.HTTP_200_OK,
                    responses={200: {"model": json_body.StudentListGet, "description": "Success response"},
                               400: {"model": json_body.BadResponse}})
