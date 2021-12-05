@@ -45,7 +45,6 @@ class GoogleSpreadSheetsApi:
         data = data[1:]
 
         teachers_list_dict = {
-            "school_name": school,
             "teachers": []
         }
 
@@ -93,7 +92,6 @@ class GoogleSpreadSheetsApi:
         data = data[1:]
 
         student_dict_list = {
-            "school_name": school,
             "students": []
         }
 
