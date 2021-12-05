@@ -415,3 +415,202 @@ Finished server process [1187]
 Started server process [1203]
 Waiting for application startup.
 Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/uvicorn/protocols/http/httptools_impl.py", line 375, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/uvicorn/middleware/proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/fastapi/applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/middleware/errors.py", line 181, in __call__
+    raise exc
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/middleware/errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/exceptions.py", line 82, in __call__
+    raise exc
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/routing.py", line 61, in app
+    response = await func(request)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/fastapi/routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/fastapi/routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/anyio/to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/anyio/_backends/_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/anyio/_backends/_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/routers/school_router.py", line 371, in find_by_code
+    raise StudentTeacherNotFoundError(tg_user_id=tg_user_id)
+tools.error_book.StudentTeacherNotFoundError: Student and Teacher with tg_id: 902729981 not found
+Exception in ASGI application
+Traceback (most recent call last):
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/uvicorn/protocols/http/httptools_impl.py", line 375, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/uvicorn/middleware/proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/fastapi/applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/middleware/errors.py", line 181, in __call__
+    raise exc
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/middleware/errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/exceptions.py", line 82, in __call__
+    raise exc
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/routing.py", line 61, in app
+    response = await func(request)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/fastapi/routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/fastapi/routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/anyio/to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/anyio/_backends/_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/anyio/_backends/_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/routers/school_router.py", line 371, in find_by_code
+    raise StudentTeacherNotFoundError(tg_user_id=tg_user_id)
+tools.error_book.StudentTeacherNotFoundError: Student and Teacher with tg_id: 902729981 not found
+Exception in ASGI application
+Traceback (most recent call last):
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/uvicorn/protocols/http/httptools_impl.py", line 375, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/uvicorn/middleware/proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/fastapi/applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/middleware/errors.py", line 181, in __call__
+    raise exc
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/middleware/errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/exceptions.py", line 82, in __call__
+    raise exc
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/routing.py", line 61, in app
+    response = await func(request)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/fastapi/routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/fastapi/routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/anyio/to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/anyio/_backends/_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/anyio/_backends/_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/routers/school_router.py", line 371, in find_by_code
+    raise StudentTeacherNotFoundError(tg_user_id=tg_user_id)
+tools.error_book.StudentTeacherNotFoundError: Student and Teacher with tg_id: 902729981 not found
+Exception in ASGI application
+Traceback (most recent call last):
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/uvicorn/protocols/http/httptools_impl.py", line 375, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/uvicorn/middleware/proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/fastapi/applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/middleware/errors.py", line 181, in __call__
+    raise exc
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/middleware/errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/exceptions.py", line 82, in __call__
+    raise exc
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/routing.py", line 61, in app
+    response = await func(request)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/fastapi/routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/fastapi/routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/anyio/to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/anyio/_backends/_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/anyio/_backends/_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/routers/school_router.py", line 371, in find_by_code
+    raise StudentTeacherNotFoundError(tg_user_id=tg_user_id)
+tools.error_book.StudentTeacherNotFoundError: Student and Teacher with tg_id: 902729981 not found
+Exception in ASGI application
+Traceback (most recent call last):
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/uvicorn/protocols/http/httptools_impl.py", line 375, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/uvicorn/middleware/proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/fastapi/applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/middleware/errors.py", line 181, in __call__
+    raise exc
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/middleware/errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/exceptions.py", line 82, in __call__
+    raise exc
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/routing.py", line 61, in app
+    response = await func(request)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/fastapi/routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/fastapi/routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/starlette/concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/anyio/to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/anyio/_backends/_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/venv/lib/python3.8/site-packages/anyio/_backends/_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "/mnt/d/Projects/IsAbsent/isabsent_api/routers/school_router.py", line 371, in find_by_code
+    raise StudentTeacherNotFoundError(tg_user_id=tg_user_id)
+tools.error_book.StudentTeacherNotFoundError: Student and Teacher with tg_id: 902729981 not found
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [1203]
