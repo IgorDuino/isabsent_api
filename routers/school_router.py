@@ -80,10 +80,10 @@ def teachers_post(body: json_body.TeacherListPost):
             code = generate_unique_code(db_sess)
 
             teacher_list.append(Teacher(
-                name=teacher_json.name,
-                surname=teacher_json.surname,
-                patronymic=teacher_json.patronymic,
-                class_name=teacher_json.class_name,
+                name=teacher_json['name'],
+                surname=teacher_json['surname'],
+                patronymic=teacher_json['patronymic'],
+                class_name=teacher_json['class_name'],
                 school_name=school_name,
                 code=code
             ))
@@ -219,14 +219,15 @@ def students_post(body: json_body.StudentListPost):
 
         student_list = []
         student_code_list = []
+
         for student_json in body.students:
             code = generate_unique_code(db_sess)
 
             student_list.append(Student(
-                name=student_json.name,
-                surname=student_json.surname,
-                patronymic=student_json.patronymic,
-                class_name=student_json.class_name,
+                name=student_json['name'],
+                surname=student_json['surname'],
+                patronymic=student_json['patronymic'],
+                class_name=student_json['class_name'],
                 school_name=school_name,
                 code=code
             ))

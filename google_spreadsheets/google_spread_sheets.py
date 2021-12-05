@@ -44,12 +44,10 @@ class GoogleSpreadSheetsApi:
 
         data = data[1:]
 
-        teachers_list_dict = {
-            "teachers": []
-        }
+        teachers_list = []
 
         for student in data:
-            teachers_list_dict['teachers'].append(
+            teachers_list.append(
                 {
                     'name': student[2],
                     'surname': student[1],
@@ -58,7 +56,7 @@ class GoogleSpreadSheetsApi:
                 }
             )
 
-        return teachers_list_dict
+        return teachers_list
 
     def google_sheets_students_codes(self, link: str, code_list: list):
         """Adding students codes into google sheet"""
@@ -91,12 +89,10 @@ class GoogleSpreadSheetsApi:
 
         data = data[1:]
 
-        student_dict_list = {
-            "students": []
-        }
+        student_list = []
 
         for student in data:
-            student_dict_list['students'].append(
+            student_list.append(
                 {
                     'name': student[2],
                     'surname': student[1],
@@ -105,7 +101,7 @@ class GoogleSpreadSheetsApi:
                 }
             )
 
-        return student_dict_list
+        return student_list
 
     def google_sheets_student_absent(self, link: str, date: datetime.date, reason: str,
                                      name: str, surname: str, patronymic: str, class_name: str, proof: bytes = ''):
