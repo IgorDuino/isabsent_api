@@ -132,6 +132,9 @@ class School(BaseModel):
     school_name: str
     link: str
 
+class SchoolList(BaseModel):
+    schools: List[School]
+
 
 class SchoolGet(BaseModel):
     school_name: str

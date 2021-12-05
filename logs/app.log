@@ -799,6 +799,24 @@ Finished server process [24641]
 Started server process [24703]
 Waiting for application startup.
 Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [24703]
+Started server process [24870]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [24870]
+Started server process [24974]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [24974]
 Started server process [1476]
 Waiting for application startup.
 Application startup complete.
@@ -998,5 +1016,29 @@ Waiting for application shutdown.
 Application shutdown complete.
 Finished server process [1531]
 Started server process [1548]
+Waiting for application startup.
+Application startup complete.
+Started server process [25521]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [25521]
+Started server process [25623]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [25623]
+Started server process [25723]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [25723]
+Started server process [25797]
 Waiting for application startup.
 Application startup complete.
