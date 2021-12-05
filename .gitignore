@@ -1,3 +1,5 @@
 /tools/test.py
 /tools/img.PNG
 venv
+logs/app.log
+/data/is_absent.sqlite
