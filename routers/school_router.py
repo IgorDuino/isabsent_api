@@ -49,40 +49,6 @@ def school_post(body: json_body.School):
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
-@school_router.post('/school',
-                    summary='Add new school',
-                    status_code=status.HTTP_201_CREATED,
-                    responses={201: {"model": json_body.OkResponse, "description": "Sucse"},
-                               400: {"model": json_body.BadResponse}})
-def school_post(body: json_body.School):
-    """
-        Add new school, all parameters are required:
-
-        - **school_name**: school name
-        - **link**: link to google spreadsheets
-    """
-    try:
-        db_sess = db_session.create_session()
-
-        school = db_sess.query(School).get(body.school_name)
-        if school is not None:
-            raise SchoolDuplicateError(body.school_name)
-
-        school = School(
-            name=body.school_name,
-            link=body.link
-        )
-        db_sess.add(school)
-        db_sess.commit()
-
-        return JSONResponse(content=json_body.OkResponse(msg='HTTP_201_CREATED').dict(),
-                            status_code=status.HTTP_201_CREATED)
-    except (SchoolDuplicateError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
-        logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
-                            status_code=status.HTTP_400_BAD_REQUEST)
-
-
 @school_router.post('/school/teachers',
                     summary='Add list of teachers',
                     status_code=status.HTTP_201_CREATED,
@@ -105,7 +71,7 @@ def teachers_post(body: json_body.TeacherListPost):
             raise StudentNotFoundError(school_name)
 
         if body.teachers is None:
-            body = google_spread_sheets.google_sheets_get_teachers(school.link, school_name)
+            body.teachers = google_spread_sheets.google_sheets_get_teachers(school.link, school_name)
             from_sheet_flag = True
 
         teacher_list = []
@@ -248,7 +214,7 @@ def students_post(body: json_body.StudentListPost):
             raise SchoolNotFoundError(school_name)
 
         if body.students is None:
-            body = google_spread_sheets.google_sheets_get_students(school.link, school_name)
+            body.students = google_spread_sheets.google_sheets_get_students(school.link, school_name)
             from_sheet_flag = True
 
         student_list = []
