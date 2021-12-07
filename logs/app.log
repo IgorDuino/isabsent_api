@@ -1042,3 +1042,14 @@ Finished server process [25723]
 Started server process [25797]
 Waiting for application startup.
 Application startup complete.
+Shutting down
+Finished server process [25797]
+Traceback (most recent call last):
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/starlette/routing.py", line 624, in lifespan
+    await receive()
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/uvicorn/lifespan/on.py", line 135, in receive
+    return await self.receive_queue.get()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/asyncio/queues.py", line 163, in get
+    await getter
+asyncio.exceptions.CancelledError
+
