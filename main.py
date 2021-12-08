@@ -19,4 +19,4 @@ app.include_router(school_router, prefix="/v1", tags=["School"])
 db_session.global_init("data/is_absent.sqlite")
 
 if __name__ == "__main__":  # Подключение к БД
-    uvicorn.run("main:app", host="0.0.0.0", port=5050, reload=True)
+    uvicorn.run("main:app", host="localhost", port=5050, reload=True)

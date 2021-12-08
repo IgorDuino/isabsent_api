@@ -94,7 +94,7 @@ def teachers_post(body: json_body.TeacherListPost):
         school_name = body.school_name
         school = db_sess.query(School).get(school_name)
         if school is None:
-            raise StudentNotFoundError(school_name)
+            raise SchoolNotFoundError(school_name)
 
         if body.teachers is None:
             body.teachers = google_spread_sheets.google_sheets_get_teachers(school.link, school_name)

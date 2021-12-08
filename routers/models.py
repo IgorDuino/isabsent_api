@@ -164,3 +164,9 @@ class FindByName(BaseModel):
 
 class FindByNameResponse(BaseModel):
     students: List[StudentGet]
+
+
+class TeacherAbsents(BaseModel):
+    date: Optional[str]
+    code: Optional[str]
+    tg_user_id: Optional[int]
