@@ -7,6 +7,7 @@ from data.student import Student
 from tools.error_book import *
 from data import db_session
 from data.teacher import Teacher
+from tools.settings import string_date_format
 from tools.tools import generate_unique_code, find_student
 from google_spreadsheets.google_spread_sheets import google_spread_sheets
 import routers.models as json_body
@@ -171,7 +172,6 @@ def teacher_get(body: json_body.TeacherCodeTgUserId):
 @teacher_router.get('/teacher/students_by_name',
                     summary='Get students by name',
                     status_code=status.HTTP_200_OK,
-                    response_model=json_body.Teacher,
                     responses={200: {"model": json_body.FindByNameResponse, "description": "Successful Response"},
                                400: {"model": json_body.BadResponse}})
 def teacher_get_student_by_name(body: json_body.FindByName):
@@ -224,6 +224,74 @@ def teacher_get_student_by_name(body: json_body.FindByName):
             response_json.students.append(student_json)
         return JSONResponse(content=response_json.dict(), status_code=status.HTTP_200_OK)
 
+    except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+        logging.warning(error)
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
+                            status_code=status.HTTP_400_BAD_REQUEST)
+
+
+
+@teacher_router.get('/teacher/absent',
+                    summary='Get teacher`s student absent list',
+                    status_code=status.HTTP_200_OK,
+                    responses={200: {"model": json_body.AbsentList, "description": "Successful Response"},
+                               400: {"model": json_body.BadResponse}})
+def teacher_students_absents(body: json_body.TeacherAbsents):
+    """
+        Get student absent from teacher with given code or tg user id:
+
+        - **code**: unique code, all teachers have this code, not required
+        - **tg_user_id**: unique telegram user id, not required
+        - **date**: absent date, not required
+    """
+    try:
+        db_sess = db_session.create_session()
+        response_dict = json_body.AbsentList(absents=[])
+        if not (body.code is None):
+            teacher = db_sess.query(Teacher).filter(Teacher.code == body.code).first()
+            if teacher is None:
+                raise TeacherNotFoundError(teacher_code=body.code)
+
+            for student in teacher.students:
+                for absent in student.absents:
+                    if body.date is None:
+                        response_dict.absents.append(json_body.Absent(
+                            date=absent.date.isoformat(),
+                            reason=absent.reason,
+                            code=student.code
+                        ))
+                        continue
+
+                    if absent.date.isoformat() == body.date:
+                        response_dict.absents.append(json_body.Absent(
+                            date=absent.date.isoformat(),
+                            reason=absent.reason,
+                            code=student.code,
+                        ))
+
+        elif not (body.tg_user_id is None):
+            teacher = db_sess.query(Teacher).filter(Teacher.tg_user_id == body.tg_user_id).first()
+            if teacher is None:
+                raise TeacherNotFoundError(teacher_tg_user_id=body.tg_user_id)
+
+            for student in teacher.students:
+                for absent in student.absents:
+                    if body.date is None:
+                        response_dict.absents.append(json_body.Absent(
+                            date=absent.date,
+                            reason=absent.reason,
+                            code=student.code,
+                        ))
+                        continue
+
+                    if absent.date.isoformat() == body.date:
+                        response_dict.absents.append(json_body.Absent(
+                            date=absent.date,
+                            reason=absent.reason,
+                            code=student.code,
+                        ))
+
+        return JSONResponse(content=response_dict.dict(), status_code=status.HTTP_200_OK)
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
         return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
