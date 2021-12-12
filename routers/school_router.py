@@ -1,4 +1,5 @@
 import logging
+import routers.models as json_body
 
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
@@ -10,7 +11,7 @@ from data.teacher import Teacher
 from tools.settings import string_date_format
 from tools.tools import generate_unique_code
 from google_spreadsheets.google_spread_sheets import google_spread_sheets
-import routers.models as json_body
+
 
 school_router = APIRouter()
 

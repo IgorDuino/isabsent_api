@@ -1292,3 +1292,136 @@ Finished server process [35941]
 Started server process [35970]
 Waiting for application startup.
 Application startup complete.
+Started server process [36139]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Finished server process [36139]
+Traceback (most recent call last):
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/starlette/routing.py", line 624, in lifespan
+    await receive()
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/uvicorn/lifespan/on.py", line 135, in receive
+    return await self.receive_queue.get()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/asyncio/queues.py", line 163, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+Started server process [36274]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Finished server process [36274]
+Traceback (most recent call last):
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/starlette/routing.py", line 624, in lifespan
+    await receive()
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/uvicorn/lifespan/on.py", line 135, in receive
+    return await self.receive_queue.get()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/asyncio/queues.py", line 163, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+Started server process [45370]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Finished server process [45370]
+Traceback (most recent call last):
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/starlette/routing.py", line 624, in lifespan
+    await receive()
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/uvicorn/lifespan/on.py", line 135, in receive
+    return await self.receive_queue.get()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/asyncio/queues.py", line 163, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+Started server process [45389]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Finished server process [45389]
+Traceback (most recent call last):
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/starlette/routing.py", line 624, in lifespan
+    await receive()
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/uvicorn/lifespan/on.py", line 135, in receive
+    return await self.receive_queue.get()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/asyncio/queues.py", line 163, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+Started server process [45405]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Finished server process [45405]
+Traceback (most recent call last):
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/starlette/routing.py", line 624, in lifespan
+    await receive()
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/uvicorn/lifespan/on.py", line 135, in receive
+    return await self.receive_queue.get()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/asyncio/queues.py", line 163, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+Started server process [45446]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Finished server process [45446]
+Traceback (most recent call last):
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/starlette/routing.py", line 624, in lifespan
+    await receive()
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/uvicorn/lifespan/on.py", line 135, in receive
+    return await self.receive_queue.get()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/asyncio/queues.py", line 163, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+Started server process [45462]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [45462]
+Started server process [45480]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [45480]
+Started server process [45560]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [45560]
+Started server process [45578]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Finished server process [45578]
+Traceback (most recent call last):
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/starlette/routing.py", line 624, in lifespan
+    await receive()
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/uvicorn/lifespan/on.py", line 135, in receive
+    return await self.receive_queue.get()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/asyncio/queues.py", line 163, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+Started server process [45636]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Finished server process [45636]
+Traceback (most recent call last):
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/starlette/routing.py", line 624, in lifespan
+    await receive()
+  File "/Users/father/PycharmProjects/is_absent/venv/lib/python3.8/site-packages/uvicorn/lifespan/on.py", line 135, in receive
+    return await self.receive_queue.get()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/asyncio/queues.py", line 163, in get
+    await getter
+asyncio.exceptions.CancelledError
+
