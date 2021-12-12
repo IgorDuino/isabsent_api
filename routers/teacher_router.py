@@ -7,7 +7,6 @@ from data.student import Student
 from tools.error_book import *
 from data import db_session
 from data.teacher import Teacher
-from tools.settings import string_date_format
 from tools.tools import generate_unique_code, find_student
 from google_spreadsheets.google_spread_sheets import google_spread_sheets
 import routers.models as json_body
@@ -228,7 +227,6 @@ def teacher_get_student_by_name(body: json_body.FindByName):
         logging.warning(error)
         return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
-
 
 
 @teacher_router.get('/teacher/absent',
