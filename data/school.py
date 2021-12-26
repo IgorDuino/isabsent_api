@@ -4,12 +4,10 @@ from .db_session import SqlAlchemyBase
 from sqlalchemy_serializer import SerializerMixin
 
 
-# Класс школы
 class School(SqlAlchemyBase, SerializerMixin):
-    # Название таблицы
     __tablename__ = 'schools'
 
-    name = sqlalchemy.Column(sqlalchemy.String, unique=True, primary_key=True)
-    link = sqlalchemy.Column(sqlalchemy.String)
-    teachers = relationship("Teacher", back_populates='school', foreign_keys='Teacher.school_name')
-    students = relationship("Student", back_populates='school', foreign_keys='Student.school_name')
+    name = sqlalchemy.Column(sqlalchemy.String, unique=True, primary_key=True)  # school name
+    link = sqlalchemy.Column(sqlalchemy.String)  # link to school google spreadsheets
+    teachers = relationship("Teacher", back_populates='school', foreign_keys='Teacher.school_name')  # list of teachers
+    students = relationship("Student", back_populates='school', foreign_keys='Student.school_name')  # list of students

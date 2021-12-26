@@ -3,3 +3,4 @@
 venv
 logs/app.log
 /data/is_absent.sqlite
+/tools/img2.png

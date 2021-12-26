@@ -4,24 +4,16 @@ from .db_session import SqlAlchemyBase
 from sqlalchemy_serializer import SerializerMixin
 
 
-# Класс учителя
 class Teacher(SqlAlchemyBase, SerializerMixin):
-    # Название таблицы
     __tablename__ = 'teachers'
 
-    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
-    tg_user_id = sqlalchemy.Column(sqlalchemy.Integer, unique=True, nullable=True)
-    name = sqlalchemy.Column(sqlalchemy.String)
-    surname = sqlalchemy.Column(sqlalchemy.String)
-    patronymic = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    class_name = sqlalchemy.Column(sqlalchemy.String)
-    code = sqlalchemy.Column(sqlalchemy.String, unique=True)
-    school_name = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey('schools.name'))
-    school = relationship('School', foreign_keys=[school_name])
-    students = relationship("Student", back_populates='teacher', foreign_keys='Student.class_name')
-
-    def __setitem__(self, key, value):
-        if key == 'name':
-            self.name = value
-        elif key == 'class_name':
-            self.class_name = value
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)  # id
+    tg_user_id = sqlalchemy.Column(sqlalchemy.Integer, unique=True, nullable=True)  # teacher telegram id
+    name = sqlalchemy.Column(sqlalchemy.String)  # teacher name
+    surname = sqlalchemy.Column(sqlalchemy.String)  # teacher surname
+    patronymic = sqlalchemy.Column(sqlalchemy.String, nullable=True)  # teacher patronymic
+    class_name = sqlalchemy.Column(sqlalchemy.String)  # teacher class name
+    code = sqlalchemy.Column(sqlalchemy.String, unique=True)  # teacher unique code
+    school_name = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey('schools.name'))  # teacher school name
+    school = relationship('School', foreign_keys=[school_name])  # teacher school
+    students = relationship("Student", back_populates='teacher', foreign_keys='Student.class_name')  # teacher students
