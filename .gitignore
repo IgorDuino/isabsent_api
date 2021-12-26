@@ -3,4 +3,7 @@
 venv
 logs/app.log
 /data/is_absent.sqlite
+<<<<<<< HEAD
 /tools/img2.png
+=======
+>>>>>>> origin/fast_api
