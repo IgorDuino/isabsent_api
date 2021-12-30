@@ -113,7 +113,7 @@ def teacher_pass(body: json_body.TeacherCodeTgUserId):
                     response_model=json_body.Teacher,
                     responses={200: {"model": json_body.Teacher, "description": "Successful Response"},
                                400: {"model": json_body.BadResponse}})
-def teacher_get(body: json_body.TeacherCodeTgUserId):
+def teacher_get(code: str = None, tg_user_id: int = None):
     """
         Get information about teacher with given code or tg user id, only one of parameters is required:
 
@@ -123,8 +123,7 @@ def teacher_get(body: json_body.TeacherCodeTgUserId):
     try:
         db_sess = db_session.create_session()
 
-        if not (body.code is None):
-            code = body.code
+        if not (code is None):
             teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
 
             if teacher is None:
@@ -143,9 +142,7 @@ def teacher_get(body: json_body.TeacherCodeTgUserId):
 
             return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
 
-        if not (body.tg_user_id is None):
-            tg_user_id = body.tg_user_id
-
+        if not (tg_user_id is None):
             teacher = db_sess.query(Teacher).filter(Teacher.tg_user_id == tg_user_id).first()
 
             if teacher is None:
@@ -173,7 +170,7 @@ def teacher_get(body: json_body.TeacherCodeTgUserId):
                     status_code=status.HTTP_200_OK,
                     responses={200: {"model": json_body.FindByNameResponse, "description": "Successful Response"},
                                400: {"model": json_body.BadResponse}})
-def teacher_get_student_by_name(body: json_body.FindByName):
+def teacher_get_student_by_name(name: str, code: str = None, tg_user_id: int = None):
     """
         Get information about students with given code or tg user id:
 
@@ -185,16 +182,13 @@ def teacher_get_student_by_name(body: json_body.FindByName):
         db_sess = db_session.create_session()
         teacher = None
 
-        if not (body.code is None):
-            code = body.code
+        if not (code is None):
             teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
 
             if teacher is None:
                 raise TeacherNotFoundError(teacher_code=code)
 
-        elif not (body.tg_user_id is None):
-            tg_user_id = body.tg_user_id
-
+        elif not (tg_user_id is None):
             teacher = db_sess.query(Teacher).filter(Teacher.tg_user_id == tg_user_id).first()
 
             if teacher is None:
@@ -204,7 +198,7 @@ def teacher_get_student_by_name(body: json_body.FindByName):
         for student in teacher.students:
             student_list.append((f'{student.surname} {student.name} {student.patronymic}', student.code))
 
-        response_list = find_student(student_list, body.name)
+        response_list = find_student(student_list, name)
 
         response_json = json_body.FindByNameResponse(students=[])
         for code in response_list:
@@ -234,7 +228,7 @@ def teacher_get_student_by_name(body: json_body.FindByName):
                     status_code=status.HTTP_200_OK,
                     responses={200: {"model": json_body.AbsentList, "description": "Successful Response"},
                                400: {"model": json_body.BadResponse}})
-def teacher_students_absents(body: json_body.TeacherAbsents):
+def teacher_students_absents(date: str, code: str = None, tg_user_id: int = None):
     """
         Get student absent from teacher with given code or tg user id:
 
@@ -245,14 +239,14 @@ def teacher_students_absents(body: json_body.TeacherAbsents):
     try:
         db_sess = db_session.create_session()
         response_dict = json_body.AbsentList(absents=[])
-        if not (body.code is None):
-            teacher = db_sess.query(Teacher).filter(Teacher.code == body.code).first()
+        if not (code is None):
+            teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
             if teacher is None:
-                raise TeacherNotFoundError(teacher_code=body.code)
+                raise TeacherNotFoundError(teacher_code=code)
 
             for student in teacher.students:
                 for absent in student.absents:
-                    if body.date is None:
+                    if date is None:
                         response_dict.absents.append(json_body.Absent(
                             date=absent.date.isoformat(),
                             reason=absent.reason,
@@ -260,21 +254,21 @@ def teacher_students_absents(body: json_body.TeacherAbsents):
                         ))
                         continue
 
-                    if absent.date.isoformat() == body.date:
+                    if absent.date.isoformat() == date:
                         response_dict.absents.append(json_body.Absent(
                             date=absent.date.isoformat(),
                             reason=absent.reason,
                             code=student.code,
                         ))
 
-        elif not (body.tg_user_id is None):
-            teacher = db_sess.query(Teacher).filter(Teacher.tg_user_id == body.tg_user_id).first()
+        elif not (tg_user_id is None):
+            teacher = db_sess.query(Teacher).filter(Teacher.tg_user_id == tg_user_id).first()
             if teacher is None:
-                raise TeacherNotFoundError(teacher_tg_user_id=body.tg_user_id)
+                raise TeacherNotFoundError(teacher_tg_user_id=tg_user_id)
 
             for student in teacher.students:
                 for absent in student.absents:
-                    if body.date is None:
+                    if date is None:
                         response_dict.absents.append(json_body.Absent(
                             date=absent.date,
                             reason=absent.reason,
@@ -282,7 +276,7 @@ def teacher_students_absents(body: json_body.TeacherAbsents):
                         ))
                         continue
 
-                    if absent.date.isoformat() == body.date:
+                    if absent.date.isoformat() == date:
                         response_dict.absents.append(json_body.Absent(
                             date=absent.date,
                             reason=absent.reason,

@@ -137,10 +137,6 @@ class SchoolList(BaseModel):
     schools: List[School]
 
 
-class SchoolGet(BaseModel):
-    school_name: str
-
-
 class Absent(BaseModel):
     date: str
     reason: str
@@ -152,22 +148,5 @@ class AbsentList(BaseModel):
     absents: List[Absent]
 
 
-class FindByCode(BaseModel):
-    code: Optional[str]
-    tg_user_id: Optional[int]
-
-
-class FindByName(BaseModel):
-    code: Optional[str]
-    tg_user_id: Optional[int]
-    name: str
-
-
 class FindByNameResponse(BaseModel):
     students: List[StudentGet]
-
-
-class TeacherAbsents(BaseModel):
-    date: Optional[str]
-    code: Optional[str]
-    tg_user_id: Optional[int]

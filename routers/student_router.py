@@ -105,7 +105,7 @@ def student_absent_post(body: json_body.StudentAbsent):
                     status_code=status.HTTP_200_OK,
                     responses={200: {"model": json_body.StudentAbsentList, "description": "Successful Response"},
                                400: {"model": json_body.BadResponse}})
-def student_absent_get(body: json_body.StudentCodeTgUserId):
+def student_absent_get(code: str = None, tg_user_id: int = None):
     """
         Get student absents by code or tg user id, only one of parameters is required:
 
@@ -116,20 +116,19 @@ def student_absent_get(body: json_body.StudentCodeTgUserId):
         db_sess = db_session.create_session()
         student_id = 0
 
-        if not (body.code is None):
-            student_code = body.code
-            student = db_sess.query(Student).filter(Student.code == student_code).first()
+        if not (code is None):
+            student = db_sess.query(Student).filter(Student.code == code).first()
 
             if student is None:
-                raise StudentNotFoundError(student_code=student_code)
+                raise StudentNotFoundError(student_code=code)
 
             student_id = student.id
 
-        elif not (body.tg_user_id is None):
-            student = db_sess.query(Student).filter(Student.tg_user_id == body.tg_user_id).first()
+        elif not (tg_user_id is None):
+            student = db_sess.query(Student).filter(Student.tg_user_id == tg_user_id).first()
 
             if student is None:
-                raise StudentNotFoundError(student_tg_user_id=body.tg_user_id)
+                raise StudentNotFoundError(student_tg_user_id=tg_user_id)
 
             student_id = student.id
 
@@ -146,7 +145,6 @@ def student_absent_get(body: json_body.StudentCodeTgUserId):
                 absent_json['file'] = str(absent.file)
 
             absent_list.absents.append(absent_json)
-        print(absent_list)
 
         return JSONResponse(content=absent_list.dict(), status_code=status.HTTP_200_OK)
 
@@ -255,7 +253,7 @@ def student_pass(body: json_body.StudentCodeTgUserId):
                     response_model=json_body.Teacher,
                     responses={200: {"model": json_body.Student, "description": "Successful Response"},
                                400: {"model": json_body.BadResponse}})
-def student_get(body: json_body.StudentCodeTgUserId):
+def student_get(code: str = None, tg_user_id: int = None):
     """
         Get information about student with given code or tg user id, only one of parameters is required:
 
@@ -264,8 +262,7 @@ def student_get(body: json_body.StudentCodeTgUserId):
     """
     try:
         db_sess = db_session.create_session()
-        if not (body.code is None):
-            code = body.code
+        if not (code is None):
             student = db_sess.query(Student).filter(Student.code == code).first()
 
             if student is None:
@@ -284,9 +281,7 @@ def student_get(body: json_body.StudentCodeTgUserId):
 
             return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
 
-        elif not (body.tg_user_id is None):
-            tg_user_id = body.tg_user_id
-
+        elif not (tg_user_id is None):
             student = db_sess.query(Student).filter(Student.tg_user_id == tg_user_id).first()
 
             if student is None:

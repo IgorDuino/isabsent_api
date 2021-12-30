@@ -55,7 +55,7 @@ def school_post(body: json_body.School):
                    status_code=status.HTTP_200_OK,
                    responses={200: {"model": json_body.SchoolList, "description": "Successful response"},
                               400: {"model": json_body.BadResponse}})
-def school_post():
+def schools_get():
     """
         Get school list, no parameters need
     """
@@ -138,7 +138,7 @@ def teachers_post(body: json_body.TeacherListPost):
                    status_code=status.HTTP_200_OK,
                    responses={200: {"model": json_body.TeacherListGet, "description": "Success response"},
                               400: {"model": json_body.BadResponse}})
-def teachers_get(body: json_body.SchoolGet):
+def teachers_get(school_name: str):
     """
         Get teacher list from given school:
 
@@ -146,7 +146,6 @@ def teachers_get(body: json_body.SchoolGet):
     """
     try:
         db_sess = db_session.create_session()
-        school_name = body.school_name
 
         school = db_sess.query(School).get(school_name)
         if school is None:
@@ -183,7 +182,7 @@ def teachers_get(body: json_body.SchoolGet):
                    status_code=status.HTTP_200_OK,
                    responses={200: {"model": json_body.AbsentList, "description": "Successful response"},
                               400: {"model": json_body.BadResponse}})
-def absents_get(body: json_body.SchoolGet):
+def absents_get(school_name: str):
     """
        Get absent list from given school:
 
@@ -192,7 +191,6 @@ def absents_get(body: json_body.SchoolGet):
     try:
         db_sess = db_session.create_session()
         absents = []
-        school_name = body.school_name
 
         students = db_sess.query(Student).filter(Student.school_name == school_name).all()
         for student in students:
@@ -281,7 +279,7 @@ def students_post(body: json_body.StudentListPost):
                    status_code=status.HTTP_200_OK,
                    responses={200: {"model": json_body.StudentListGet, "description": "Success response"},
                               400: {"model": json_body.BadResponse}})
-def students_get(body: json_body.SchoolGet):
+def students_get(school_name: str):
     """
         Get student list from given school:
 
@@ -289,7 +287,6 @@ def students_get(body: json_body.SchoolGet):
     """
     try:
         db_sess = db_session.create_session()
-        school_name = body.school_name
 
         student_list = db_sess.query(Student).filter(Student.school_name == school_name).all()
 
@@ -322,7 +319,7 @@ def students_get(body: json_body.SchoolGet):
                    response_model=json_body.Teacher,
                    responses={200: {"model": json_body.StudentTeacher, "description": "Successful Response"},
                               400: {"model": json_body.BadResponse}})
-def find_by_code(body: json_body.FindByCode):
+def find_by_code(code: str = None, tg_user_id: int = None):
     """
         Get information about teacher with given code or tg user id, only one of parameters is required:
 
@@ -332,8 +329,7 @@ def find_by_code(body: json_body.FindByCode):
     try:
         db_sess = db_session.create_session()
 
-        if not (body.code is None):
-            code = body.code
+        if not (code is None):
             teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
             student = db_sess.query(Student).filter(Student.code == code).first()
 
@@ -368,8 +364,7 @@ def find_by_code(body: json_body.FindByCode):
 
             return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
 
-        elif not (body.tg_user_id is None):
-            tg_user_id = body.tg_user_id
+        elif not (tg_user_id is None):
             teacher = db_sess.query(Teacher).filter(Teacher.tg_user_id == tg_user_id).first()
             student = db_sess.query(Student).filter(Student.tg_user_id == tg_user_id).first()
 
@@ -398,6 +393,8 @@ def find_by_code(body: json_body.FindByCode):
                 raise StudentTeacherNotFoundError(tg_user_id=tg_user_id)
 
             return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
+        else:
+            raise RequestDataKeysError([], ['code', 'tg_user_id'])
 
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError,
             StudentTeacherNotFoundError) as error:
