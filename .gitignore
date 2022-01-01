@@ -1,9 +1,4 @@
-/tools/test.py
-/tools/img.PNG
 venv
 logs/app.log
 /data/is_absent.sqlite
-<<<<<<< HEAD
-/tools/img2.png
-=======
->>>>>>> origin/fast_api
+/google_spreadsheets/google_credentials.json
