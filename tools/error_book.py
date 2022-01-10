@@ -135,7 +135,7 @@ class SchoolNotFoundError(Exception):
 
 class SchoolDuplicateError(Exception):
     """Exception raised when school with given in request data name is already exist"""
-    def __init__(self, school_name: int):
+    def __init__(self, school_name: str):
         self.school_name = school_name
 
     def __str__(self):

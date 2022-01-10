@@ -74,7 +74,7 @@ class GoogleSpreadSheetsApi:
         cell: gspread.Cell = worksheet.find(old_code)
 
         if cell is None:
-            raise StudentNotFoundError(teacher_code=old_code, google_spread_sheet_link=link)
+            raise StudentNotFoundError(student_code=old_code, google_spread_sheet_link=link)
 
         worksheet.update(cell.address, code)
 
