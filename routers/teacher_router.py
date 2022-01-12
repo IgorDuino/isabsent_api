@@ -94,6 +94,8 @@ def teacher_pass(body: json_body.TeacherCodeTgUserId):
             teacher.code = gen_code
             school = teacher.school
             link = school.link
+        else:
+            raise RequestDataKeysError([], ['code', 'tg_user_id'])
 
         db_sess.commit()
 
@@ -142,7 +144,7 @@ def teacher_get(code: str = None, tg_user_id: int = None):
 
             return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
 
-        if not (tg_user_id is None):
+        elif not (tg_user_id is None):
             teacher = db_sess.query(Teacher).filter(Teacher.tg_user_id == tg_user_id).first()
 
             if teacher is None:
@@ -158,6 +160,9 @@ def teacher_get(code: str = None, tg_user_id: int = None):
             )
 
             return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
+
+        else:
+            raise RequestDataKeysError([], ['code', 'tg_user_id'])
 
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
@@ -194,6 +199,9 @@ def teacher_get_student_by_name(name: str, code: str = None, tg_user_id: int = N
             if teacher is None:
                 raise TeacherNotFoundError(teacher_tg_user_id=tg_user_id)
 
+        else:
+            raise RequestDataKeysError([], ['code', 'tg_user_id'])
+
         student_list = []
         for student in teacher.students:
             student_list.append((f'{student.surname} {student.name} {student.patronymic}', student.code))
@@ -223,7 +231,7 @@ def teacher_get_student_by_name(name: str, code: str = None, tg_user_id: int = N
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
-@teacher_router.get('/teacher/absent',
+@teacher_router.get('/teacher/absents',
                     summary='Get teacher`s student absent list',
                     status_code=status.HTTP_200_OK,
                     responses={200: {"model": json_body.AbsentList, "description": "Successful Response"},
@@ -234,7 +242,7 @@ def teacher_students_absents(date: str, code: str = None, tg_user_id: int = None
 
         - **code**: unique code, all teachers have this code, not required
         - **tg_user_id**: unique telegram user id, not required
-        - **date**: absent date, not required
+        - **date**: absent date, required
     """
     try:
         db_sess = db_session.create_session()
@@ -278,10 +286,12 @@ def teacher_students_absents(date: str, code: str = None, tg_user_id: int = None
 
                     if absent.date.isoformat() == date:
                         response_dict.absents.append(json_body.Absent(
-                            date=absent.date,
+                            date=absent.date.isoformat(),
                             reason=absent.reason,
                             code=student.code,
                         ))
+        else:
+            raise RequestDataKeysError([], ['code', 'tg_user_id'])
 
         return JSONResponse(content=response_dict.dict(), status_code=status.HTTP_200_OK)
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:

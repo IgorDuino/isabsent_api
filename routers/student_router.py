@@ -60,6 +60,8 @@ def student_absent_post(body: json_body.StudentAbsent):
             student_id = student.id
             school = student.school
             link = school.link
+        else:
+            raise RequestDataKeysError([], ['code', 'tg_user_id'])
 
         absents = db_sess.query(Absent).filter(Absent.student_id == student_id).all()
 
@@ -94,7 +96,7 @@ def student_absent_post(body: json_body.StudentAbsent):
                             status_code=status.HTTP_201_CREATED)
 
     except (StudentDuplicateAbsent, StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
-            RequestDataTypeError) as error:
+            RequestDataTypeError, ValueError) as error:
         logging.warning(error)
         return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
@@ -131,6 +133,8 @@ def student_absent_get(code: str = None, tg_user_id: int = None):
                 raise StudentNotFoundError(student_tg_user_id=tg_user_id)
 
             student_id = student.id
+        else:
+            raise RequestDataKeysError([], ['code', 'tg_user_id'])
 
         absents = db_sess.query(Absent).filter(Absent.student_id == student_id).all()
 
@@ -235,6 +239,9 @@ def student_pass(body: json_body.StudentCodeTgUserId):
             school = student.school
             link = school.link
 
+        else:
+            raise RequestDataKeysError([], ['code', 'tg_user_id'])
+
         db_sess.commit()
 
         google_spread_sheets.google_sheets_student_code_generate(link, old_code, gen_code)
@@ -297,6 +304,9 @@ def student_get(code: str = None, tg_user_id: int = None):
             )
 
             return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
+
+        else:
+            raise RequestDataKeysError([], ['code', 'tg_user_id'])
 
     except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
