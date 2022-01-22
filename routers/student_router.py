@@ -102,7 +102,7 @@ def student_absent_post(body: json_body.StudentAbsent):
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
-@student_router.get('/student/absent',
+@student_router.get('/student/absents',
                     summary='Get student absent list',
                     status_code=status.HTTP_200_OK,
                     responses={200: {"model": json_body.StudentAbsentList, "description": "Successful Response"},

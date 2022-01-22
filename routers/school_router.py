@@ -50,6 +50,32 @@ def school_post(body: json_body.School):
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
+@school_router.get('/school',
+                   summary='Get information about school',
+                   status_code=status.HTTP_200_OK,
+                   responses={200: {"model": json_body.School, "description": "Successful response"},
+                              400: {"model": json_body.BadResponse}})
+def school_get(name: str):
+    """
+        Get information about school by name:
+
+        - **school_name**: school name, required
+    """
+    try:
+        db_sess = db_session.create_session()
+
+        school = db_sess.query(School).get(name)
+        if school is None:
+            raise SchoolNotFoundError(name)
+
+        return JSONResponse(content=json_body.School(school_name=name, link=school.link).dict(),
+                            status_code=status.HTTP_200_OK)
+    except (SchoolNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+        logging.warning(error)
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
+                            status_code=status.HTTP_400_BAD_REQUEST)
+
+
 @school_router.get('/schools',
                    summary='Get school list',
                    status_code=status.HTTP_200_OK,
