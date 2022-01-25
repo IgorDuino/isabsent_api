@@ -2399,3 +2399,139 @@ Started server process [31680]
 Waiting for application startup.
 Application startup complete.
 Shutting down
+Started server process [34172]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Started server process [33136]
+Waiting for application startup.
+Application startup complete.
+Started server process [2296]
+Waiting for application startup.
+Application startup complete.
+Started server process [34792]
+Waiting for application startup.
+Application startup complete.
+Started server process [16464]
+Waiting for application startup.
+Application startup complete.
+Started server process [32236]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [32236]
+Started server process [24836]
+Waiting for application startup.
+Application startup complete.
+Started server process [15636]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Started server process [4888]
+Waiting for application startup.
+Application startup complete.
+Started server process [7456]
+Waiting for application startup.
+Application startup complete.
+Started server process [1332]
+Waiting for application startup.
+Application startup complete.
+Started server process [35032]
+Waiting for application startup.
+Application startup complete.
+Started server process [21344]
+Waiting for application startup.
+Application startup complete.
+Started server process [3404]
+Waiting for application startup.
+Application startup complete.
+Started server process [27068]
+Waiting for application startup.
+Application startup complete.
+Started server process [5388]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [5388]
+Started server process [19080]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Started server process [35388]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [35388]
+Started server process [31568]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 373, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 159, in run_endpoint_function
+    return await dependant.call(**values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\auth_router.py", line 50, in login_for_access_token
+    user = db_sess.query(User).get(User.login == form_data.username)
+  File "<string>", line 2, in get
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\deprecations.py", line 401, in warned
+    return fn(*args, **kwargs)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 943, in get
+    return self._get_impl(ident, loading.load_on_pk_identity)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 947, in _get_impl
+    return self.session._get_impl(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2874, in _get_impl
+    return db_load_fn(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\loading.py", line 464, in load_on_pk_identity
+    if None in primary_key_identity:
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\sql\elements.py", line 3885, in __bool__
+    raise TypeError("Boolean value of this clause is not defined")
+TypeError: Boolean value of this clause is not defined
+Shutting down
+Started server process [15256]
+Waiting for application startup.
+Application startup complete.
+Started server process [23472]
+Waiting for application startup.
+Application startup complete.
+Started server process [33416]
+Waiting for application startup.
+Application startup complete.
+Started server process [12364]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [12364]
+Started server process [31400]
+Waiting for application startup.
+Application startup complete.

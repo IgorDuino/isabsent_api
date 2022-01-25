@@ -3,11 +3,11 @@ import routers.models as json_body
 
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
-from data.student import Student
 from tools.error_book import *
 from data import db_session
 from data.school import School
 from data.teacher import Teacher
+from data.student import Student
 from tools.settings import string_date_format
 from tools.tools import generate_unique_code
 from google_spreadsheets.google_spread_sheets import google_spread_sheets
