@@ -342,12 +342,11 @@ def students_get(school_name: str):
 @school_router.get('/school/find_by_code',
                    summary='Get information about teacher',
                    status_code=status.HTTP_200_OK,
-                   response_model=json_body.Teacher,
                    responses={200: {"model": json_body.StudentTeacher, "description": "Successful Response"},
                               400: {"model": json_body.BadResponse}})
 def find_by_code(code: str = None, tg_user_id: int = None):
     """
-        Get information about teacher with given code or tg user id, only one of parameters is required:
+        Get information about teacher or student with given code or tg user id, only one of parameters is required:
 
         - **code**: unique code, all teachers have this code
         - **tg_user_id**: unique telegram user id
@@ -424,6 +423,34 @@ def find_by_code(code: str = None, tg_user_id: int = None):
 
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError,
             StudentTeacherNotFoundError) as error:
+        logging.warning(error)
+        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
+                            status_code=status.HTTP_400_BAD_REQUEST)
+
+
+@school_router.delete('/school',
+                      summary='Delete school',
+                      status_code=status.HTTP_200_OK,
+                      responses={200: {"model": json_body.OkResponse, "description": "Successful Response"},
+                                 400: {"model": json_body.BadResponse}})
+def del_school(name: str):
+    """
+        Delete school with given name:
+
+        - **name**: unique name,
+        - **tg_user_id**: unique telegram user id
+    """
+    try:
+        db_sess = db_session.create_session()
+        school = db_sess.query(School).get(name)
+        if school is None:
+            raise SchoolNotFoundError(school_name=name)
+
+        db_sess.delete(school)
+        db_sess.commit()
+        return JSONResponse(content=json_body.OkResponse(msg='HTTP 200 OK').dict(),
+                            status_code=status.HTTP_200_OK)
+    except SchoolNotFoundError as error:
         logging.warning(error)
         return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
