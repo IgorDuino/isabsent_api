@@ -9,7 +9,7 @@ from data import db_session
 from data.teacher import Teacher
 from tools.tools import generate_unique_code, find_student
 from google_spreadsheets.google_spread_sheets import google_spread_sheets
-import routers.models as json_body
+import routers.models as schemas
 
 
 teacher_router = APIRouter()
@@ -18,9 +18,9 @@ teacher_router = APIRouter()
 @teacher_router.post("/teacher/tg_auth",
                      summary='Binding tg user id to teacher code',
                      status_code=status.HTTP_201_CREATED,
-                     responses={201: {"model": json_body.OkResponse, "description": "Tg user id has been bind"},
-                                400: {"model": json_body.BadResponse}})
-def teacher_tg_auth(body: json_body.TeacherTgAuth):
+                     responses={201: {"model": schemas.OkResponse, "description": "Tg user id has been bind"},
+                                400: {"model": schemas.BadResponse}})
+def teacher_tg_auth(body: schemas.TgAuth):
     """
         Binding tg user id to teacher code, all parameters are required:
 
@@ -44,21 +44,21 @@ def teacher_tg_auth(body: json_body.TeacherTgAuth):
         teacher.tg_user_id = tg_id
         db_sess.commit()
 
-        return JSONResponse(content=json_body.OkResponse(msg='HTTP 201 CREATED').dict(),
+        return JSONResponse(content=schemas.OkResponse(msg='HTTP 201 CREATED').dict(),
                             status_code=status.HTTP_201_CREATED)
     except (TeacherDuplicateTgUserIdError, TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
             RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
+        return JSONResponse(content=schemas.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
 @teacher_router.post('/teacher/code',
                      summary='Generating new code for teacher',
                      status_code=status.HTTP_201_CREATED,
-                     responses={201: {"model": json_body.OkResponse, "description": "New code generate success"},
-                                400: {"model": json_body.BadResponse}})
-def teacher_pass(body: json_body.TeacherCodeTgUserId):
+                     responses={201: {"model": schemas.OkResponse, "description": "New code generate success"},
+                                400: {"model": schemas.BadResponse}})
+def teacher_pass(body: schemas.CodeTgUserId):
     """
         Generating new code for teacher, only one of parameters is required:
 
@@ -101,20 +101,20 @@ def teacher_pass(body: json_body.TeacherCodeTgUserId):
 
         google_spread_sheets.google_sheets_teacher_code_generate(link, old_code, gen_code)
 
-        return JSONResponse(content=json_body.OkResponse(msg='HTTP 201 CREATED').dict(),
+        return JSONResponse(content=schemas.OkResponse(msg='HTTP 201 CREATED').dict(),
                             status_code=status.HTTP_201_CREATED)
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
+        return JSONResponse(content=schemas.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
 @teacher_router.get('/teacher',
                     summary='Get information about teacher',
                     status_code=status.HTTP_200_OK,
-                    response_model=json_body.Teacher,
-                    responses={200: {"model": json_body.Teacher, "description": "Successful Response"},
-                               400: {"model": json_body.BadResponse}})
+                    response_model=schemas.TeacherGet,
+                    responses={200: {"model": schemas.TeacherGet, "description": "Successful Response"},
+                               400: {"model": schemas.BadResponse}})
 def teacher_get(code: str = None, tg_user_id: int = None):
     """
         Get information about teacher with given code or tg user id, only one of parameters is required:
@@ -131,12 +131,13 @@ def teacher_get(code: str = None, tg_user_id: int = None):
             if teacher is None:
                 raise TeacherNotFoundError(teacher_code=code)
 
-            response_body = json_body.Teacher(
+            response_body = schemas.TeacherGet(
                 name=teacher.name,
                 surname=teacher.surname,
                 patronymic=teacher.patronymic,
                 class_name=teacher.class_name,
-                school_name=teacher.school_name
+                school_name=teacher.school_name,
+                code=code
             )
 
             if not (teacher.tg_user_id is None):
@@ -150,13 +151,14 @@ def teacher_get(code: str = None, tg_user_id: int = None):
             if teacher is None:
                 raise TeacherNotFoundError(teacher_tg_user_id=tg_user_id)
 
-            response_body = json_body.Teacher(
+            response_body = schemas.TeacherGet(
                 name=teacher.name,
                 surname=teacher.surname,
                 patronymic=teacher.patronymic,
                 class_name=teacher.class_name,
                 school_name=teacher.school_name,
-                tg_user_id=teacher.tg_user_id
+                code=teacher.code,
+                tg_user_id=tg_user_id
             )
 
             return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
@@ -166,15 +168,15 @@ def teacher_get(code: str = None, tg_user_id: int = None):
 
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
+        return JSONResponse(content=schemas.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
 @teacher_router.get('/teacher/students_by_name',
                     summary='Get students by name',
                     status_code=status.HTTP_200_OK,
-                    responses={200: {"model": json_body.FindByNameResponse, "description": "Successful Response"},
-                               400: {"model": json_body.BadResponse}})
+                    responses={200: {"model": schemas.FindByNameResponse, "description": "Successful Response"},
+                               400: {"model": schemas.BadResponse}})
 def teacher_get_student_by_name(name: str, code: str = None, tg_user_id: int = None):
     """
         Get information about teacher students with given name:
@@ -208,10 +210,10 @@ def teacher_get_student_by_name(name: str, code: str = None, tg_user_id: int = N
 
         response_list = find_student(student_list, name)
 
-        response_json = json_body.FindByNameResponse(students=[])
+        response_json = schemas.FindByNameResponse(students=[])
         for code in response_list:
             student = db_sess.query(Student).filter(Student.code == code).first()
-            student_json = json_body.StudentGet(
+            student_json = schemas.StudentGet(
                 name=student.name,
                 surname=student.surname,
                 patronymic=student.patronymic,
@@ -227,15 +229,15 @@ def teacher_get_student_by_name(name: str, code: str = None, tg_user_id: int = N
 
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
+        return JSONResponse(content=schemas.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
 @teacher_router.get('/teacher/students',
                     summary='Get students by name',
                     status_code=status.HTTP_200_OK,
-                    responses={200: {"model": json_body.StudentListGet, "description": "Successful Response"},
-                               400: {"model": json_body.BadResponse}})
+                    responses={200: {"model": schemas.StudentListGet, "description": "Successful Response"},
+                               400: {"model": schemas.BadResponse}})
 def teacher_get_student_by_name(code: str = None, tg_user_id: int = None):
     """
         Get information about teacher students with given code or tg user id:
@@ -262,29 +264,30 @@ def teacher_get_student_by_name(code: str = None, tg_user_id: int = None):
         else:
             raise RequestDataKeysError([], ['code', 'tg_user_id'])
 
-        student_list = json_body.StudentListGet(students=[])
+        student_list = schemas.StudentListGet(students=[])
         for student in teacher.students:
-            student_list.students.append(json_body.StudentGet(name=student.name,
-                                                              surname=student.surname,
-                                                              patronymic=student.patronymic,
-                                                              class_name=student.class_name,
-                                                              school_name=student.school_name,
-                                                              code=student.code,
-                                                              tg_user_id=student.tg_user_id))
+            student_list.students.append(
+                schemas.StudentGet(name=student.name,
+                                   surname=student.surname,
+                                   patronymic=student.patronymic,
+                                   class_name=student.class_name,
+                                   school_name=student.school_name,
+                                   code=student.code,
+                                   tg_user_id=student.tg_user_id))
 
         return JSONResponse(content=student_list.dict(), status_code=status.HTTP_200_OK)
 
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
+        return JSONResponse(content=schemas.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
 @teacher_router.get('/teacher/absents',
                     summary='Get teacher`s student absent list',
                     status_code=status.HTTP_200_OK,
-                    responses={200: {"model": json_body.AbsentList, "description": "Successful Response"},
-                               400: {"model": json_body.BadResponse}})
+                    responses={200: {"model": schemas.AbsentList, "description": "Successful Response"},
+                               400: {"model": schemas.BadResponse}})
 def teacher_students_absents(date: str, code: str = None, tg_user_id: int = None):
     """
         Get student absent from teacher with given code or tg user id:
@@ -295,7 +298,7 @@ def teacher_students_absents(date: str, code: str = None, tg_user_id: int = None
     """
     try:
         db_sess = db_session.create_session()
-        response_dict = json_body.AbsentList(absents=[])
+        response_dict = schemas.AbsentList(absents=[])
         if not (code is None):
             teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
             if teacher is None:
@@ -304,7 +307,7 @@ def teacher_students_absents(date: str, code: str = None, tg_user_id: int = None
             for student in teacher.students:
                 for absent in student.absents:
                     if date is None:
-                        response_dict.absents.append(json_body.Absent(
+                        response_dict.absents.append(schemas.Absent(
                             date=absent.date.isoformat(),
                             reason=absent.reason,
                             code=student.code
@@ -312,7 +315,7 @@ def teacher_students_absents(date: str, code: str = None, tg_user_id: int = None
                         continue
 
                     if absent.date.isoformat() == date:
-                        response_dict.absents.append(json_body.Absent(
+                        response_dict.absents.append(schemas.Absent(
                             date=absent.date.isoformat(),
                             reason=absent.reason,
                             code=student.code,
@@ -326,7 +329,7 @@ def teacher_students_absents(date: str, code: str = None, tg_user_id: int = None
             for student in teacher.students:
                 for absent in student.absents:
                     if date is None:
-                        response_dict.absents.append(json_body.Absent(
+                        response_dict.absents.append(schemas.Absent(
                             date=absent.date,
                             reason=absent.reason,
                             code=student.code,
@@ -334,7 +337,7 @@ def teacher_students_absents(date: str, code: str = None, tg_user_id: int = None
                         continue
 
                     if absent.date.isoformat() == date:
-                        response_dict.absents.append(json_body.Absent(
+                        response_dict.absents.append(schemas.Absent(
                             date=absent.date.isoformat(),
                             reason=absent.reason,
                             code=student.code,
@@ -345,5 +348,5 @@ def teacher_students_absents(date: str, code: str = None, tg_user_id: int = None
         return JSONResponse(content=response_dict.dict(), status_code=status.HTTP_200_OK)
     except (TeacherNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
         logging.warning(error)
-        return JSONResponse(content=json_body.BadResponse(error_msg=str(error)).dict(),
+        return JSONResponse(content=schemas.BadResponse(error_msg=str(error)).dict(),
                             status_code=status.HTTP_400_BAD_REQUEST)

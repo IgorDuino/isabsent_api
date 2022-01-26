@@ -10,22 +10,13 @@ class BadResponse(BaseModel):
     error_msg: str
 
 
-class TeacherTgAuth(BaseModel):
+class TgAuth(BaseModel):
     code: str
     tg_user_id: int
 
 
-class TeacherCodeTgUserId(BaseModel):
+class CodeTgUserId(BaseModel):
     code: Optional[str]
-    tg_user_id: Optional[int]
-
-
-class Teacher(BaseModel):
-    name: str
-    surname: str
-    patronymic: str
-    class_name: str
-    school_name: str
     tg_user_id: Optional[int]
 
 
@@ -65,17 +56,7 @@ class StudentTeacher(BaseModel):
     tg_user_id: Optional[int]
 
 
-class StudentTgAuth(BaseModel):
-    code: str
-    tg_user_id: int
-
-
-class StudentCodeTgUserId(BaseModel):
-    code: Optional[str]
-    tg_user_id: Optional[int]
-
-
-class StudentAbsent(BaseModel):
+class Absent(BaseModel):
     code: Optional[str]
     tg_user_id: Optional[int]
     date: str
@@ -83,14 +64,8 @@ class StudentAbsent(BaseModel):
     file: Optional[bytes]
 
 
-class StudentAbsentGet(BaseModel):
-    date: str
-    reason: str
-    file: Optional[bytes]
-
-
-class StudentAbsentList(BaseModel):
-    absents: List[StudentAbsentGet]
+class AbsentList(BaseModel):
+    absents: List[Absent]
 
 
 class StudentPost(BaseModel):
@@ -117,15 +92,6 @@ class StudentGet(BaseModel):
 
 class StudentListGet(BaseModel):
     students: List[StudentGet]
-
-
-class Student(BaseModel):
-    name: str
-    surname: str
-    patronymic: str
-    class_name: str
-    school_name: str
-    tg_user_id: Optional[int]
 
 
 class School(BaseModel):

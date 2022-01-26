@@ -7,10 +7,10 @@
         "class": "logging.FileHandler",
         "filename": "app.log",
         "formatter": "default",
-        "mode": "a"
+        "mode": "w"
     }},
     "root": {
-        "level": "warning",
-        "handlers": ["wsgi"]
+        "handlers": ["wsgi"],
+        "level": "warning"
     }
 }
