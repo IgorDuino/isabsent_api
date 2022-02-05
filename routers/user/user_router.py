@@ -77,12 +77,18 @@ def user_get(login: str):
                    summary='Patch user',
                    status_code=status.HTTP_200_OK,
                    responses={200: {"model": SuccessfulResponse},
-                              404: {"model": NotFound}})
+                              404: {"model": NotFound},
+                              400: {"model": BadRequest}})
 def user_patch(login: str, body: schemas.UserPatch):
     """
         Patch user:
 
         - **login**: user login, required
+        - **old_password**: current user password, required
+        - **new_password**: new password for user, not required
+        - **new_email**: new email for user, not required
+        - **new_login**: new login for user, not required
+        - **new_info**: new info for user, not required
     """
     try:
         db_sess = db_session.create_session()
@@ -94,7 +100,14 @@ def user_patch(login: str, body: schemas.UserPatch):
         if not check_password(body.old_password, user):
             raise WrongPasswordError(login=login)
 
-
+        if not (body.new_login is None):
+            user.login = body.new_login
+        if not (body.new_email is None):
+            user.email = body.new_email
+        if not (body.old_password is None):
+            user.hashed_password = jwt.encode({'password': body.new_password}, SECRET_KEY, ALGORITHM)
+        if not (body.new_info is None):
+            user.info = body.new_info
 
         db_sess.commit()
         return JSONResponse(**SuccessfulResponse(content='User changed').dict())
