@@ -1,15 +1,16 @@
 import logging
+import routers.user.schemas as schemas
 
-from fastapi import APIRouter, status, HTTPException, Response
-from data import db_session
-from fastapi.responses import JSONResponse
 from tools.error_book import *
 from tools.settings import *
 from routers.responses import *
-import routers.user.schemas as schemas
+from fastapi import APIRouter, status, Depends
+from fastapi.responses import JSONResponse
+from data import db_session
 from data.user import User
 from jose import jwt
 from tools.tools import check_password
+from routers.auth.auth import token_check
 
 
 user_router = APIRouter()
@@ -77,6 +78,7 @@ def user_get(login: str):
 @user_router.patch("/user/{login}",
                    summary='Patch user',
                    status_code=status.HTTP_200_OK,
+                   dependencies=[Depends(token_check)],
                    responses={200: {"model": SuccessfulResponse},
                               404: {"model": NotFound},
                               400: {"model": BadRequest}})
@@ -98,14 +100,11 @@ def user_patch(login: str, body: schemas.UserPatch):
         if user is None:
             raise UserNotFountError(login=login)
 
-        if not check_password(body.old_password, user):
-            raise WrongPasswordError(login=login)
-
         if not (body.new_login is None):
             user.login = body.new_login
         if not (body.new_email is None):
             user.email = body.new_email
-        if not (body.old_password is None):
+        if not (body.new_password is None):
             user.hashed_password = jwt.encode({'password': body.new_password}, SECRET_KEY, ALGORITHM)
         if not (body.new_info is None):
             user.info = body.new_info
@@ -115,6 +114,31 @@ def user_patch(login: str, body: schemas.UserPatch):
     except UserNotFountError as error:
         logging.warning(error)
         return JSONResponse(**NotFound(content=str(error)).dict())
-    except WrongPasswordError as error:
+
+
+@user_router.delete("/user/{login}",
+                    summary='Delete user',
+                    status_code=status.HTTP_200_OK,
+                    dependencies=[Depends(token_check)],
+                    responses={200: {"model": SuccessfulResponse},
+                               404: {"model": NotFound}})
+def user_delete(login: str):
+    """
+        Delete user with given login:
+
+        - **login**: user login, required
+    """
+    try:
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.login == login).first()
+
+        if user is None:
+            raise UserNotFountError(login=login)
+
+        db_sess.delete(user)
+        db_sess.commit()
+
+        return JSONResponse(**SuccessfulResponse(content='User deleted').dict())
+    except UserNotFountError as error:
         logging.warning(error)
-        return JSONResponse(**BadRequest(content=str(error)).dict())
+        return JSONResponse(**NotFound(content=str(error)).dict())

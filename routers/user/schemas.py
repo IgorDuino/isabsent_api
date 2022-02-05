@@ -16,7 +16,6 @@ class UserGet(BaseModel):
 
 
 class UserPatch(BaseModel):
-    old_password: str
     new_password: Optional[str]
     new_email: Optional[str]
     new_login: Optional[str]

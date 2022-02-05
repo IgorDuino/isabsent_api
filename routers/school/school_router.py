@@ -438,6 +438,7 @@ def del_school(name: str):
     try:
         db_sess = db_session.create_session()
         school = db_sess.query(School).get(name)
+
         if school is None:
             raise SchoolNotFoundError(school_name=name)
 
