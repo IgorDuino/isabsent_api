@@ -12,3 +12,4 @@ class User(SqlAlchemyBase, SerializerMixin):
     hashed_password = sqlalchemy.Column(sqlalchemy.String)
     info = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     enabled = sqlalchemy.Column(sqlalchemy.Boolean, default=True)
+    token_id = sqlalchemy.Column(sqlalchemy.Integer, default=0)

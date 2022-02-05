@@ -3301,3 +3301,185 @@ Finished server process [6504]
 Started server process [21208]
 Waiting for application startup.
 Application startup complete.
+Shutting down
+Started server process [15236]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1802, in _execute_context
+    self.dialect.do_execute(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\default.py", line 719, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: users.token_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 373, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 159, in run_endpoint_function
+    return await dependant.call(**values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\auth\auth_router.py", line 19, in login_for_access_token
+    user = db_sess.query(User).filter(User.login == form_data.username).first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 2810, in first
+    return self.limit(1)._iter().first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 2894, in _iter
+    result = self.session.execute(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\session.py", line 1689, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1614, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\sql\elements.py", line 325, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1481, in _execute_clauseelement
+    ret = self._execute_context(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1845, in _execute_context
+    self._handle_dbapi_exception(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\base.py", line 2026, in _handle_dbapi_exception
+    util.raise_(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1802, in _execute_context
+    self.dialect.do_execute(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\default.py", line 719, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: users.token_id
+[SQL: SELECT users.id AS users_id, users.email AS users_email, users.login AS users_login, users.hashed_password AS users_hashed_password, users.info AS users_info, users.enabled AS users_enabled, users.token_id AS users_token_id 
+FROM users 
+WHERE users.login = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('aboba', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [15236]
+Started server process [11980]
+Waiting for application startup.
+Application startup complete.
+Started server process [28888]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [28888]
+Started server process [22448]
+Waiting for application startup.
+Application startup complete.
+Started server process [13296]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Started server process [13820]
+Waiting for application startup.
+Application startup complete.
+Started server process [17700]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 373, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 159, in run_endpoint_function
+    return await dependant.call(**values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\auth\auth_router.py", line 29, in login_for_access_token
+    access_token = create_access_token(user.login, user.hashed_password, user.token_id)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\tools\tools.py", line 54, in create_access_token
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\jose\jwt.py", line 53, in encode
+    return jws.sign(claims, key, headers=headers, algorithm=algorithm)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\jose\jws.py", line 42, in sign
+    encoded_payload = _encode_payload(payload)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\jose\jws.py", line 146, in _encode_payload
+    payload = json.dumps(
+  File "C:\Users\Григорий\AppData\Local\Programs\Python\Python310\lib\json\__init__.py", line 238, in dumps
+    **kw).encode(obj)
+  File "C:\Users\Григорий\AppData\Local\Programs\Python\Python310\lib\json\encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Users\Григорий\AppData\Local\Programs\Python\Python310\lib\json\encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Users\Григорий\AppData\Local\Programs\Python\Python310\lib\json\encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type datetime is not JSON serializable
+Shutting down
+Started server process [35036]
+Waiting for application startup.
+Application startup complete.
+Started server process [5696]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [5696]
+Started server process [20024]
+Waiting for application startup.
+Application startup complete.
+Started server process [13164]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Started server process [9812]
+Waiting for application startup.
+Application startup complete.
+Started server process [4588]
+Waiting for application startup.
+Application startup complete.
+Started server process [8228]
+Waiting for application startup.
+Application startup complete.
+Started server process [26988]
+Waiting for application startup.
+Application startup complete.
+Started server process [18224]
+Waiting for application startup.
+Application startup complete.
+Started server process [14312]
+Waiting for application startup.
+Application startup complete.

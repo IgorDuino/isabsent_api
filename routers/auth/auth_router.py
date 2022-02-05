@@ -17,6 +17,7 @@ auth_router = APIRouter()
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     db_sess = db_session.create_session()
     user = db_sess.query(User).filter(User.login == form_data.username).first()
+    user.token_id += 1
 
     if not (user and check_password(form_data.password, user)):
         raise HTTPException(
@@ -25,5 +26,6 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    access_token = create_access_token(user.login, user.hashed_password)
+    db_sess.commit()
+    access_token = create_access_token(user.login, user.token_id)
     return {"access_token": access_token, "token_type": "bearer"}

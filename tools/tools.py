@@ -1,3 +1,4 @@
+import datetime
 import random
 
 from fuzzywuzzy import process
@@ -38,7 +39,7 @@ def find_student(student_list: list, key: str) -> list:
     return find
 
 
-def create_access_token(login: str, hashed_password: str) -> str:
+def create_access_token(login: str, token_id: int) -> str:
     """
         Function that generate secret token, using login and secret key
 
@@ -46,7 +47,8 @@ def create_access_token(login: str, hashed_password: str) -> str:
     """
     to_encode = {
         'login': login,
-        'hashed_password': hashed_password
+        'token_id': token_id,
+        'datetime': datetime.datetime.now().isoformat()
     }
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt

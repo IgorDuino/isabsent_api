@@ -39,7 +39,8 @@ def user_put(body: schemas.User):
         db_sess.add(User(
             email=body.email,
             login=body.login,
-            hashed_password=hashed_password
+            hashed_password=hashed_password,
+            info=body.info
         ))
         db_sess.commit()
         return JSONResponse(**CreatedResponse(content='User created').dict())
@@ -55,7 +56,7 @@ def user_put(body: schemas.User):
                             404: {"model": NotFound}})
 def user_get(login: str):
     """
-        Get information about user:
+        Get information about user with given login:
 
         - **login**: user login, required
     """
@@ -81,7 +82,7 @@ def user_get(login: str):
                               400: {"model": BadRequest}})
 def user_patch(login: str, body: schemas.UserPatch):
     """
-        Patch user:
+        Patch user with given login:
 
         - **login**: user login, required
         - **old_password**: current user password, required

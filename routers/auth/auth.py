@@ -20,10 +20,10 @@ async def token_check(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         login: str = payload.get("login")
-        hashed_password = payload.get("hashed_password")
-        if login is None or hashed_password is None:
-            raise credentials_exception
+        token_id: int = payload.get("token_id")
 
+        if login is None or token_id is None:
+            raise credentials_exception
     except JWTError:
         raise credentials_exception
 
@@ -32,5 +32,5 @@ async def token_check(token: str = Depends(oauth2_scheme)):
     if user is None or not user.enabled:
         raise credentials_exception
 
-    if user.hashed_password != hashed_password:
+    if user.token_id != token_id:
         raise credentials_exception
