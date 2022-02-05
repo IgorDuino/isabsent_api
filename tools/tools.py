@@ -5,6 +5,7 @@ from jose import JWTError, jwt
 
 from data.student import Student
 from data.teacher import Teacher
+from data.user import User
 from .settings import *
 
 
@@ -37,14 +38,27 @@ def find_student(student_list: list, key: str) -> list:
     return find
 
 
-def create_access_token(login: str) -> str:
+def create_access_token(login: str, hashed_password: str) -> str:
     """
         Function that generate secret token, using login and secret key
 
         login: str - user login
     """
     to_encode = {
-       'login': login
+        'login': login,
+        'hashed_password': hashed_password
     }
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
+
+
+def check_password(password: str, user: User) -> bool:
+    """
+        Function that check password for current user
+    """
+    to_encode = {
+        'password': password
+    }
+    hashed_password = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
+    return hashed_password == user.hashed_password

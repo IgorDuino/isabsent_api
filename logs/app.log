@@ -2593,3 +2593,695 @@ Shutting down
 Started server process [16928]
 Waiting for application startup.
 Application startup complete.
+Started server process [14696]
+Waiting for application startup.
+Application startup complete.
+Started server process [4608]
+Waiting for application startup.
+Application startup complete.
+Started server process [37400]
+Waiting for application startup.
+Application startup complete.
+Started server process [9772]
+Waiting for application startup.
+Application startup complete.
+Started server process [3020]
+Waiting for application startup.
+Application startup complete.
+Started server process [7324]
+Waiting for application startup.
+Application startup complete.
+Started server process [36920]
+Waiting for application startup.
+Application startup complete.
+Started server process [23272]
+Waiting for application startup.
+Application startup complete.
+Started server process [17096]
+Waiting for application startup.
+Application startup complete.
+Started server process [26640]
+Waiting for application startup.
+Application startup complete.
+Started server process [16120]
+Waiting for application startup.
+Application startup complete.
+Started server process [34020]
+Waiting for application startup.
+Application startup complete.
+Started server process [26284]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Started server process [504]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [504]
+Started server process [22924]
+Waiting for application startup.
+Application startup complete.
+Started server process [21512]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Started server process [22204]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1802, in _execute_context
+    self.dialect.do_execute(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\default.py", line 719, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: users.email
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 373, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 32, in user_post
+    user = db_sess.query(User).filter(User.login == body.login).first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 2810, in first
+    return self.limit(1)._iter().first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 2894, in _iter
+    result = self.session.execute(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\session.py", line 1689, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1614, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\sql\elements.py", line 325, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1481, in _execute_clauseelement
+    ret = self._execute_context(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1845, in _execute_context
+    self._handle_dbapi_exception(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\base.py", line 2026, in _handle_dbapi_exception
+    util.raise_(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1802, in _execute_context
+    self.dialect.do_execute(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\engine\default.py", line 719, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: users.email
+[SQL: SELECT users.id AS users_id, users.email AS users_email, users.login AS users_login, users.hashed_password AS users_hashed_password, users.info AS users_info, users.enabled AS users_enabled 
+FROM users 
+WHERE users.login = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('string', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [22204]
+Started server process [10884]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Started server process [23620]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [23620]
+Started server process [12756]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 373, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 37, in user_post
+    hashed_password = jwt.encode({'password': body.password}, SECRET_KEY, algorithm=[ALGORITHM])
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\jose\jwt.py", line 53, in encode
+    return jws.sign(claims, key, headers=headers, algorithm=algorithm)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\jose\jws.py", line 38, in sign
+    if algorithm not in ALGORITHMS.SUPPORTED:
+TypeError: unhashable type: 'list'
+Shutting down
+Started server process [26604]
+Waiting for application startup.
+Application startup complete.
+Started server process [34732]
+Waiting for application startup.
+Application startup complete.
+Started server process [11588]
+Waiting for application startup.
+Application startup complete.
+Started server process [19724]
+Waiting for application startup.
+Application startup complete.
+Started server process [23052]
+Waiting for application startup.
+Application startup complete.
+Started server process [14016]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [14016]
+Started server process [25704]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [25704]
+Started server process [8864]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 35, in user_put
+    raise UserExistError(login=body.login)
+tools.error_book.UserExistError: User with login string all ready exist
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 373, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 46, in user_put
+    return JSONResponse(BadRequest(msg=str(error)))
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\pydantic\main.py", line 406, in __init__
+    raise validation_error
+pydantic.error_wrappers.ValidationError: 1 validation error for BadRequest
+content
+  field required (type=value_error.missing)
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [8864]
+Started server process [17748]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 35, in user_put
+    raise UserExistError(login=body.login)
+tools.error_book.UserExistError: User with login string all ready exist
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 373, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 46, in user_put
+    return JSONResponse(**BadRequest(msg=str(error)))
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\pydantic\main.py", line 406, in __init__
+    raise validation_error
+pydantic.error_wrappers.ValidationError: 1 validation error for BadRequest
+content
+  field required (type=value_error.missing)
+Shutting down
+Started server process [14956]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for connections to close. (CTRL+C to force quit)
+Started server process [34308]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [34308]
+Started server process [33924]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 35, in user_put
+    raise UserExistError(login=body.login)
+tools.error_book.UserExistError: User with login string all ready exist
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 373, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 46, in user_put
+    return JSONResponse(**BadRequest(msg=str(error)).dict())
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\pydantic\main.py", line 406, in __init__
+    raise validation_error
+pydantic.error_wrappers.ValidationError: 1 validation error for BadRequest
+content
+  field required (type=value_error.missing)
+Shutting down
+Started server process [20956]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [20956]
+Started server process [4816]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 35, in user_put
+    raise UserExistError(login=body.login)
+tools.error_book.UserExistError: User with login string all ready exist
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 373, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 46, in user_put
+    return JSONResponse(**BadRequest(content=str(error)))
+TypeError: starlette.responses.JSONResponse() argument after ** must be a mapping, not BadRequest
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [4816]
+Started server process [33216]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 373, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 65, in user_get
+    raise UserNotFountError
+TypeError: UserNotFountError.__init__() missing 1 required positional argument: 'login'
+Started server process [14212]
+Waiting for application startup.
+Application startup complete.
+Started server process [22996]
+Waiting for application startup.
+Application startup complete.
+Started server process [22512]
+Waiting for application startup.
+Application startup complete.
+Started server process [21320]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Started server process [10172]
+Waiting for application startup.
+Application startup complete.
+Started server process [9704]
+Waiting for application startup.
+Application startup complete.
+Started server process [31560]
+Waiting for application startup.
+Application startup complete.
+Started server process [11844]
+Waiting for application startup.
+Application startup complete.
+Started server process [224]
+Waiting for application startup.
+Application startup complete.
+Started server process [17380]
+Waiting for application startup.
+Application startup complete.
+Started server process [25544]
+Waiting for application startup.
+Application startup complete.
+Started server process [19684]
+Waiting for application startup.
+Application startup complete.
+Started server process [3632]
+Waiting for application startup.
+Application startup complete.
+Started server process [33260]
+Waiting for application startup.
+Application startup complete.
+Started server process [34788]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [34788]
+Started server process [19052]
+Waiting for application startup.
+Application startup complete.
+Started server process [27472]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Started server process [26416]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 373, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 93, in user_patch
+    user = User(**body)
+TypeError: data.user.User() argument after ** must be a mapping, not UserPatch
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [26416]
+Started server process [35312]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 373, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 93, in user_patch
+    user = User(**body.dict())
+  File "<string>", line 4, in __init__
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\state.py", line 479, in _initialize_instance
+    with util.safe_reraise():
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\state.py", line 477, in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\decl_base.py", line 1154, in _declarative_constructor
+    raise TypeError(
+TypeError: 'password' is an invalid keyword argument for User
+Started server process [6492]
+Waiting for application startup.
+Application startup complete.
+Started server process [34804]
+Waiting for application startup.
+Application startup complete.
+Started server process [28100]
+Waiting for application startup.
+Application startup complete.
+Started server process [30056]
+Waiting for application startup.
+Application startup complete.
+Started server process [4752]
+Waiting for application startup.
+Application startup complete.
+Started server process [16488]
+Waiting for application startup.
+Application startup complete.
+Started server process [28108]
+Waiting for application startup.
+Application startup complete.
+Started server process [27116]
+Waiting for application startup.
+Application startup complete.
+Started server process [33244]
+Waiting for application startup.
+Application startup complete.
+Started server process [33348]
+Waiting for application startup.
+Application startup complete.
+Started server process [34832]
+Waiting for application startup.
+Application startup complete.

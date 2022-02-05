@@ -1,7 +1,7 @@
 from jose import JWTError, jwt
 from fastapi import status, HTTPException, Depends
 from passlib.context import CryptContext
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer
 from data import db_session
 from data.user import User
 from tools.settings import *
@@ -20,13 +20,17 @@ async def token_check(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         login: str = payload.get("login")
-        if login is None:
+        hashed_password = payload.get("hashed_password")
+        if login is None or hashed_password is None:
             raise credentials_exception
+
     except JWTError:
         raise credentials_exception
 
     db_sess = db_session.create_session()
     user = db_sess.query(User).filter(User.login == login).first()
-    if user is None:
+    if user is None or not user.enabled:
         raise credentials_exception
-    return user.enabled
+
+    if user.hashed_password != hashed_password:
+        raise credentials_exception

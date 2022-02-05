@@ -153,3 +153,30 @@ class StudentTeacherNotFoundError(Exception):
             return f'Student and Teacher with code: {self.code} not found'
         if self.tg_user_id != -1:
             return f'Student and Teacher with tg_id: {self.tg_user_id} not found'
+
+
+class UserExistError(Exception):
+    """Exception raised when adding user is all ready exist"""
+    def __init__(self, login: str):
+        self.login = login
+
+    def __str__(self):
+        return f'User with login {self.login} all ready exist'
+
+
+class UserNotFountError(Exception):
+    """Exception raised when user with given login not found"""
+    def __init__(self, login: str):
+        self.login = login
+
+    def __str__(self):
+        return f'User with login {self.login} not found'
+
+
+class WrongPasswordError(Exception):
+    """Exception raised when given password is wrong for current user"""
+    def __init__(self, login):
+        self.login = login
+
+    def __str__(self):
+        return f'Wrong password for user {self.login}'

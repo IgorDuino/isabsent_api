@@ -16,7 +16,7 @@ from google_spreadsheets.google_spread_sheets import google_spread_sheets
 school_router = APIRouter()
 
 
-@school_router.post('',
+@school_router.post('/school',
                     summary='Add new school',
                     status_code=status.HTTP_201_CREATED,
                     responses={201: {"model": schemas.OkResponse, "description": "School has been added"},
@@ -50,7 +50,7 @@ def school_post(body: schemas.School):
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
-@school_router.get('',
+@school_router.get('/school',
                    summary='Get information about school',
                    status_code=status.HTTP_200_OK,
                    responses={200: {"model": schemas.School, "description": "Successful response"},
@@ -112,7 +112,7 @@ def teachers_post(body: schemas.TeacherListPost):
         Add teacher list to given school:
 
         - **school_name**: school name, required
-        - **teachers**: list of teachers, not required, if not given, teachers will take from google spreadsheets
+        - **teachers**: list of teachers, not required, if not given, teachers will take from Google spreadsheets
     """
     try:
         db_sess = db_session.create_session()
@@ -133,10 +133,7 @@ def teachers_post(body: schemas.TeacherListPost):
             code = generate_unique_code(db_sess)
 
             teacher_list.append(Teacher(
-                name=teacher_json['name'],
-                surname=teacher_json['surname'],
-                patronymic=teacher_json['patronymic'],
-                class_name=teacher_json['class_name'],
+                **teacher_json,
                 school_name=school_name,
                 code=code
             ))
@@ -254,7 +251,7 @@ def students_post(body: schemas.StudentListPost):
         Add student list to given school:
 
         - **school_name**: school name, required
-        - **teachers**: list of students, not required, if not given, teachers will take from google spreadsheets
+        - **teachers**: list of students, not required, if not given, teachers will take from Google spreadsheets
     """
     try:
         db_sess = db_session.create_session()
@@ -276,10 +273,7 @@ def students_post(body: schemas.StudentListPost):
             code = generate_unique_code(db_sess)
 
             student_list.append(Student(
-                name=student_json['name'],
-                surname=student_json['surname'],
-                patronymic=student_json['patronymic'],
-                class_name=student_json['class_name'],
+                **student_json,
                 school_name=school_name,
                 code=code
             ))
@@ -429,7 +423,7 @@ def find_by_code(code: str = None, tg_user_id: int = None):
                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
-@school_router.delete('',
+@school_router.delete('/school',
                       summary='Delete school',
                       status_code=status.HTTP_200_OK,
                       responses={200: {"model": schemas.OkResponse, "description": "Successful Response"},

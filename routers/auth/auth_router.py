@@ -3,9 +3,11 @@ from data.user import User
 from data.school import School
 from data.teacher import Teacher
 from data.student import Student
-from tools.tools import create_access_token
+from tools.tools import create_access_token, check_password
 from fastapi import APIRouter, status, HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from tools.settings import *
+from jose import jwt
 
 
 auth_router = APIRouter()
@@ -16,12 +18,12 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     db_sess = db_session.create_session()
     user = db_sess.query(User).filter(User.login == form_data.username).first()
 
-    if not user or form_data.password != user.hashed_password:
+    if not (user and check_password(form_data.password, user)):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    access_token = create_access_token(user.login)
+    access_token = create_access_token(user.login, user.hashed_password)
     return {"access_token": access_token, "token_type": "bearer"}

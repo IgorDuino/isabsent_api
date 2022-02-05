@@ -103,16 +103,5 @@ class SchoolList(BaseModel):
     schools: List[School]
 
 
-class Absent(BaseModel):
-    date: str
-    reason: str
-    code: str
-    file: Optional[bytes]
-
-
-class AbsentList(BaseModel):
-    absents: List[Absent]
-
-
 class FindByNameResponse(BaseModel):
     students: List[StudentGet]
