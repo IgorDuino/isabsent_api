@@ -437,7 +437,7 @@ def find_by_code(code: str = None, tg_user_id: int = None):
                       responses={200: {"model": SuccessfulResponse},
                                  400: {"model": BadRequest},
                                  404: {"model": NotFound}})
-def del_school(name: str, teachers: bool = False, students: bool = False, absents: bool = False):
+def school_del(name: str, teachers: bool = False, students: bool = False, absents: bool = False):
     """
         Delete school with given name:
 
@@ -467,6 +467,39 @@ def del_school(name: str, teachers: bool = False, students: bool = False, absent
         db_sess.delete(school)
         db_sess.commit()
         return JSONResponse(**SuccessfulResponse(content='School deleted').dict())
+    except SchoolNotFoundError as error:
+        logging.warning(error)
+        return JSONResponse(**NotFound(content=str(error)).dict())
+
+
+@school_router.patch('/school',
+                     summary='Patch school',
+                     status_code=status.HTTP_200_OK,
+                     responses={200: {"model": SuccessfulResponse},
+                                400: {"model": BadRequest},
+                                404: {"model": NotFound}})
+def school_patch(name: str, body: schemas.SchoolPatch):
+    """
+        Change school with given name:
+
+        - **new_name**: new school name, not required
+        - **new_link**: new link name, not required
+    """
+    try:
+        db_sess = db_session.create_session()
+        school = db_sess.query(School).get(name)
+
+        if school is None:
+            raise SchoolNotFoundError(school_name=name)
+
+        if body.new_name:
+            school.school_name = body.new_name
+
+        if body.new_link:
+            school.link = body.new_link
+
+        db_sess.commit()
+        return JSONResponse(**SuccessfulResponse(content='School changed').dict())
     except SchoolNotFoundError as error:
         logging.warning(error)
         return JSONResponse(**NotFound(content=str(error)).dict())

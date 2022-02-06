@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 
 
 class User(BaseModel):
@@ -13,6 +13,10 @@ class UserGet(BaseModel):
     email: str
     login: str
     info: Optional[str]
+
+
+class UserGetList(BaseModel):
+    users: List[UserGet]
 
 
 class UserPatch(BaseModel):

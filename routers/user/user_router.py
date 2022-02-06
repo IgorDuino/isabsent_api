@@ -74,6 +74,29 @@ def user_get(login: str):
         return JSONResponse(**NotFound(content=str(error)).dict())
 
 
+@user_router.get("/user/",
+                 summary='Get user list',
+                 status_code=status.HTTP_200_OK,
+                 responses={200: {"model": schemas.UserGetList},
+                            404: {"model": NotFound}})
+def user_get():
+    """Get information about users"""
+    try:
+        db_sess = db_session.create_session()
+        users = db_sess.query(User).all()
+
+        response = schemas.UserGetList(users=[])
+        for user in users:
+            response.users.append(schemas.UserGet(email=user.email,
+                                                  login=user.login,
+                                                  info=user.info))
+
+        return JSONResponse(content=response.dict(), status_code=status.HTTP_200_OK)
+    except UserNotFountError as error:
+        logging.warning(error)
+        return JSONResponse(**NotFound(content=str(error)).dict())
+
+
 @user_router.patch("/user/{login}",
                    summary='Patch user',
                    status_code=status.HTTP_200_OK,
@@ -86,7 +109,6 @@ def user_patch(login: str, body: schemas.UserPatch):
         Patch user with given login:
 
         - **login**: user login, required
-        - **old_password**: current user password, required
         - **new_password**: new password for user, not required
         - **new_email**: new email for user, not required
         - **new_login**: new login for user, not required

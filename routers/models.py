@@ -99,6 +99,11 @@ class School(BaseModel):
     link: str
 
 
+class SchoolPatch(BaseModel):
+    new_name: Optional[str]
+    new_link: Optional[str]
+
+
 class SchoolList(BaseModel):
     schools: List[School]
 
