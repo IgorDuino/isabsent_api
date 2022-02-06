@@ -1,6 +1,7 @@
 import gspread
 
 from tools.error_book import *
+from gspread.exceptions import NoValidUrlKeyFound
 
 
 class GoogleSpreadSheetsApi:
@@ -12,6 +13,12 @@ class GoogleSpreadSheetsApi:
         worksheet.format('1:1000', {'textFormat': {"fontSize": 12}})
         worksheet.format('1:1', {'textFormat': {"fontSize": 14, 'bold': True}})
         worksheet.append_row(['Класс', 'Фамилия', 'Имя', 'Отчество', 'Причина', 'Доказательства'])
+
+    def link_check(self, link):
+        try:
+            table = self.gc.open_by_url(link)
+        except NoValidUrlKeyFound:
+            raise TableLinkError(link)
 
     def google_sheets_teachers_codes(self, link: str, code_list: list):
         """Adding teachers codes into google sheet"""

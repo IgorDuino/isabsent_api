@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 from tools.error_book import *
 from data import db_session
 from tools.settings import *
+from routers.responses import *
 from data.student import Student
 from data.absent import Absent
 from tools.tools import generate_unique_code
@@ -16,16 +17,17 @@ from google_spreadsheets.google_spread_sheets import google_spread_sheets
 student_router = APIRouter()
 
 
-@student_router.post('/student/absent',
-                     summary='Add student absent',
-                     status_code=status.HTTP_201_CREATED,
-                     responses={201: {"model": schemas.OkResponse, "description": "Absent has been added"},
-                                400: {"model": schemas.BadResponse}})
-def student_absent_post(body: schemas.Absent):
+@student_router.put('/student/absent',
+                    summary='Add student absent',
+                    status_code=status.HTTP_201_CREATED,
+                    responses={201: {"model": CreatedResponse, "description": "Absent has been added"},
+                               400: {"model": BadRequest},
+                               404: {"model": NotFound}})
+def student_absent_put(body: schemas.Absent):
     """
         Add student absent in db and google spreadsheets:
 
-        - **code**: unique code, all teachers have this code, not required
+        - **code**: unique code, all students have this code, not required
         - **tg_user_id**: unique telegram user id, not required
         - **date**: date when student will absent, required
         - **reason** absent`s reason, required
@@ -92,26 +94,27 @@ def student_absent_post(body: schemas.Absent):
         db_sess.add(absent)
         db_sess.commit()
 
-        return JSONResponse(content=schemas.OkResponse(msg='HTTP_201_CREATED').dict(),
-                            status_code=status.HTTP_201_CREATED)
+        return JSONResponse(**CreatedResponse(content='Absent added').dict())
 
-    except (StudentDuplicateAbsent, StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
-            RequestDataTypeError, ValueError) as error:
+    except (StudentDuplicateAbsent, RequestDataKeysError, ValueError) as error:
         logging.warning(error)
-        return JSONResponse(content=schemas.BadResponse(error_msg=str(error)).dict(),
-                            status_code=status.HTTP_400_BAD_REQUEST)
+        return JSONResponse(**BadRequest(content=str(error)).dict())
+    except StudentNotFoundError as error:
+        logging.warning(error)
+        return JSONResponse(**NotFound(content=str(error)).dict())
 
 
 @student_router.get('/student/absents',
                     summary='Get student absent list',
                     status_code=status.HTTP_200_OK,
                     responses={200: {"model": schemas.AbsentList, "description": "Successful Response"},
-                               400: {"model": schemas.BadResponse}})
+                               400: {"model": BadRequest},
+                               404: {"model": NotFound}})
 def student_absent_get(code: str = None, tg_user_id: int = None):
     """
         Get student absents by code or tg user id, only one of parameters is required:
 
-        - **code**: unique code, all teachers have this code
+        - **code**: unique code, all students have this code
         - **tg_user_id**: unique telegram user id
     """
     try:
@@ -154,23 +157,25 @@ def student_absent_get(code: str = None, tg_user_id: int = None):
 
         return JSONResponse(content=absent_list.dict(), status_code=status.HTTP_200_OK)
 
-    except (StudentDuplicateAbsent, StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
-            RequestDataTypeError) as error:
+    except RequestDataKeysError as error:
         logging.warning(error)
-        return JSONResponse(content=schemas.BadResponse(error_msg=str(error)).dict(),
-                            status_code=status.HTTP_400_BAD_REQUEST)
+        return JSONResponse(**BadRequest(content=str(error)).dict())
+    except StudentNotFoundError as error:
+        logging.warning(error)
+        return JSONResponse(**NotFound(content=str(error)).dict())
 
 
 @student_router.post('/student/tg_auth',
                      summary='',
                      status_code=status.HTTP_200_OK,
-                     responses={201: {"model": schemas.OkResponse, "description": "Tg user id has been bind"},
-                                400: {"model": schemas.BadResponse}})
+                     responses={200: {"model": SuccessfulResponse, "description": "Tg user id has been bind"},
+                                400: {"model": BadRequest},
+                                404: {"model": NotFound}})
 def student_tg_auth(body: schemas.TgAuth):
     """
-        Binding tg user id to teacher code, all parameters are required:
+        Binding tg user id to student code, all parameters are required:
 
-        - **code**: unique code, all teachers have this code
+        - **code**: unique code, all students have this code
         - **tg_user_id**: unique telegram user id
     """
     try:
@@ -190,25 +195,26 @@ def student_tg_auth(body: schemas.TgAuth):
         student.tg_user_id = tg_id
         db_sess.commit()
 
-        return JSONResponse(content=schemas.OkResponse(msg='HTTP_201_CREATED').dict(),
-                            status_code=status.HTTP_201_CREATED)
-    except (StudentDuplicateTgUserIdError, StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError,
-            RequestDataTypeError) as error:
+        return JSONResponse(**SuccessfulResponse(content='Tg user id has been bind').dict())
+    except StudentDuplicateTgUserIdError as error:
         logging.warning(error)
-        return JSONResponse(content=schemas.BadResponse(error_msg=str(error)).dict(),
-                            status_code=status.HTTP_400_BAD_REQUEST)
+        return JSONResponse(**BadRequest(content=str(error)).dict())
+    except StudentNotFoundError as error:
+        logging.warning(error)
+        return JSONResponse(**NotFound(content=str(error)).dict())
 
 
 @student_router.post('/student/code',
                      summary='Generating new code for student',
-                     status_code=status.HTTP_201_CREATED,
-                     responses={201: {"model": schemas.OkResponse, "description": "New code generate success"},
-                                400: {"model": schemas.BadResponse}})
+                     status_code=status.HTTP_200_OK,
+                     responses={200: {"model": SuccessfulResponse, "description": "New code generate success"},
+                                400: {"model": BadRequest},
+                                404: {"model": NotFound}})
 def student_pass(body: schemas.CodeTgUserId):
     """
         Generating new code for student, only one of parameters is required:
 
-        - **code**: unique code, all teachers have this code
+        - **code**: unique code, all students have this code
         - **tg_user_id**: unique telegram user id
     """
     try:
@@ -248,25 +254,27 @@ def student_pass(body: schemas.CodeTgUserId):
 
         google_spread_sheets.google_sheets_student_code_generate(link, old_code, gen_code)
 
-        return JSONResponse(content=schemas.OkResponse(msg='HTTP_201_CREATED').dict(),
-                            status_code=status.HTTP_201_CREATED)
-    except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+        return JSONResponse(**SuccessfulResponse(content='New code generate success').dict())
+    except RequestDataKeysError as error:
         logging.warning(error)
-        return JSONResponse(content=schemas.BadResponse(error_msg=str(error)).dict(),
-                            status_code=status.HTTP_400_BAD_REQUEST)
+        return JSONResponse(**BadRequest(content=str(error)).dict())
+    except StudentNotFoundError as error:
+        logging.warning(error)
+        return JSONResponse(**NotFound(content=str(error)).dict())
 
 
 @student_router.get('/student',
                     summary='Get information about student',
                     status_code=status.HTTP_200_OK,
                     response_model=schemas.StudentGet,
-                    responses={200: {"model": schemas.StudentGet, "description": "Successful Response"},
-                               400: {"model": schemas.BadResponse}})
+                    responses={200: {"model": schemas.StudentGet},
+                               400: {"model": BadRequest},
+                               404: {"model": NotFound}})
 def student_get(code: str = None, tg_user_id: int = None):
     """
         Get information about student with given code or tg user id, only one of parameters is required:
 
-        - **code**: unique code, all teachers have this code
+        - **code**: unique code, all students have this code
         - **tg_user_id**: unique telegram user id
     """
     try:
@@ -312,7 +320,106 @@ def student_get(code: str = None, tg_user_id: int = None):
         else:
             raise RequestDataKeysError([], ['code', 'tg_user_id'])
 
-    except (StudentNotFoundError, RequestDataKeysError, RequestDataMissedKeyError, RequestDataTypeError) as error:
+    except RequestDataKeysError as error:
         logging.warning(error)
-        return JSONResponse(content=schemas.BadResponse(error_msg=str(error)).dict(),
-                            status_code=status.HTTP_400_BAD_REQUEST)
+        return JSONResponse(**BadRequest(content=str(error)).dict())
+    except StudentNotFoundError as error:
+        logging.warning(error)
+        return JSONResponse(**NotFound(content=str(error)).dict())
+
+
+@student_router.delete('/student',
+                       summary='Delete student',
+                       status_code=status.HTTP_200_OK,
+                       responses={200: {"model": schemas.StudentGet},
+                                  400: {"model": BadRequest},
+                                  404: {"model": NotFound}})
+def student_delete(code: str = None, tg_user_id: int = None, absents: bool = False):
+    """
+        Delete student with given code or tg user id:
+
+        - **code**: unique code, all students have this code, not required
+        - **tg_user_id**: unique telegram user id, not required
+        - **absents**: flag when true absents from given student will delete, not required
+    """
+    try:
+        db_sess = db_session.create_session()
+        if not (code is None):
+            student = db_sess.query(Student).filter(Student.code == code).first()
+        elif not (tg_user_id is None):
+            student = db_sess.query(Student).filter(Student.tg_user_id == tg_user_id).first()
+        else:
+            raise RequestDataKeysError([], ['code', 'tg_user_id'])
+
+        if student is None:
+            raise StudentNotFoundError(student_code=code)
+
+        if absents:
+            for absent in student.absents:
+                db_sess.delete(absent)
+
+        db_sess.delete(student)
+        db_sess.commit()
+
+        return JSONResponse(**SuccessfulResponse(content='Student deleted').dict())
+
+    except RequestDataKeysError as error:
+        logging.warning(error)
+        return JSONResponse(**BadRequest(content=str(error)).dict())
+    except StudentNotFoundError as error:
+        logging.warning(error)
+        return JSONResponse(**NotFound(content=str(error)).dict())
+
+
+@student_router.patch('/student',
+                      summary='Patch student',
+                      status_code=status.HTTP_200_OK,
+                      responses={200: {"model": schemas.StudentGet},
+                                 400: {"model": BadRequest},
+                                 404: {"model": NotFound}})
+def student_patch(body: schemas.StudentPatch, code: str = None, tg_user_id: int = None):
+    """
+        Patch student with given code or tg user id:
+
+        - **code**: unique code, all students have this code, not required
+        - **tg_user_id**: unique telegram user id, not required
+        - **new_name**: new name for user, not required
+        - **new_surname**: new surname for user, not required
+        - **new_patronymic**: new patronymic for user, not required
+        - **new_class_name**: new class name for user, not required
+        - **new_school_name**: new school name for user, not required
+    """
+    try:
+        db_sess = db_session.create_session()
+
+        if not (code is None):
+            student = db_sess.query(Student).filter(Student.code == code).first()
+        elif not (tg_user_id is None):
+            student = db_sess.query(Student).filter(Student.tg_user_id == tg_user_id).first()
+        else:
+            raise RequestDataKeysError([], ['code', 'tg_user_id'])
+
+        if student is None:
+            raise StudentNotFoundError(student_code=code, student_tg_user_id=tg_user_id)
+
+        if body.new_name:
+            student.name = body.new_name
+        if body.new_surname:
+            student.surname = body.new_surname
+        if body.new_patronymic:
+            student.patronymic = body.new_patronymic
+        if body.new_class_name:
+            student.class_name = body.new_class_name
+        if body.new_school_name:
+            student.school_name = body.new_school_name
+
+        db_sess.commit()
+
+        return JSONResponse(**SuccessfulResponse(content='Student changed').dict())
+
+    except RequestDataKeysError as error:
+        logging.warning(error)
+        return JSONResponse(**BadRequest(content=str(error)).dict())
+    except StudentNotFoundError as error:
+        logging.warning(error)
+        return JSONResponse(**NotFound(content=str(error)).dict())

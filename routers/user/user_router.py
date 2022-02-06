@@ -74,7 +74,7 @@ def user_get(login: str):
         return JSONResponse(**NotFound(content=str(error)).dict())
 
 
-@user_router.get("/user/",
+@user_router.get("/user",
                  summary='Get user list',
                  status_code=status.HTTP_200_OK,
                  responses={200: {"model": schemas.UserGetList},

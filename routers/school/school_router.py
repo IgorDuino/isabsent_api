@@ -36,6 +36,8 @@ def school_put(body: schemas.School):
         if school is not None:
             raise SchoolDuplicateError(body.school_name)
 
+        google_spread_sheets.link_check(body.link)
+
         school = School(
             name=body.school_name,
             link=body.link
@@ -44,7 +46,7 @@ def school_put(body: schemas.School):
         db_sess.commit()
 
         return JSONResponse(**CreatedResponse(content='School created').dict())
-    except SchoolDuplicateError as error:
+    except (SchoolDuplicateError, TableLinkError) as error:
         logging.warning(error)
         return JSONResponse(**BadRequest(content=str(error)).dict())
 
@@ -444,7 +446,7 @@ def school_del(name: str, teachers: bool = False, students: bool = False, absent
         - **name**: unique school name, required
         - **teachers**: flag when true teachers from given school will delete, not required
         - **students**: flag when true students from given school will delete, not required
-        - **absents**: flag when true students from given school will delete, not required
+        - **absents**: flag when true absents from given school will delete, not required
     """
     try:
         db_sess = db_session.create_session()
@@ -496,6 +498,7 @@ def school_patch(name: str, body: schemas.SchoolPatch):
             school.school_name = body.new_name
 
         if body.new_link:
+            google_spread_sheets.link_check(body.new_link)
             school.link = body.new_link
 
         db_sess.commit()
@@ -503,3 +506,6 @@ def school_patch(name: str, body: schemas.SchoolPatch):
     except SchoolNotFoundError as error:
         logging.warning(error)
         return JSONResponse(**NotFound(content=str(error)).dict())
+    except TableLinkError as error:
+        logging.warning(error)
+        return JSONResponse(**BadRequest(content=str(error)).dict())

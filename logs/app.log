@@ -3710,3 +3710,142 @@ Application startup complete.
 Started server process [5096]
 Waiting for application startup.
 Application startup complete.
+Shutting down
+Started server process [9824]
+Waiting for application startup.
+Application startup complete.
+Started server process [34052]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Started server process [20004]
+Waiting for application startup.
+Application startup complete.
+Started server process [30364]
+Waiting for application startup.
+Application startup complete.
+Started server process [24124]
+Waiting for application startup.
+Application startup complete.
+Started server process [16260]
+Waiting for application startup.
+Application startup complete.
+Started server process [21816]
+Waiting for application startup.
+Application startup complete.
+Started server process [19480]
+Waiting for application startup.
+Application startup complete.
+Started server process [12256]
+Waiting for application startup.
+Application startup complete.
+Started server process [26488]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Started server process [12352]
+Waiting for application startup.
+Application startup complete.
+Started server process [35108]
+Waiting for application startup.
+Application startup complete.
+Started server process [11000]
+Waiting for application startup.
+Application startup complete.
+Started server process [24980]
+Waiting for application startup.
+Application startup complete.
+Started server process [8856]
+Waiting for application startup.
+Application startup complete.
+Started server process [20816]
+Waiting for application startup.
+Application startup complete.
+Started server process [30608]
+Waiting for application startup.
+Application startup complete.
+Started server process [30048]
+Waiting for application startup.
+Application startup complete.
+Started server process [14804]
+Waiting for application startup.
+Application startup complete.
+Started server process [4048]
+Waiting for application startup.
+Application startup complete.
+Started server process [19036]
+Waiting for application startup.
+Application startup complete.
+Started server process [5940]
+Waiting for application startup.
+Application startup complete.
+Started server process [5552]
+Waiting for application startup.
+Application startup complete.
+Started server process [28004]
+Waiting for application startup.
+Application startup complete.
+Started server process [9340]
+Waiting for application startup.
+Application startup complete.
+Started server process [20268]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 373, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 208, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\school\school_router.py", line 124, in teachers_put
+    body.teachers = google_spread_sheets.google_sheets_get_teachers(school.link, school_name)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\google_spreadsheets\google_spread_sheets.py", line 38, in google_sheets_get_teachers
+    table = self.gc.open_by_url(link)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\gspread\client.py", line 154, in open_by_url
+    return self.open_by_key(extract_id_from_url(url))
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\gspread\utils.py", line 410, in extract_id_from_url
+    raise NoValidUrlKeyFound
+gspread.exceptions.NoValidUrlKeyFound
+Started server process [24592]
+Waiting for application startup.
+Application startup complete.
+Started server process [28496]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [28496]
+Started server process [1556]
+Waiting for application startup.
+Application startup complete.

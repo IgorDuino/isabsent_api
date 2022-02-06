@@ -46,6 +46,14 @@ class TeacherListGet(BaseModel):
     teachers: List[TeacherGet]
 
 
+class TeacherPatch(BaseModel):
+    new_name: Optional[str]
+    new_surname: Optional[str]
+    new_patronymic: Optional[str]
+    new_class_name: Optional[str]
+    new_school_name: Optional[str]
+
+
 class StudentTeacher(BaseModel):
     name: str
     surname: str
@@ -92,6 +100,14 @@ class StudentGet(BaseModel):
 
 class StudentListGet(BaseModel):
     students: List[StudentGet]
+
+
+class StudentPatch(BaseModel):
+    new_name: Optional[str]
+    new_surname: Optional[str]
+    new_patronymic: Optional[str]
+    new_class_name: Optional[str]
+    new_school_name: Optional[str]
 
 
 class School(BaseModel):
