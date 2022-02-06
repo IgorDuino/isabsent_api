@@ -9,7 +9,6 @@ from fastapi.responses import JSONResponse
 from data import db_session
 from data.user import User
 from jose import jwt
-from tools.tools import check_password
 from routers.auth.auth import token_check
 
 
