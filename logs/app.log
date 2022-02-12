@@ -3883,3 +3883,13 @@ Application startup complete.
 Started server process [21916]
 Waiting for application startup.
 Application startup complete.
+Started server process [15600]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [15600]
+Started server process [17668]
+Waiting for application startup.
+Application startup complete.
