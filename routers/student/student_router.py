@@ -25,10 +25,12 @@ student_router = APIRouter()
                                404: {"model": NotFound}})
 def student_absent_put(body: schemas.Absent, code: str = None, tg_user_id: int = None):
     """
-        Add student absent in db and google spreadsheets:
+        Add student absent in db and google spreadsheets
 
-        - **code**: unique code, all students have this code, not required
-        - **tg_user_id**: unique telegram user id, not required
+        ### Query (_only one parameter required_):
+        - **code**: unique code, all students have this code
+        - **tg_user_id**: unique telegram user id
+        ### Body:
         - **date**: date when student will absent, required
         - **reason** absent`s reason, required
         - **file** photo or file of official proof, not required
@@ -107,45 +109,39 @@ def student_absent_put(body: schemas.Absent, code: str = None, tg_user_id: int =
 @student_router.get('/student/absents',
                     summary='Get student absent list',
                     status_code=status.HTTP_200_OK,
-                    responses={200: {"model": schemas.AbsentList, "description": "Successful Response"},
+                    responses={200: {"model": schemas.AbsentGetList, "description": "Successful Response"},
                                400: {"model": BadRequest},
                                404: {"model": NotFound}})
 def student_absent_get(code: str = None, tg_user_id: int = None):
     """
-        Get student absents by code or tg user id, only one of parameters is required:
+        Get student absents by code or tg user id
 
+        ### Query (_only one parameter required_):
         - **code**: unique code, all students have this code
         - **tg_user_id**: unique telegram user id
     """
     try:
         db_sess = db_session.create_session()
-        student_id = 0
 
         if not (code is None):
             student = db_sess.query(Student).filter(Student.code == code).first()
 
             if student is None:
                 raise StudentNotFoundError(student_code=code)
-
-            student_id = student.id
-
         elif not (tg_user_id is None):
             student = db_sess.query(Student).filter(Student.tg_user_id == tg_user_id).first()
 
             if student is None:
                 raise StudentNotFoundError(student_tg_user_id=tg_user_id)
-
-            student_id = student.id
         else:
             raise RequestDataKeysError([], ['code', 'tg_user_id'])
 
-        absents = db_sess.query(Absent).filter(Absent.student_id == student_id).all()
-
-        absent_list = schemas.AbsentList(absents=[])
-        for absent in absents:
-            absent = schemas.Absent(
+        absent_list = schemas.AbsentGetList(absents=[])
+        for absent in student.absents:
+            absent = schemas.AbsentGet(
                 date=datetime.date.strftime(absent.date, string_date_format),
-                reason=absent.reason
+                reason=absent.reason,
+                code=student.code
             )
 
             if not (absent.file is None):
@@ -163,23 +159,24 @@ def student_absent_get(code: str = None, tg_user_id: int = None):
         return JSONResponse(**NotFound(content=str(error)).dict())
 
 
-@student_router.patch('/student/absents',
-                      summary='Get student absent list',
-                      status_code=status.HTTP_200_OK,
-                      responses={200: {"model": schemas.AbsentList},
-                                 400: {"model": BadRequest},
-                                 404: {"model": NotFound}})
+# @student_router.patch('/student/absents',
+#                       summary='Get student absent list',
+#                       status_code=status.HTTP_200_OK,
+#                       responses={200: {"model": schemas.Absent},
+#                                  400: {"model": BadRequest},
+#                                  404: {"model": NotFound}})
 # def student_absent_patch(body: schemas.AbsentPatch, code: str = None, tg_user_id: int = None, date: str = None):
 #     """
-#         Change student absents by code or tg user id, only one of parameters is required:
+#         Change student absents by code or tg user id
 #
-#         Query:
-#             - **code**: unique code, all students have this code
-#             - **tg_user_id**: unique telegram user id
-#         Body:
-#             - **new_date**: new date for absent, not required
-#             - **new_reason**: new reason for absent, not required
-#             - **new_file**: new file for absent, not required
+#         ### Query (_only one parameter required_):
+#         - **code**: unique code, all students have this code
+#         - **tg_user_id**: unique telegram user id
+#         - **date**: absent date
+#         ### Body:
+#         - **new_date**: new date for absent, not required
+#         - **new_reason**: new reason for absent, not required
+#         - **new_file**: new file for absent, not required
 #     """
 #     try:
 #         db_sess = db_session.create_session()
@@ -222,8 +219,9 @@ def student_absent_get(code: str = None, tg_user_id: int = None):
                                 404: {"model": NotFound}})
 def student_tg_auth(body: schemas.TgAuth):
     """
-        Binding tg user id to student code, all parameters are required:
+        Binding telegram user id to student code
 
+        ### Body (_all parameters required_):
         - **code**: unique code, all students have this code
         - **tg_user_id**: unique telegram user id
     """
@@ -261,8 +259,9 @@ def student_tg_auth(body: schemas.TgAuth):
                                 404: {"model": NotFound}})
 def student_pass(body: schemas.CodeTgUserId):
     """
-        Generating new code for student, only one of parameters is required:
+        Generating new code for student with given code or telegram id
 
+         ### Body (_only one parameter required_):
         - **code**: unique code, all students have this code
         - **tg_user_id**: unique telegram user id
     """
@@ -321,8 +320,9 @@ def student_pass(body: schemas.CodeTgUserId):
                                404: {"model": NotFound}})
 def student_get(code: str = None, tg_user_id: int = None):
     """
-        Get information about student with given code or tg user id, only one of parameters is required:
+        Get information about student with given code or tg user id
 
+         ### Query (_only one parameter required_):
         - **code**: unique code, all students have this code
         - **tg_user_id**: unique telegram user id
     """
@@ -385,11 +385,12 @@ def student_get(code: str = None, tg_user_id: int = None):
                                   404: {"model": NotFound}})
 def student_delete(code: str = None, tg_user_id: int = None, absents: bool = False):
     """
-        Delete student with given code or tg user id:
+        Delete student with given code or tg user id
 
-        - **code**: unique code, all students have this code, not required
-        - **tg_user_id**: unique telegram user id, not required
-        - **absents**: flag when true absents from given student will delete, not required
+         ### Query:
+        - **code**: unique code, all students have this code
+        - **tg_user_id**: unique telegram user id
+        - **absents**: flag, when true absents from given student will delete, not required
     """
     try:
         db_sess = db_session.create_session()
@@ -428,15 +429,18 @@ def student_delete(code: str = None, tg_user_id: int = None, absents: bool = Fal
                                  404: {"model": NotFound}})
 def student_patch(body: schemas.StudentPatch, code: str = None, tg_user_id: int = None):
     """
-        Patch student with given code or tg user id:
+        Patch student with given code or tg user id
 
-        - **code**: unique code, all students have this code, not required
-        - **tg_user_id**: unique telegram user id, not required
-        - **new_name**: new name for user, not required
-        - **new_surname**: new surname for user, not required
-        - **new_patronymic**: new patronymic for user, not required
-        - **new_class_name**: new class name for user, not required
-        - **new_school_name**: new school name for user, not required
+         ### Query (_only one parameter required_):
+        - **code**: unique code, all students have this code
+        - **tg_user_id**: unique telegram user id
+
+        ### Body:
+        - **new_name**: new name for student, not required
+        - **new_surname**: new surname for student, not required
+        - **new_patronymic**: new patronymic for student, not required
+        - **new_class_name**: new class name for student, not required
+        - **new_school_name**: new school name for student, not required
     """
     try:
         db_sess = db_session.create_session()
@@ -465,7 +469,6 @@ def student_patch(body: schemas.StudentPatch, code: str = None, tg_user_id: int 
         db_sess.commit()
 
         return JSONResponse(**SuccessfulResponse(content='Student changed').dict())
-
     except RequestDataKeysError as error:
         logging.warning(error)
         return JSONResponse(**BadRequest(content=str(error)).dict())

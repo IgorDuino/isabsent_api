@@ -22,8 +22,9 @@ user_router = APIRouter()
                             400: {"model": BadRequest}})
 def user_put(body: schemas.User):
     """
-        Add new user, all parameters are required:
+        Add new user
 
+        ### Body (_all parameters are required_):
         - **login**: unique user login
         - **password**: user password
         - **email**: user email
@@ -58,6 +59,7 @@ def user_get(login: str):
     """
         Get information about user with given login:
 
+        ### Query:
         - **login**: user login, required
     """
     try:
@@ -106,9 +108,12 @@ def user_get():
                               400: {"model": BadRequest}})
 def user_patch(login: str, body: schemas.UserPatch):
     """
-        Patch user with given login:
+        Patch user with given login
 
+        ### Query:
         - **login**: user login, required
+
+        ### Body:
         - **new_password**: new password for user, not required
         - **new_email**: new email for user, not required
         - **new_login**: new login for user, not required
@@ -145,8 +150,9 @@ def user_patch(login: str, body: schemas.UserPatch):
                                404: {"model": NotFound}})
 def user_delete(login: str):
     """
-        Delete user with given login:
+        Delete user with given login
 
+        ### Query:
         - **login**: user login, required
     """
     try:

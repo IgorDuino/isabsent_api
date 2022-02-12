@@ -24,8 +24,9 @@ school_router = APIRouter()
                               400: {"model": BadRequest}})
 def school_put(body: schemas.School):
     """
-        Add new school, all parameters are required:
+        Add new school
 
+        ### Body (all parameters are required):
         - **school_name**: school name
         - **link**: link to google spreadsheets
     """
@@ -58,8 +59,9 @@ def school_put(body: schemas.School):
                               400: {"model": BadRequest}})
 def school_get(name: str):
     """
-        Get information about school by name:
+        Get information about school by name
 
+        ### Query:
         - **school_name**: school name, required
     """
     try:
@@ -83,7 +85,7 @@ def school_get(name: str):
                               400: {"model": BadRequest}})
 def schools_get():
     """
-        Get school list, no parameters need
+        Get school list, no parameters needed
     """
     try:
         db_sess = db_session.create_session()
@@ -110,6 +112,7 @@ def teachers_put(body: schemas.TeacherListPost):
     """
         Add teacher list to given school:
 
+        ### Body:
         - **school_name**: school name, required
         - **teachers**: list of teachers, not required, if not given, teachers will take from Google spreadsheets
     """
@@ -163,8 +166,9 @@ def teachers_put(body: schemas.TeacherListPost):
                               404: {"model": NotFound}})
 def teachers_get(school_name: str):
     """
-        Get teacher list from given school:
+        Get teacher list from given school
 
+        ### Query:
         - **school_name**: school name, required
     """
     try:
@@ -199,16 +203,17 @@ def teachers_get(school_name: str):
 
 
 @school_router.get('/school/absents',
-                   summary='Get list of absents',
+                   summary='Get absent list',
                    status_code=status.HTTP_200_OK,
-                   responses={200: {"model": schemas.AbsentList},
+                   responses={200: {"model": schemas.AbsentGetList},
                               400: {"model": BadRequest},
                               404: {"model": NotFound}})
 def absents_get(school_name: str):
     """
        Get absent list from given school:
 
-       - **school_name**: school name, required
+        ### Query:
+        - **school_name**: school name, required
    """
     try:
         db_sess = db_session.create_session()
@@ -222,14 +227,13 @@ def absents_get(school_name: str):
         for student in students:
             absents += student.absents
 
-        absent_json_list = schemas.AbsentList(absents=[])
+        absent_json_list = schemas.AbsentGetList(absents=[])
         for absent in absents:
             student = absent.student
-            absent_json = schemas.Absent(
+            absent_json = schemas.AbsentGet(
                 date=datetime.date.strftime(absent.date, string_date_format),
                 reason=absent.reason,
-                code=student.code,
-                tg_user_id=student.tg_user_id
+                code=student.code
             )
 
             if not (absent.file is None):
@@ -251,8 +255,9 @@ def absents_get(school_name: str):
                               404: {"model": NotFound}})
 def students_put(body: schemas.StudentListPost):
     """
-        Add student list to given school:
+        Add student list to given school
 
+        ### Body:
         - **school_name**: school name, required
         - **teachers**: list of students, not required, if not given, teachers will take from Google spreadsheets
     """
@@ -309,6 +314,7 @@ def students_get(school_name: str):
     """
         Get student list from given school:
 
+        ### Query:
         - **school_name**: school name, required
     """
     try:
@@ -350,9 +356,10 @@ def students_get(school_name: str):
                               404: {"model": NotFound}})
 def find_by_code(code: str = None, tg_user_id: int = None):
     """
-        Get information about teacher or student with given code or tg user id, only one of parameters is required:
+        Get information about teacher or student with given code or tg user id
 
-        - **code**: unique code, all teachers have this code
+        ### Query (_only one parameter required_):
+        - **code**: unique code
         - **tg_user_id**: unique telegram user id
     """
     try:
@@ -441,8 +448,9 @@ def find_by_code(code: str = None, tg_user_id: int = None):
                                  404: {"model": NotFound}})
 def school_del(name: str, teachers: bool = False, students: bool = False, absents: bool = False):
     """
-        Delete school with given name:
+        Delete school with given name
 
+        ### Query:
         - **name**: unique school name, required
         - **teachers**: flag when true teachers from given school will delete, not required
         - **students**: flag when true students from given school will delete, not required
@@ -482,8 +490,12 @@ def school_del(name: str, teachers: bool = False, students: bool = False, absent
                                 404: {"model": NotFound}})
 def school_patch(name: str, body: schemas.SchoolPatch):
     """
-        Change school with given name:
+        Change school with given name
 
+        ### Query:
+        - **name**: school name, required
+
+        ### Body:
         - **new_name**: new school name, not required
         - **new_link**: new link name, not required
     """

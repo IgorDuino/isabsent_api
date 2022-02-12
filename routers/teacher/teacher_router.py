@@ -24,8 +24,9 @@ teacher_router = APIRouter()
                                 404: {"model": NotFound}})
 def teacher_tg_auth(body: schemas.TgAuth):
     """
-        Binding tg user id to teacher code, all parameters are required:
+        Binding tg user id to teacher code
 
+         ### Body (_all parameters required_):
         - **code**: unique code, all teachers have this code
         - **tg_user_id**: unique telegram user id
     """
@@ -62,15 +63,13 @@ def teacher_tg_auth(body: schemas.TgAuth):
                                 404: {"model": NotFound}})
 def teacher_pass(body: schemas.CodeTgUserId):
     """
-        Generating new code for teacher, only one of parameters is required:
+        Generating new code for teacher:
 
+        ### Body (_only one parameter required_):
         - **code**: unique code, all teachers have this code
         - **tg_user_id**: unique telegram user id
     """
     try:
-        link = ''
-        old_code = ''
-
         db_sess = db_session.create_session()
         gen_code = generate_unique_code(db_sess)
         if not (body.code is None):
@@ -121,8 +120,9 @@ def teacher_pass(body: schemas.CodeTgUserId):
                                404: {"model": NotFound}})
 def teacher_get(code: str = None, tg_user_id: int = None):
     """
-        Get information about teacher with given code or tg user id, only one of parameters is required:
+        Get information about teacher with given code or tg user id
 
+        ### Query (_only one parameter required_):
         - **code**: unique code, all teachers have this code
         - **tg_user_id**: unique telegram user id
     """
@@ -148,7 +148,6 @@ def teacher_get(code: str = None, tg_user_id: int = None):
                 response_body.tg_user_id = teacher.tg_user_id
 
             return JSONResponse(content=response_body.dict(), status_code=status.HTTP_200_OK)
-
         elif not (tg_user_id is None):
             teacher = db_sess.query(Teacher).filter(Teacher.tg_user_id == tg_user_id).first()
 
@@ -186,15 +185,15 @@ def teacher_get(code: str = None, tg_user_id: int = None):
                                404: {"model": NotFound}})
 def teacher_get_student_by_name(name: str, code: str = None, tg_user_id: int = None):
     """
-        Get information about teacher students with given name:
+        Get information about teacher students with given name
 
-        - **code**: unique code, all teachers have this code, not required
-        - **tg_user_id**: unique telegram user id, not required
+        ### Query:
+        - **code**: unique code, all teachers have this code
+        - **tg_user_id**: unique telegram user id
         - **name**: student name, required
     """
     try:
         db_sess = db_session.create_session()
-        teacher = None
 
         if not (code is None):
             teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
@@ -232,8 +231,8 @@ def teacher_get_student_by_name(name: str, code: str = None, tg_user_id: int = N
                 student_json.tg_user_id = student.tg_user_id
 
             response_json.students.append(student_json)
-        return JSONResponse(content=response_json.dict(), status_code=status.HTTP_200_OK)
 
+        return JSONResponse(content=response_json.dict(), status_code=status.HTTP_200_OK)
     except TeacherNotFoundError as error:
         logging.warning(error)
         return JSONResponse(**NotFound(content=str(error)).dict())
@@ -243,7 +242,7 @@ def teacher_get_student_by_name(name: str, code: str = None, tg_user_id: int = N
 
 
 @teacher_router.get('/teacher/students',
-                    summary='Get students by name',
+                    summary='Get student list',
                     status_code=status.HTTP_200_OK,
                     responses={200: {"model": schemas.StudentListGet},
                                400: {"model": BadRequest},
@@ -252,8 +251,9 @@ def teacher_get_student_by_name(code: str = None, tg_user_id: int = None):
     """
         Get information about teacher students with given code or tg user id:
 
-        - **code**: unique code, all teachers have this code, not required
-        - **tg_user_id**: unique telegram user id, not required
+        ### Query (_only one parameter required_):
+        - **code**: unique code, all teachers have this code
+        - **tg_user_id**: unique telegram user id
     """
     try:
         db_sess = db_session.create_session()
@@ -286,7 +286,6 @@ def teacher_get_student_by_name(code: str = None, tg_user_id: int = None):
                                    tg_user_id=student.tg_user_id))
 
         return JSONResponse(content=student_list.dict(), status_code=status.HTTP_200_OK)
-
     except TeacherNotFoundError as error:
         logging.warning(error)
         return JSONResponse(**NotFound(content=str(error)).dict())
@@ -296,70 +295,55 @@ def teacher_get_student_by_name(code: str = None, tg_user_id: int = None):
 
 
 @teacher_router.get('/teacher/absents',
-                    summary='Get teacher`s student absent list',
+                    summary='Get student absent list',
                     status_code=status.HTTP_200_OK,
-                    responses={200: {"model": schemas.AbsentList},
+                    responses={200: {"model": schemas.AbsentGetList},
                                400: {"model": BadRequest},
                                404: {"model": NotFound}})
 def teacher_students_absents(date: str, code: str = None, tg_user_id: int = None):
     """
-        Get student absent from teacher with given code or tg user id:
+        Get student absents from teacher with given code or tg user id
 
-        - **code**: unique code, all teachers have this code, not required
-        - **tg_user_id**: unique telegram user id, not required
+        ### Query:
+        - **code**: unique code, all teachers have this code
+        - **tg_user_id**: unique telegram user id
         - **date**: absent date, required
     """
     try:
         db_sess = db_session.create_session()
-        response_dict = schemas.AbsentList(absents=[])
+        response_dict = schemas.AbsentGetList(absents=[])
+
         if not (code is None):
             teacher = db_sess.query(Teacher).filter(Teacher.code == code).first()
             if teacher is None:
                 raise TeacherNotFoundError(teacher_code=code)
-
-            for student in teacher.students:
-                for absent in student.absents:
-                    if date is None:
-                        response_dict.absents.append(schemas.Absent(
-                            date=absent.date.isoformat(),
-                            reason=absent.reason,
-                            code=student.code
-                        ))
-                        continue
-
-                    if absent.date.isoformat() == date:
-                        response_dict.absents.append(schemas.Absent(
-                            date=absent.date.isoformat(),
-                            reason=absent.reason,
-                            code=student.code,
-                        ))
 
         elif not (tg_user_id is None):
             teacher = db_sess.query(Teacher).filter(Teacher.tg_user_id == tg_user_id).first()
             if teacher is None:
                 raise TeacherNotFoundError(teacher_tg_user_id=tg_user_id)
 
-            for student in teacher.students:
-                for absent in student.absents:
-                    if date is None:
-                        response_dict.absents.append(schemas.Absent(
-                            date=absent.date,
-                            reason=absent.reason,
-                            code=student.code,
-                        ))
-                        continue
-
-                    if absent.date.isoformat() == date:
-                        response_dict.absents.append(schemas.Absent(
-                            date=absent.date.isoformat(),
-                            reason=absent.reason,
-                            code=student.code,
-                        ))
         else:
             raise RequestDataKeysError([], ['code', 'tg_user_id'])
 
-        return JSONResponse(content=response_dict.dict(), status_code=status.HTTP_200_OK)
+        for student in teacher.students:
+            for absent in student.absents:
+                if date is None:
+                    response_dict.absents.append(schemas.AbsentGet(
+                        date=absent.date.isoformat(),
+                        reason=absent.reason,
+                        code=student.code
+                    ))
+                    continue
 
+                if absent.date.isoformat() == date:
+                    response_dict.absents.append(schemas.AbsentGet(
+                        date=absent.date.isoformat(),
+                        reason=absent.reason,
+                        code=student.code,
+                    ))
+
+        return JSONResponse(content=response_dict.dict(), status_code=status.HTTP_200_OK)
     except TeacherNotFoundError as error:
         logging.warning(error)
         return JSONResponse(**NotFound(content=str(error)).dict())
@@ -376,8 +360,9 @@ def teacher_students_absents(date: str, code: str = None, tg_user_id: int = None
                                   404: {"model": NotFound}})
 def teacher_delete(code: str = None, tg_user_id: int = None, students: bool = False, absents: bool = False):
     """
-        Delete teacher with given code or tg user id, only one of parameters is required:
+        Delete teacher with given code or tg user id, only one of parameters is required
 
+        ### Query:
         - **code**: unique code, all teachers have this code
         - **tg_user_id**: unique telegram user id
         - **students**: flag when true students from given teacher will delete, not required
@@ -407,7 +392,6 @@ def teacher_delete(code: str = None, tg_user_id: int = None, students: bool = Fa
         db_sess.commit()
 
         return JSONResponse(**SuccessfulResponse(content='Teacher deleted').dict())
-
     except TeacherNotFoundError as error:
         logging.warning(error)
         return JSONResponse(**NotFound(content=str(error)).dict())
@@ -422,14 +406,21 @@ def teacher_delete(code: str = None, tg_user_id: int = None, students: bool = Fa
                       responses={200: {"model": SuccessfulResponse},
                                  400: {"model": BadRequest},
                                  404: {"model": NotFound}})
-def teacher_get(body: schemas.TeacherPatch, code: str = None, tg_user_id: int = None):
+def teacher_patch(body: schemas.TeacherPatch, code: str = None, tg_user_id: int = None):
     """
-        Patch teacher with given code or tg user id, only one of parameters is required:
+        Patch teacher with given code or tg user id
 
+        ### Query:
         - **code**: unique code, all teachers have this code
         - **tg_user_id**: unique telegram user id
-        - **students**: flag when true students from given teacher will delete, not required
-        - **absents**: flag when true absents from given teacher will delete, not required
+
+        ### Body:
+        - **new_name**: new name for student, not required
+        - **new_surname**: new surname for student, not required
+        - **new_patronymic**: new patronymic for student, not required
+        - **new_class_name**: new class name for student, not required
+        - **new_school_name**: new school name for student, not required
+
     """
     try:
         db_sess = db_session.create_session()
@@ -458,7 +449,6 @@ def teacher_get(body: schemas.TeacherPatch, code: str = None, tg_user_id: int = 
         db_sess.commit()
 
         return JSONResponse(**SuccessfulResponse(content='Teacher deleted').dict())
-
     except TeacherNotFoundError as error:
         logging.warning(error)
         return JSONResponse(**NotFound(content=str(error)).dict())

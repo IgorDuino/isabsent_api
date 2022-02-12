@@ -70,15 +70,21 @@ class Absent(BaseModel):
     file: Optional[bytes]
 
 
-class AbsentList(BaseModel):
-    absents: List[Absent]
-
-
-class AbsentPatch(BaseModel):
-    tg_user_id: Optional[int]
+class AbsentGet(BaseModel):
+    code: str
     date: str
     reason: str
     file: Optional[bytes]
+
+
+class AbsentGetList(BaseModel):
+    absents: List[AbsentGet]
+
+
+class AbsentPatch(BaseModel):
+    new_date: str
+    new_reason: str
+    new_file: Optional[bytes]
 
 
 class StudentPost(BaseModel):
