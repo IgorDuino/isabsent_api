@@ -23,7 +23,7 @@ student_router = APIRouter()
                     responses={201: {"model": CreatedResponse, "description": "Absent has been added"},
                                400: {"model": BadRequest},
                                404: {"model": NotFound}})
-def student_absent_put(body: schemas.Absent):
+def student_absent_put(body: schemas.Absent, code: str = None, tg_user_id: int = None):
     """
         Add student absent in db and google spreadsheets:
 
@@ -41,8 +41,8 @@ def student_absent_put(body: schemas.Absent):
 
         date = datetime.datetime.strptime(body.date, string_date_format).date()
 
-        if not (body.code is None):
-            student_code = body.code
+        if not (code is None):
+            student_code = code
             student = db_sess.query(Student).filter(Student.code == student_code).first()
 
             if student is None:
@@ -52,8 +52,8 @@ def student_absent_put(body: schemas.Absent):
             school = student.school
             link = school.link
 
-        elif not(body.tg_user_id is None):
-            tg_user_id = body.tg_user_id
+        elif not (tg_user_id is None):
+            tg_user_id = tg_user_id
             student = db_sess.query(Student).filter(Student.tg_user_id == tg_user_id).first()
 
             if student is None:
@@ -145,9 +145,7 @@ def student_absent_get(code: str = None, tg_user_id: int = None):
         for absent in absents:
             absent = schemas.Absent(
                 date=datetime.date.strftime(absent.date, string_date_format),
-                reason=absent.reason,
-                code=student.code,
-                tg_user_id=student.tg_user_id
+                reason=absent.reason
             )
 
             if not (absent.file is None):
@@ -163,6 +161,57 @@ def student_absent_get(code: str = None, tg_user_id: int = None):
     except StudentNotFoundError as error:
         logging.warning(error)
         return JSONResponse(**NotFound(content=str(error)).dict())
+
+
+@student_router.patch('/student/absents',
+                      summary='Get student absent list',
+                      status_code=status.HTTP_200_OK,
+                      responses={200: {"model": schemas.AbsentList},
+                                 400: {"model": BadRequest},
+                                 404: {"model": NotFound}})
+# def student_absent_patch(body: schemas.AbsentPatch, code: str = None, tg_user_id: int = None, date: str = None):
+#     """
+#         Change student absents by code or tg user id, only one of parameters is required:
+#
+#         Query:
+#             - **code**: unique code, all students have this code
+#             - **tg_user_id**: unique telegram user id
+#         Body:
+#             - **new_date**: new date for absent, not required
+#             - **new_reason**: new reason for absent, not required
+#             - **new_file**: new file for absent, not required
+#     """
+#     try:
+#         db_sess = db_session.create_session()
+#
+#         if not (code is None):
+#             student = db_sess.query(Student).filter(Student.code == code).first()
+#
+#             if student is None:
+#                 raise StudentNotFoundError(student_code=code)
+#
+#         elif not (tg_user_id is None):
+#             student = db_sess.query(Student).filter(Student.tg_user_id == tg_user_id).first()
+#
+#             if student is None:
+#                 raise StudentNotFoundError(student_tg_user_id=tg_user_id)
+#         else:
+#             raise RequestDataKeysError([], ['code', 'tg_user_id'])
+#
+#         school = student.school
+#         code = student.code
+#         for absent in student.absents:
+#             if absent.date == datetime.datetime.strptime(date, string_date_format):
+#                 google_spread_sheets.google_sheets_student_absent_patch(school.link, date, code, body)
+#
+#         # return JSONResponse(content=absent_list.dict(), status_code=status.HTTP_200_OK)
+#
+#     except RequestDataKeysError as error:
+#         logging.warning(error)
+#         return JSONResponse(**BadRequest(content=str(error)).dict())
+#     except StudentNotFoundError as error:
+#         logging.warning(error)
+#         return JSONResponse(**NotFound(content=str(error)).dict())
 
 
 @student_router.post('/student/tg_auth',

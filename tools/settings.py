@@ -1,3 +1,27 @@
+import os
+
 string_date_format = '%Y-%m-%d'
-SECRET_KEY = "1627403a671b12805a499e7e061d1c8d82ed380ba607895565b2b59c62458a54"
-ALGORITHM = "HS256"
+SECRET_KEY = os.environ['SECRET_KEY']
+ALGORITHM = os.environ['ALGORITHM']
+TAGS_METADATA = [
+    {
+        "name": "Auth",
+        "description": "OAuth2 token operations."
+    },
+    {
+        "name": "User",
+        "description": "Operations with users.",
+    },
+    {
+        "name": "Teacher",
+        "description": "Operations with teachers",
+    },
+    {
+        "name": "Student",
+        "description": "Operations with students and absents",
+    },
+    {
+        "name": "School",
+        "description": "Operations with schools",
+    }
+]

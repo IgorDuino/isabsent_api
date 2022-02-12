@@ -110,7 +110,7 @@ class GoogleSpreadSheetsApi:
 
         return student_list
 
-    def google_sheets_student_absent(self, link: str, date: datetime.date, reason: str,
+    def google_sheets_student_absent(self, link: str, date: datetime.date, code: str, reason: str,
                                      name: str, surname: str, patronymic: str, class_name: str, proof: bytes = ''):
         """Adding student absent into google sheet"""
         table = self.gc.open_by_url(link)
@@ -119,10 +119,25 @@ class GoogleSpreadSheetsApi:
                 worksheet = table.worksheet(str(date))
                 break
         else:
-            worksheet = table.add_worksheet(title=str(date), rows=1000, cols=6)
+            worksheet = table.add_worksheet(title=str(date), rows=1000, cols=7)
             self.style_new_worksheet(worksheet)
 
-        worksheet.append_row([class_name, surname, name, patronymic, reason, proof])
+        worksheet.append_row([class_name, surname, name, patronymic, reason, proof, code])
+
+    def google_sheets_student_absent_patch(self, link: str, date: datetime.date, code: str, body,
+                                           reason: str, class_name: str, proof: bytes = ''):
+        """Change student absent into google sheet"""
+        table = self.gc.open_by_url(link)
+        for worksheet_elem in table.worksheets():
+            if str(date) == worksheet_elem._properties['title']:
+                worksheet = table.worksheet(str(date))
+                break
+        else:
+            worksheet = table.add_worksheet(title=str(date), rows=1000, cols=7)
+            self.style_new_worksheet(worksheet)
+
+        worksheet.append_row([class_name, surname, name, patronymic, reason, proof, code])
+
 
 
 google_spread_sheets = GoogleSpreadSheetsApi('google_spreadsheets/google_credentials.json')

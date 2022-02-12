@@ -8,12 +8,13 @@ from routers.teacher.teacher_router import teacher_router
 from routers.student.student_router import student_router
 from routers.school.school_router import school_router
 from routers.user.user_router import user_router
+from tools.settings import *
 
 
 logger = logging.getLogger("uvicorn")
 logger.addHandler(logging.FileHandler("./logs/app.log"))
 
-app = FastAPI()
+app = FastAPI(openapi_tags=TAGS_METADATA)
 app.include_router(auth_router, prefix="/v1", tags=["Auth"])
 app.include_router(user_router, prefix='/v1', tags=['User'])
 app.include_router(teacher_router, prefix="/v1", tags=["Teacher"], dependencies=[Depends(token_check)])

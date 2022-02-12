@@ -65,8 +65,6 @@ class StudentTeacher(BaseModel):
 
 
 class Absent(BaseModel):
-    code: Optional[str]
-    tg_user_id: Optional[int]
     date: str
     reason: str
     file: Optional[bytes]
@@ -74,6 +72,13 @@ class Absent(BaseModel):
 
 class AbsentList(BaseModel):
     absents: List[Absent]
+
+
+class AbsentPatch(BaseModel):
+    tg_user_id: Optional[int]
+    date: str
+    reason: str
+    file: Optional[bytes]
 
 
 class StudentPost(BaseModel):
