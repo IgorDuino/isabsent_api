@@ -14,7 +14,8 @@ from tools.settings import *
 logger = logging.getLogger("uvicorn")
 logger.addHandler(logging.FileHandler("./logs/app.log"))
 
-app = FastAPI(openapi_tags=TAGS_METADATA)
+app = FastAPI(**APP_SETTINGS)
+
 app.include_router(auth_router, prefix="/v1", tags=["Auth"])
 app.include_router(user_router, prefix='/v1', tags=['User'])
 app.include_router(teacher_router, prefix="/v1", tags=["Teacher"], dependencies=[Depends(token_check)])
