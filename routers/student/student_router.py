@@ -159,56 +159,62 @@ def student_absent_get(code: str = None, tg_user_id: int = None):
         return JSONResponse(**NotFound(content=str(error)).dict())
 
 
-# @student_router.patch('/student/absents',
-#                       summary='Get student absent list',
-#                       status_code=status.HTTP_200_OK,
-#                       responses={200: {"model": schemas.Absent},
-#                                  400: {"model": BadRequest},
-#                                  404: {"model": NotFound}})
-# def student_absent_patch(body: schemas.AbsentPatch, code: str = None, tg_user_id: int = None, date: str = None):
-#     """
-#         Change student absents by code or tg user id
-#
-#         ### Query (_only one parameter required_):
-#         - **code**: unique code, all students have this code
-#         - **tg_user_id**: unique telegram user id
-#         - **date**: absent date
-#         ### Body:
-#         - **new_date**: new date for absent, not required
-#         - **new_reason**: new reason for absent, not required
-#         - **new_file**: new file for absent, not required
-#     """
-#     try:
-#         db_sess = db_session.create_session()
-#
-#         if not (code is None):
-#             student = db_sess.query(Student).filter(Student.code == code).first()
-#
-#             if student is None:
-#                 raise StudentNotFoundError(student_code=code)
-#
-#         elif not (tg_user_id is None):
-#             student = db_sess.query(Student).filter(Student.tg_user_id == tg_user_id).first()
-#
-#             if student is None:
-#                 raise StudentNotFoundError(student_tg_user_id=tg_user_id)
-#         else:
-#             raise RequestDataKeysError([], ['code', 'tg_user_id'])
-#
-#         school = student.school
-#         code = student.code
-#         for absent in student.absents:
-#             if absent.date == datetime.datetime.strptime(date, string_date_format):
-#                 google_spread_sheets.google_sheets_student_absent_patch(school.link, date, code, body)
-#
-#         # return JSONResponse(content=absent_list.dict(), status_code=status.HTTP_200_OK)
-#
-#     except RequestDataKeysError as error:
-#         logging.warning(error)
-#         return JSONResponse(**BadRequest(content=str(error)).dict())
-#     except StudentNotFoundError as error:
-#         logging.warning(error)
-#         return JSONResponse(**NotFound(content=str(error)).dict())
+@student_router.patch('/student/absent',
+                      summary='Change absent',
+                      status_code=status.HTTP_200_OK,
+                      responses={200: {"model": schemas.Absent},
+                                 400: {"model": BadRequest},
+                                 404: {"model": NotFound}})
+def student_absent_patch(body: schemas.AbsentPatch, date: str, code: str = None, tg_user_id: int = None):
+    """
+        Change student absent in given date by code or tg user id
+
+        ### Query (_only one parameter required_):
+        - **code**: unique code, all students have this code
+        - **tg_user_id**: unique telegram user id
+        - **date**: absent date
+
+        ### Body:
+        - **new_date**: new date for absent, not required
+        - **new_reason**: new reason for absent, not required
+        - **new_file**: new file for absent, not required
+    """
+    try:
+        db_sess = db_session.create_session()
+
+        if not (code is None):
+            student = db_sess.query(Student).filter(Student.code == code).first()
+
+            if student is None:
+                raise StudentNotFoundError(student_code=code)
+
+        elif not (tg_user_id is None):
+            student = db_sess.query(Student).filter(Student.tg_user_id == tg_user_id).first()
+
+            if student is None:
+                raise StudentNotFoundError(student_tg_user_id=tg_user_id)
+        else:
+            raise RequestDataKeysError([], ['code', 'tg_user_id'])
+
+        school = student.school
+        code = student.code
+        for absent in student.absents:
+            if absent.date == datetime.datetime.strptime(date, string_date_format):
+                if body.new_reason:
+                    absent.reason = body.new_reason
+                if body.new_date:
+                    absent.date = body.new_date
+                if body.new_file:
+                    absent.file = body.new_file
+                break
+
+        return JSONResponse(**SuccessfulResponse(content='Absent Changed').dict())
+    except RequestDataKeysError as error:
+        logging.warning(error)
+        return JSONResponse(**BadRequest(content=str(error)).dict())
+    except StudentNotFoundError as error:
+        logging.warning(error)
+        return JSONResponse(**NotFound(content=str(error)).dict())
 
 
 @student_router.post('/student/tg_auth',

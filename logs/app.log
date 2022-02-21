@@ -4037,3 +4037,923 @@ Application startup complete.
 Started server process [24184]
 Waiting for application startup.
 Application startup complete.
+Started server process [19312]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [19312]
+Started server process [7308]
+Waiting for application startup.
+Application startup complete.
+Started server process [14324]
+Waiting for application startup.
+Application startup complete.
+Started server process [21364]
+Waiting for application startup.
+Application startup complete.
+Started server process [24908]
+Waiting for application startup.
+Application startup complete.
+Started server process [7184]
+Waiting for application startup.
+Application startup complete.
+Started server process [19020]
+Waiting for application startup.
+Application startup complete.
+Started server process [24680]
+Waiting for application startup.
+Application startup complete.
+Started server process [25292]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [25292]
+Started server process [25652]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2012, in get_property
+    return self._props[key]
+KeyError: 'user'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 364, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 212, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 159, in run_endpoint_function
+    return await dependant.call(**values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\auth\auth_router.py", line 17, in login_for_access_token
+    user = db_sess.query(User).filter(User.login == form_data.username).first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2139, in query
+    return self._query_cls(entities, self, **kwargs)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 180, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 187, in _set_entities
+    self._raw_columns = [
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 188, in <listcomp>
+    coercions.expect(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\sql\coercions.py", line 181, in expect
+    insp._post_inspect
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 1180, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2123, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1900, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3418, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3457, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1917, in _post_configure_properties
+    prop.init()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\interfaces.py", line 231, in init
+    self.do_init()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2155, in do_init
+    self._generate_backref()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2491, in _generate_backref
+    self._add_reverse_property(self.back_populates)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2061, in _add_reverse_property
+    other = self.mapper.get_property(key, _configure_mappers=False)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2014, in get_property
+    util.raise_(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+sqlalchemy.exc.InvalidRequestError: Mapper 'mapped class Student->students' has no property 'user'
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 364, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 212, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 159, in run_endpoint_function
+    return await dependant.call(**values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\auth\auth_router.py", line 17, in login_for_access_token
+    user = db_sess.query(User).filter(User.login == form_data.username).first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2139, in query
+    return self._query_cls(entities, self, **kwargs)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 180, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 187, in _set_entities
+    self._raw_columns = [
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 188, in <listcomp>
+    coercions.expect(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\sql\coercions.py", line 181, in expect
+    insp._post_inspect
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 1180, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2123, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1900, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3418, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3453, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'mapped class School->schools'. Original exception was: Mapper 'mapped class Student->students' has no property 'user'
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 364, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 212, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 159, in run_endpoint_function
+    return await dependant.call(**values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\auth\auth_router.py", line 17, in login_for_access_token
+    user = db_sess.query(User).filter(User.login == form_data.username).first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2139, in query
+    return self._query_cls(entities, self, **kwargs)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 180, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 187, in _set_entities
+    self._raw_columns = [
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 188, in <listcomp>
+    coercions.expect(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\sql\coercions.py", line 181, in expect
+    insp._post_inspect
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 1180, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2123, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1900, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3418, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3453, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'mapped class School->schools'. Original exception was: Mapper 'mapped class Student->students' has no property 'user'
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 364, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 212, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 34, in user_put
+    user = db_sess.query(User).filter(User.login == body.login).first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2139, in query
+    return self._query_cls(entities, self, **kwargs)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 180, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 187, in _set_entities
+    self._raw_columns = [
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 188, in <listcomp>
+    coercions.expect(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\sql\coercions.py", line 181, in expect
+    insp._post_inspect
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 1180, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2123, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1900, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3418, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3453, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'mapped class School->schools'. Original exception was: Mapper 'mapped class Student->students' has no property 'user'
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [25652]
+Started server process [3992]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2012, in get_property
+    return self._props[key]
+KeyError: 'user'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 364, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 212, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 34, in user_put
+    user = db_sess.query(User).filter(User.login == body.login).first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2139, in query
+    return self._query_cls(entities, self, **kwargs)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 180, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 187, in _set_entities
+    self._raw_columns = [
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 188, in <listcomp>
+    coercions.expect(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\sql\coercions.py", line 181, in expect
+    insp._post_inspect
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 1180, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2123, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1900, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3418, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3457, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1917, in _post_configure_properties
+    prop.init()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\interfaces.py", line 231, in init
+    self.do_init()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2155, in do_init
+    self._generate_backref()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2491, in _generate_backref
+    self._add_reverse_property(self.back_populates)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2061, in _add_reverse_property
+    other = self.mapper.get_property(key, _configure_mappers=False)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2014, in get_property
+    util.raise_(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+sqlalchemy.exc.InvalidRequestError: Mapper 'mapped class Student->students' has no property 'user'
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 364, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 212, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 34, in user_put
+    user = db_sess.query(User).filter(User.login == body.login).first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2139, in query
+    return self._query_cls(entities, self, **kwargs)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 180, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 187, in _set_entities
+    self._raw_columns = [
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 188, in <listcomp>
+    coercions.expect(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\sql\coercions.py", line 181, in expect
+    insp._post_inspect
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 1180, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2123, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1900, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3418, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3453, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'mapped class School->schools'. Original exception was: Mapper 'mapped class Student->students' has no property 'user'
+Started server process [45204]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2012, in get_property
+    return self._props[key]
+KeyError: 'user'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 364, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 212, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 67, in user_get
+    user = db_sess.query(User).filter(User.login == login).first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2139, in query
+    return self._query_cls(entities, self, **kwargs)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 180, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 187, in _set_entities
+    self._raw_columns = [
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 188, in <listcomp>
+    coercions.expect(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\sql\coercions.py", line 181, in expect
+    insp._post_inspect
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 1180, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2123, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1900, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3418, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3457, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1917, in _post_configure_properties
+    prop.init()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\interfaces.py", line 231, in init
+    self.do_init()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2155, in do_init
+    self._generate_backref()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2491, in _generate_backref
+    self._add_reverse_property(self.back_populates)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2061, in _add_reverse_property
+    other = self.mapper.get_property(key, _configure_mappers=False)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2014, in get_property
+    util.raise_(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+sqlalchemy.exc.InvalidRequestError: Mapper 'mapped class Student->students' has no property 'user'
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 364, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 212, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 159, in run_endpoint_function
+    return await dependant.call(**values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\auth\auth_router.py", line 17, in login_for_access_token
+    user = db_sess.query(User).filter(User.login == form_data.username).first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2139, in query
+    return self._query_cls(entities, self, **kwargs)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 180, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 187, in _set_entities
+    self._raw_columns = [
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 188, in <listcomp>
+    coercions.expect(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\sql\coercions.py", line 181, in expect
+    insp._post_inspect
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 1180, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2123, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1900, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3418, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3453, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'mapped class School->schools'. Original exception was: Mapper 'mapped class Student->students' has no property 'user'
+Started server process [39132]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2012, in get_property
+    return self._props[key]
+KeyError: 'user'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 364, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 212, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 67, in user_get
+    user = db_sess.query(User).filter(User.login == login).first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2139, in query
+    return self._query_cls(entities, self, **kwargs)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 180, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 187, in _set_entities
+    self._raw_columns = [
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 188, in <listcomp>
+    coercions.expect(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\sql\coercions.py", line 181, in expect
+    insp._post_inspect
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 1180, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2123, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1900, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3418, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3457, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1917, in _post_configure_properties
+    prop.init()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\interfaces.py", line 231, in init
+    self.do_init()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2155, in do_init
+    self._generate_backref()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2491, in _generate_backref
+    self._add_reverse_property(self.back_populates)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2061, in _add_reverse_property
+    other = self.mapper.get_property(key, _configure_mappers=False)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2014, in get_property
+    util.raise_(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+sqlalchemy.exc.InvalidRequestError: Mapper 'mapped class Student->students' has no property 'user'
+Started server process [44828]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [44828]
+Started server process [45192]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2012, in get_property
+    return self._props[key]
+KeyError: 'user'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 364, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 212, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 67, in user_get
+    user = db_sess.query(User).filter(User.login == login).first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2139, in query
+    return self._query_cls(entities, self, **kwargs)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 180, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 187, in _set_entities
+    self._raw_columns = [
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 188, in <listcomp>
+    coercions.expect(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\sql\coercions.py", line 181, in expect
+    insp._post_inspect
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 1180, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2123, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1900, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3418, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3457, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1917, in _post_configure_properties
+    prop.init()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\interfaces.py", line 231, in init
+    self.do_init()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2155, in do_init
+    self._generate_backref()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2491, in _generate_backref
+    self._add_reverse_property(self.back_populates)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2061, in _add_reverse_property
+    other = self.mapper.get_property(key, _configure_mappers=False)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2014, in get_property
+    util.raise_(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+sqlalchemy.exc.InvalidRequestError: Mapper 'mapped class Student->students' has no property 'user'
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [45192]
+Started server process [9356]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [9356]
+Started server process [24080]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2012, in get_property
+    return self._props[key]
+KeyError: 'user'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 364, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 212, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 34, in user_put
+    user = db_sess.query(User).filter(User.login == body.login).first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2139, in query
+    return self._query_cls(entities, self, **kwargs)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 180, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 187, in _set_entities
+    self._raw_columns = [
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 188, in <listcomp>
+    coercions.expect(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\sql\coercions.py", line 181, in expect
+    insp._post_inspect
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 1180, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2123, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1900, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3418, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3457, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1917, in _post_configure_properties
+    prop.init()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\interfaces.py", line 231, in init
+    self.do_init()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2155, in do_init
+    self._generate_backref()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2491, in _generate_backref
+    self._add_reverse_property(self.back_populates)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2061, in _add_reverse_property
+    other = self.mapper.get_property(key, _configure_mappers=False)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2014, in get_property
+    util.raise_(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+sqlalchemy.exc.InvalidRequestError: Mapper 'mapped class Student->students' has no property 'user'
+Started server process [13060]
+Waiting for application startup.
+Application startup complete.
+Started server process [28760]
+Waiting for application startup.
+Application startup complete.
+Started server process [18884]
+Waiting for application startup.
+Application startup complete.
+Started server process [31720]
+Waiting for application startup.
+Application startup complete.
+Started server process [31808]
+Waiting for application startup.
+Application startup complete.
+Shutting down
+Waiting for application shutdown.
+Application shutdown complete.
+Finished server process [31808]
+Started server process [22204]
+Waiting for application startup.
+Application startup complete.
+Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2012, in get_property
+    return self._props[key]
+KeyError: 'user'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 364, in run_asgi
+    result = await app(self.scope, self.receive, self.send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\uvicorn\middleware\proxy_headers.py", line 75, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\applications.py", line 212, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 181, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\middleware\errors.py", line 159, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 82, in __call__
+    raise exc
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\exceptions.py", line 71, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 656, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 259, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\routing.py", line 61, in app
+    response = await func(request)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 226, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\fastapi\routing.py", line 161, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\starlette\concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\to_thread.py", line 28, in run_sync
+    return await get_asynclib().run_sync_in_worker_thread(func, *args, cancellable=cancellable,
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 818, in run_sync_in_worker_thread
+    return await future
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\anyio\_backends\_asyncio.py", line 754, in run
+    result = context.run(func, *args)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\.\routers\user\user_router.py", line 35, in user_put
+    user = db_sess.query(User).filter(User.login == body.login).first()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2139, in query
+    return self._query_cls(entities, self, **kwargs)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 180, in __init__
+    self._set_entities(entities)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 187, in _set_entities
+    self._raw_columns = [
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\query.py", line 188, in <listcomp>
+    coercions.expect(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\sql\coercions.py", line 181, in expect
+    insp._post_inspect
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 1180, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2123, in _post_inspect
+    self._check_configure()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1900, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3418, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 3457, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 1917, in _post_configure_properties
+    prop.init()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\interfaces.py", line 231, in init
+    self.do_init()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2155, in do_init
+    self._generate_backref()
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2491, in _generate_backref
+    self._add_reverse_property(self.back_populates)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2061, in _add_reverse_property
+    other = self.mapper.get_property(key, _configure_mappers=False)
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2014, in get_property
+    util.raise_(
+  File "C:\Users\Григорий\PycharmProjects\isabsent_api\venv\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+sqlalchemy.exc.InvalidRequestError: Mapper 'mapped class Student->students' has no property 'user'

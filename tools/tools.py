@@ -1,6 +1,7 @@
 import datetime
 import random
 
+from passlib.context import CryptContext
 from fuzzywuzzy import process
 from jose import JWTError, jwt
 
@@ -8,6 +9,9 @@ from data.student import Student
 from data.teacher import Teacher
 from data.user import User
 from .settings import *
+
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def generate_random_code() -> str:
@@ -54,13 +58,11 @@ def create_access_token(login: str, token_id: int) -> str:
     return encoded_jwt
 
 
-def check_password(password: str, user: User) -> bool:
-    """
-        Function that check password for current user
-    """
-    to_encode = {
-        'password': password
-    }
-    hashed_password = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+def generate_hashed_password(password: str) -> str:
+    """Function that generate hashed password"""
+    return pwd_context.hash(password)
 
-    return hashed_password == user.hashed_password
+
+def check_password(password: str, hashed_password: str) -> bool:
+    """Function that check password for current user"""
+    return pwd_context.verify(password, hashed_password)

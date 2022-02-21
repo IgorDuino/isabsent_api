@@ -3,6 +3,7 @@ import routers.user.schemas as schemas
 
 from tools.error_book import *
 from tools.settings import *
+from tools.tools import generate_hashed_password
 from routers.responses import *
 from fastapi import APIRouter, status, Depends
 from fastapi.responses import JSONResponse
@@ -36,7 +37,7 @@ def user_put(body: schemas.User):
         if not (user is None):
             raise UserExistError(login=body.login)
 
-        hashed_password = jwt.encode({'password': body.password}, SECRET_KEY, algorithm=ALGORITHM)
+        hashed_password = generate_hashed_password(body.password)
         db_sess.add(User(
             email=body.email,
             login=body.login,

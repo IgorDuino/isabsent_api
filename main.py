@@ -2,12 +2,14 @@ import logging
 
 from data import db_session
 from fastapi import Depends, FastAPI
+
 from routers.auth.auth import token_check
 from routers.auth.auth_router import auth_router
 from routers.teacher.teacher_router import teacher_router
 from routers.student.student_router import student_router
 from routers.school.school_router import school_router
 from routers.user.user_router import user_router
+
 from tools.settings import *
 
 
