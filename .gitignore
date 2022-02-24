@@ -2,3 +2,4 @@ venv
 /data/is_absent.sqlite
 /google_spreadsheets/google_credentials.json
 /logs/app.log
+!/logs/app.log
