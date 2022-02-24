@@ -1,4 +1,9 @@
 import os
+from dotenv import load_dotenv
+
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
 
 string_date_format = '%Y-%m-%d'
 
@@ -39,7 +44,7 @@ APP_SETTINGS = {
     'description': DESCRIPTION,
     'contact': {
         "name": "IsAbsent",
-        "url": "https://isabsent.tk/contact/",
+        # "url": "https://isabsent.tk/contact/",
         "email": "isAbsent@gmail.com",
     },
     'openapi_tags': TAGS_METADATA

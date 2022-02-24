@@ -5,6 +5,7 @@ from data import db_session
 from data.user import User
 from tools.settings import *
 
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/v1/token")
 
 
