@@ -16,4 +16,4 @@ class Teacher(SqlAlchemyBase, SerializerMixin):
     code = sqlalchemy.Column(sqlalchemy.String, unique=True)  # teacher unique code
     school_name = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey('schools.name'))  # teacher school name
     school = relationship('School', foreign_keys=[school_name])  # teacher school
-    students = relationship("Student", back_populates='teacher', foreign_keys='Student.class_name')  # teacher students
+    students = relationship("Student", back_populates='teacher', foreign_keys='Student.class_name')  # teacher student

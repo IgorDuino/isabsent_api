@@ -89,16 +89,16 @@ class StudentsEmptyData(Exception):
 
 class StudentNotFoundError(Exception):
     """Exception raised when student with given in request data code or tg_user_id not found"""
-    def __init__(self, student_code: str = '', student_tg_user_id: int = -1, google_spread_sheet_link: str = ''):
+    def __init__(self, student_code: str = None, student_tg_user_id: int = None, google_spread_sheet_link: str = ''):
         self.student_code = student_code
         self.student_tg_user_id = student_tg_user_id
         self.link = google_spread_sheet_link
 
     def __str__(self):
         error_message = ''
-        if self.student_code != '':
+        if not (self.student_code is None):
             error_message = f'Student with code: {self.student_code} not found'
-        if self.student_tg_user_id != -1:
+        if not (self.student_tg_user_id is None):
             error_message = f'Student with tg_id: {self.student_tg_user_id} not found'
         if self.link != '':
             error_message += f' in google spreadsheet {self.link}'
@@ -153,3 +153,39 @@ class StudentTeacherNotFoundError(Exception):
             return f'Student and Teacher with code: {self.code} not found'
         if self.tg_user_id != -1:
             return f'Student and Teacher with tg_id: {self.tg_user_id} not found'
+
+
+class UserExistError(Exception):
+    """Exception raised when adding user is all ready exist"""
+    def __init__(self, login: str):
+        self.login = login
+
+    def __str__(self):
+        return f'User with login {self.login} all ready exist'
+
+
+class UserNotFountError(Exception):
+    """Exception raised when user with given login not found"""
+    def __init__(self, login: str):
+        self.login = login
+
+    def __str__(self):
+        return f'User with login {self.login} not found'
+
+
+class WrongPasswordError(Exception):
+    """Exception raised when given password is wrong for current user"""
+    def __init__(self, login):
+        self.login = login
+
+    def __str__(self):
+        return f'Wrong password for user {self.login}'
+
+
+class TableLinkError(Exception):
+    """Exception raised when given link is wrong"""
+    def __init__(self, link):
+        self.link = link
+
+    def __str__(self):
+        return f'Wrong table link {self.link}'

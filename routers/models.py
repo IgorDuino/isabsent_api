@@ -10,22 +10,13 @@ class BadResponse(BaseModel):
     error_msg: str
 
 
-class TeacherTgAuth(BaseModel):
+class TgAuth(BaseModel):
     code: str
     tg_user_id: int
 
 
-class TeacherCodeTgUserId(BaseModel):
+class CodeTgUserId(BaseModel):
     code: Optional[str]
-    tg_user_id: Optional[int]
-
-
-class Teacher(BaseModel):
-    name: str
-    surname: str
-    patronymic: str
-    class_name: str
-    school_name: str
     tg_user_id: Optional[int]
 
 
@@ -55,6 +46,14 @@ class TeacherListGet(BaseModel):
     teachers: List[TeacherGet]
 
 
+class TeacherPatch(BaseModel):
+    new_name: Optional[str]
+    new_surname: Optional[str]
+    new_patronymic: Optional[str]
+    new_class_name: Optional[str]
+    new_school_name: Optional[str]
+
+
 class StudentTeacher(BaseModel):
     name: str
     surname: str
@@ -65,32 +64,27 @@ class StudentTeacher(BaseModel):
     tg_user_id: Optional[int]
 
 
-class StudentTgAuth(BaseModel):
+class Absent(BaseModel):
+    date: str
+    reason: str
+    file: Optional[bytes]
+
+
+class AbsentGet(BaseModel):
     code: str
-    tg_user_id: int
-
-
-class StudentCodeTgUserId(BaseModel):
-    code: Optional[str]
-    tg_user_id: Optional[int]
-
-
-class StudentAbsent(BaseModel):
-    code: Optional[str]
-    tg_user_id: Optional[int]
     date: str
     reason: str
     file: Optional[bytes]
 
 
-class StudentAbsentGet(BaseModel):
-    date: str
-    reason: str
-    file: Optional[bytes]
+class AbsentGetList(BaseModel):
+    absents: List[AbsentGet]
 
 
-class StudentAbsentList(BaseModel):
-    absents: List[StudentAbsentGet]
+class AbsentPatch(BaseModel):
+    new_date: str
+    new_reason: str
+    new_file: Optional[bytes]
 
 
 class StudentPost(BaseModel):
@@ -119,13 +113,12 @@ class StudentListGet(BaseModel):
     students: List[StudentGet]
 
 
-class Student(BaseModel):
-    name: str
-    surname: str
-    patronymic: str
-    class_name: str
-    school_name: str
-    tg_user_id: Optional[int]
+class StudentPatch(BaseModel):
+    new_name: Optional[str]
+    new_surname: Optional[str]
+    new_patronymic: Optional[str]
+    new_class_name: Optional[str]
+    new_school_name: Optional[str]
 
 
 class School(BaseModel):
@@ -133,19 +126,13 @@ class School(BaseModel):
     link: str
 
 
+class SchoolPatch(BaseModel):
+    new_name: Optional[str]
+    new_link: Optional[str]
+
+
 class SchoolList(BaseModel):
     schools: List[School]
-
-
-class Absent(BaseModel):
-    date: str
-    reason: str
-    code: str
-    file: Optional[bytes]
-
-
-class AbsentList(BaseModel):
-    absents: List[Absent]
 
 
 class FindByNameResponse(BaseModel):
