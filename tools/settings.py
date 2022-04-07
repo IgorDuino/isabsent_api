@@ -1,12 +1,13 @@
 import os
 from dotenv import load_dotenv
+from pathlib import Path
 
-dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+
+dotenv_path = os.path.join(Path(__file__).parent.parent, '.env')
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
 string_date_format = '%Y-%m-%d'
-
 SECRET_KEY = os.environ['SECRET_KEY']
 ALGORITHM = os.environ['ALGORITHM']
 
