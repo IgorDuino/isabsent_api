@@ -1,7 +1,7 @@
-FROM python:3.9
+FROM python:3.10
 
-COPY ./req.txt .
-RUN pip3 install -r req.txt
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
 
 RUN python3 -m pip install --upgrade pip
 
