@@ -11,4 +11,4 @@ SQLAlchemy-serializer==1.4.1
 uvicorn==0.17.4
 gunicorn==20.1.0
 python-dotenv==0.19.2
-bscrypt==3.2.0
+bcrypt==3.2.0
