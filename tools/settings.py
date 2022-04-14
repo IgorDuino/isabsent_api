@@ -11,6 +11,12 @@ string_date_format = '%Y-%m-%d'
 SECRET_KEY = os.environ['SECRET_KEY']
 ALGORITHM = os.environ['ALGORITHM']
 
+# database
+DB_USER = os.environ['DB_USER']
+DB_PASSWORD = os.environ['DB_PASSWORD']
+DB_HOST = os.environ['DB_HOST']
+DB_NAME = os.environ['DB_NAME']
+
 TAGS_METADATA = [
     {
         "name": "Auth",

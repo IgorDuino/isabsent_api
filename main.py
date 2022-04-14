@@ -24,4 +24,5 @@ app.include_router(teacher_router, prefix="/v1", tags=["Teacher"], dependencies=
 app.include_router(student_router, prefix="/v1", tags=["Student"], dependencies=[Depends(token_check)])
 app.include_router(school_router, prefix="/v1", tags=["School"], dependencies=[Depends(token_check)])
 
-db_session.global_init("data/is_absent.sqlite")
+
+db_session.global_init(DB_USER, DB_PASSWORD, DB_HOST, DB_NAME)
